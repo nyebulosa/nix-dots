@@ -100,11 +100,11 @@
       "user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
       systemd-udev-settle.enable = false; # Reduces boot time
     };
-    extraConfig = ''
-      DefaultTimeoutStartSec=15s
-      DefaultTimeoutStopSec=10s
-      DefaultLimitNOFILE=2048:2097152
-    '';
+    settings.Manager = {
+      DefaultTimeoutStartSec = "15s";
+      DefaultTimeoutStopSec = "10s";
+      DefaultLimitNOFILE = "2048:2097152";
+    };
     user.extraConfig = ''
       DefaultLimitNOFILE=1024:1048576
     '';
