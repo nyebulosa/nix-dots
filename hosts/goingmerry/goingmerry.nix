@@ -14,7 +14,7 @@
       extraPackages = with pkgs; [
         vulkan-loader
         libva
-        #mesa.opencl
+        mesa
       ];
     };
     bluetooth = {
@@ -44,6 +44,7 @@
     "amdgpu.dcdebugmask=0x0"
     "amd_pstate=active"
     "pcie_aspm=force"
+    "pcie_aspm.policy=powersave"
   ];
 
   boot = {
@@ -57,13 +58,13 @@
   };
 
   services = {
-    tuned.enable = true;
+    power-profiles-daemon.enable = true;
     fprintd.enable = true;
     fwupd.enable = true;
     scx = {
       enable = true;
-      scheduler = "scx_lavd";
-      extraArgs = [ "--autopower" ];
+      scheduler = "scx_bpfland";
+      #extraArgs = [ "--autopower" ];
     };
   };
   location = {

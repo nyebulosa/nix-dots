@@ -76,12 +76,6 @@
           modules = sharedModules ++ [ ./hosts/thousandsunny/thousandsunny.nix ];
         };
 
-        "mobydick" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = sharedModules ++ [ ./hosts/mobydick/mobydick.nix ];
-        };
-
         "goingmerry" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };

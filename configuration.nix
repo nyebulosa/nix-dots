@@ -49,32 +49,78 @@
     kernel.sysctl = {
       #"kernel.sched_cfs_bandwidth_slice_us" = 3000;
       "net.ipv4.tcp_fin_timeout" = 5;
-      "kernel.split_lock_mitigate" = 0;
       "vm.max_map_count" = 2147483642;
-      "vm.swappiness" = 180;
+      "vm.swappiness" = 150;
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
       "vm.page-cluster" = 0;
+      "vm.vfs_cache_pressure" = 50;
+      "vm.dirty_bytes" = 536870912;
+      "vm.dirty_background_bytes" = 134217728;
+      "vm.dirty_writeback_centisecs" = 1500;
+      "kernel.nmi_watchdog" = 0;
+      "kernel.printk" = "3 3 3 3";
+      "kernel.unprivileged_userns_clone" = 1;
+      "kernel.kptr_restrict" = 1;
+      "net.core.netdev_max_backlog" = 16384;
+      "net.ipv4.tcp_max_syn_backlog" = 8192;
+      "net.ipv4.tcp_tw_reuse" = 1;
+      "fs.file-max" = 2097152;
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
     };
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
     kernelParams = [
       "zswap.enabled=0"
       "split_lock_detect=off"
+      "nowatchdog"
     ];
     tmp = {
       useTmpfs = true;
       cleanOnBoot = true;
     };
+    blacklistedKernelModules = [
+      "iTCO_wdt" # Intel TCO watchdog
+      "iTCO_vendor_support"
+      "sp5100_tco" # AMD SP5100 watchdog (Ryzen/EPYC southbridge)
+    ];
   };
 
   systemd = {
-    services.systemd-udev-settle.enable = false; # Reduces boot time
     oomd.enable = true;
     packages = with pkgs; [ arrpc ];
+    coredump.extraConfig = ''
+      Storage=external
+      ProcessSizeMax=2G
+      ExternalSizeMax=2G
+      MaxUse=4G
+      KeepFree=1G
+    '';
+    services = {
+      "user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+      systemd-udev-settle.enable = false; # Reduces boot time
+    };
+    extraConfig = ''
+      DefaultTimeoutStartSec=15s
+      DefaultTimeoutStopSec=10s
+      DefaultLimitNOFILE=2048:2097152
+    '';
+    user.extraConfig = ''
+      DefaultLimitNOFILE=1024:1048576
+    '';
+    journald.extraConfig = ''
+      SystemMaxUse=50M
+    '';
+    tmpfiles.rules = [
+      "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
+      "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 0"
+    ];
   };
   services.udev = {
     extraRules = ''
-      ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="adios"
+      SUBSYSTEM=="misc", KERNEL=="cpu_dma_latency", GROUP="audio", MODE="0660"
+      KERNEL=="rtc0", GROUP="audio"
+      KERNEL=="hpet", GROUP="audio"
     '';
     packages = with pkgs; [
       via
@@ -165,6 +211,14 @@
     starship = {
       enable = true;
     };
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+      args = [
+        "--expose-wayland"
+        "--adaptive-sync"
+      ];
+    };
   };
   xdg = {
     autostart.enable = true;
@@ -196,6 +250,7 @@
   #powerManagement.powertop.enable = true; # Enable powertop
   zramSwap = {
     enable = true;
+    memoryPercent = 100;
     priority = 100;
     algorithm = "zstd"; # Better performance/compression ratio
   };
@@ -206,10 +261,6 @@
       settings.General.EnableNetworkConfiguration = true;
     };
     firewall.trustedInterfaces = [ "virbr0" ]; # Fixes libvirt networking
-    nameservers = [
-      "9.9.9.9"
-      "1.1.1.1"
-    ];
   };
   boot.extraModprobeConfig = ''
     options cfg80211 ieee80211_regdom="ES"
@@ -229,7 +280,14 @@
     tumbler.enable = true;
     resolved = {
       enable = true;
-      settings.Resolve.DNSSEC = true;
+      settings.Resolve = {
+        DNSSEC = "allow-downgrade";
+        DNSOverTLS = "opportunistic";
+        fallbackDns = [
+          "9.9.9.9#dns.quad9.net"
+          "1.1.1.1#cloudflare-dns.com"
+        ];
+      };
     };
     udisks2.enable = true;
     gvfs.enable = true;
@@ -241,6 +299,19 @@
       };
       pulse.enable = true;
       jack.enable = true;
+      # Low-latency config (CachyOS defaults to lower quantum than stock)
+      extraConfig.pipewire = {
+        "99-low-latency" = {
+          context.properties = {
+            default.clock = {
+              rate = 48000;
+              quantum = 64; # CachyOS uses 64; stock is 1024
+              min-quantum = 32;
+              max-quantum = 8192;
+            };
+          };
+        };
+      };
     };
     flatpak.enable = true;
     displayManager.sddm = {
@@ -256,6 +327,7 @@
     };
     openssh = {
       enable = true;
+      openFirewall = false;
       settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
@@ -330,6 +402,7 @@
       "gamemode"
       "docker"
       "render"
+      "audio"
     ];
     initialHashedPassword = "$y$j9T$ReVR1vqESFLY8Y7dkJDb/.$7piDB7IUbIgbm/16XbzfnehT.bPFy4m7RZADZSysmz0"; # Default password on install, must be changed later
   };

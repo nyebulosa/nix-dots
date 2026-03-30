@@ -15,7 +15,7 @@
         vulkan-loader
         libva
         mesa
-        libva-utils
+        libva
         #mesa.opencl
       ];
     };
@@ -68,8 +68,8 @@
     resolved.dnssec = lib.mkForce "true";
     scx = {
       enable = true;
-      scheduler = "scx_lavd";
-      extraArgs = [ "--autopower" ];
+      scheduler = "scx_bpfland";
+      #extraArgs = [ "--autopower" ];
     };
     sunshine = {
       enable = true;

@@ -27,8 +27,8 @@
 
         # Rofi
         ''$mod, r, exec, rofi -show drun -run-command "uwsm app -- {cmd}"''
-        ''$mod, w, exec, rofi -show window''
-        ''$mod, v, exec, rofi -show clipboard''
+        "$mod, w, exec, rofi -show window"
+        "$mod, v, exec, rofi -show clipboard"
 
         # Manage windows
         "$mod, n, movefocus, l"
@@ -68,20 +68,25 @@
         # GSR
         "$mod, G, exec, bash ~/.config/hypr/replay/save.sh"
         "$mod SHIFT, G, exec, uwsm app -- nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"
-      ] ++ (
+      ]
+      ++ (
         # Worspace switching
-        builtins.concatLists (builtins.genList (
-          x: let
-            ws = let
-              c = (x + 1) / 10;
+        builtins.concatLists (
+          builtins.genList (
+            x:
+            let
+              ws =
+                let
+                  c = (x + 1) / 10;
+                in
+                builtins.toString (x + 1 - (c * 10));
             in
-              builtins.toString (x + 1 - (c * 10));
-            in [
+            [
               "$mod, ${ws}, workspace, ${toString (x + 1)}"
               "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
             ]
-          )
-        10)
+          ) 10
+        )
       );
 
       # Binds that repeat
@@ -123,7 +128,7 @@
         };
         repeat_rate = 50;
       };
-      
+
       device = {
         name = "pixa3854:00-093a:0274-touchpad";
         accel_profile = "adaptive";
@@ -204,9 +209,10 @@
       misc = {
         vfr = 1;
         vrr = 1;
-        animate_manual_resizes = true;
-        animate_mouse_windowdragging = true;
+        #animate_manual_resizes = true;
+        #animate_mouse_windowdragging = true;
         disable_hyprland_logo = true;
+        disable_splash_rendering = true;
         #disable_autoreload = true;
       };
 
@@ -222,6 +228,9 @@
         "border_size 0, match:float 0, match:workspace f[1]"
         "rounding 0, match:float 0, match:workspace f[1]"
         "match:class GenshinImpact.e, workspace 5"
+        "match:class ^(steam_app_.*)$, noanim"
+        "match:class ^(steam)$, match:title ^(notificationtoasts_.*)$, nofocus"
+
       ];
 
       workspace = [
