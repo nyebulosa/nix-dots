@@ -108,9 +108,6 @@
     user.extraConfig = ''
       DefaultLimitNOFILE=1024:1048576
     '';
-    journald.extraConfig = ''
-      SystemMaxUse=50M
-    '';
     tmpfiles.rules = [
       "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
       "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 0"
