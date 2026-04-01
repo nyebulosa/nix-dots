@@ -46,7 +46,6 @@
     (discord-ptb.override {
       withOpenASAR = true;
       withVencord = true;
-      withTTS = true;
     })
     orca-slicer
     prusa-slicer

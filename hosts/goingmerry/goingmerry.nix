@@ -4,6 +4,7 @@
   imports = [
     ./hardware.nix
     ./disko-config.nix
+    ./discordkrisp.nix
   ];
 
   # Hardware Configuration
