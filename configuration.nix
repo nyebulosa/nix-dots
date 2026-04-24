@@ -77,7 +77,7 @@
     ];
     tmp = {
       useTmpfs = true;
-      cleanOnBoot = true;
+      #cleanOnBoot = true;
     };
     blacklistedKernelModules = [
       "iTCO_wdt" # Intel TCO watchdog
@@ -99,6 +99,10 @@
     services = {
       "user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
       systemd-udev-settle.enable = false; # Reduces boot time
+      mullvad-daemon = {
+        after = lib.mkForce [ "network.target" ];
+        wants = lib.mkForce [ ];
+      };
     };
     settings.Manager = {
       DefaultTimeoutStartSec = "15s";
@@ -333,10 +337,10 @@
       };
     };
     gnome.gnome-keyring.enable = true;
-    #ollama = {
-    #  enable = true;
-    #  package = pkgs.ollama-vulkan;
-    #};
+    # ollama = {
+    #   enable = true;
+    #   package = pkgs.ollama-rocm;
+    # };
   };
 
   security = {
@@ -355,18 +359,18 @@
       nanum # Orca slicer crashes without ts it seems
     ];
     enableDefaultPackages = true;
-    fontconfig = {
-      antialias = true;
-      cache32Bit = true;
-      hinting = {
-        enable = true;
-        autohint = true;
-      };
-      subpixel = {
-        rgba = "rgb";
-        lcdfilter = "default";
-      };
-    };
+    # fontconfig = {
+    #   antialias = true;
+    #   cache32Bit = true;
+    #   hinting = {
+    #     enable = true;
+    #     #autohint = true;
+    #   };
+    #   subpixel = {
+    #     rgba = "rgb";
+    #     lcdfilter = "default";
+    #   };
+    # };
   };
 
   # Locale related settings
@@ -419,7 +423,7 @@
     libnotify
     killall
     lzip
-    linux-firmware
+    # linux-firmware
     powertop
     pulseaudio
     brightnessctl
@@ -437,14 +441,13 @@
     glib
     distrobox
     arrpc
-    inputs.affinity-nix.packages.x86_64-linux.v3
+    #inputs.affinity-nix.packages.x86_64-linux.v3
     ffmpeg
-    oterm
     lazygit
     nixfmt
     statix
     sbctl
-    swtpm
+    # swtpm
   ];
 
   stylix = {
@@ -453,7 +456,10 @@
   };
 
   # Make apps run natively on Wayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
 
   hardware.cpu.amd.updateMicrocode = true;
 

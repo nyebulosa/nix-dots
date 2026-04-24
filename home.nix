@@ -35,7 +35,7 @@
     # oculante
     mpv
     vlc
-    gimp
+    gimp-with-plugins
     kitty
     anydesk
     bottles
@@ -43,11 +43,12 @@
     floorp-bin
     waypaper
     kdePackages.filelight
-    (discord-ptb.override {
+    (discord.override {
       withOpenASAR = true;
       withVencord = true;
       withTTS = true;
     })
+    vesktop
     orca-slicer
     prusa-slicer
     #winboat
@@ -65,6 +66,9 @@
     libreoffice-qt
     via
     boxbuddy
+    obsidian
+    logseq
+    ente-auth
 
     # Gaming
     parsec-bin
@@ -86,15 +90,19 @@
     r2modman
     osu-lazer-bin
     bs-manager
+    ryubing
 
     # Dev
     rustup
-    vscode
+    vscodium
     wayvr
     jetbrains.idea
     go
     nodejs
     python3
+    claude-code
+    oterm
+    opencode
 
     # Misc
     grim

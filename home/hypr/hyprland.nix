@@ -10,10 +10,24 @@
     settings = {
       monitor = [
         "eDP-1,preferred,0x0,1.333333"
-        "DP-1,highrr,0x0,1,vrr,1"
-        "DP-2,highrr,0x0,1,vrr,1"
         "HDMI-A-1,1920x1080@60,auto-center-right,1,transform,3"
       ];
+
+      monitorv2 = {
+        output = "DP-2";
+        mode = "2560x1440@180";
+        position = "0x0";
+        vrr = 1;
+
+        #cm = "srgb";
+
+        #sdr_min_luminance = 0.005;
+        #sdrbrightness = 1.0;
+        #sdr_max_luminance = 400;
+        #min_luminance = 0;
+        #max_luminance = 400;
+        #max_avg_luminance = 100;
+      };
 
       # Keybinds
       "$mod" = "SUPER";
@@ -68,6 +82,9 @@
         # GSR
         "$mod, G, exec, bash ~/.config/hypr/replay/save.sh"
         "$mod SHIFT, G, exec, uwsm app -- nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"
+
+        "$mod, F9, exec, hyprctl keyword monitorv2[DP-2]:cm hdr"
+        "$mod, F10, exec, hyprctl keyword monitorv2[DP-2]:cm srgb"
       ]
       ++ (
         # Worspace switching
@@ -139,12 +156,13 @@
         "uwsm app -s b mako"
         "[workspace 1 silent] uwsm app -- kitty"
         "[workspace 2 silent] uwsm app -- vivaldi"
-        "[workspace 4 silent] uwsm app -- discordptb"
+        "[workspace 4 silent] uwsm app -- vesktop"
         "[workspace 5 silent] uwsm app -- steam -silent"
         "uwsm app -s b systemctl --user start hyprpolkitagent"
         "uwsm app -s b -- waypaper --restore"
         "uwsm app -s b -- wl-paste --type text --watch cliphist store"
         "uwsm app -s b -- wl-paste --type image --watch cliphist store"
+        #"uwsm app -s b -- easyeffects --gapplication-service"
         #"~/.config/hypr/replay/start.sh" # Uncomment to enable GSR on start
       ];
 
@@ -154,7 +172,7 @@
         shadow.enabled = false;
         blur = {
           enabled = true;
-          size = 7;
+          size = 9;
           passes = 2;
           new_optimizations = true;
           noise = 0.02;
@@ -219,8 +237,8 @@
       windowrule = [
         "match:class kitty, workspace 1"
         "match:class firefox, workspace 2"
-        "match:class vivaldi-stable, workspace 2"
-        "match:class discord, workspace 4"
+        "match:class vivaldi, workspace 2"
+        "match:class vesktop, workspace 4"
         "match:class waydroid, fullscreen 1"
         "match:class ^$, match:title ^$, match:xwayland true, match:float true; match:fullscreen false; match:pin false, no_focus 1"
         "border_size 0, match:float 0, match:workspace w[tv1]"
@@ -243,6 +261,8 @@
 
       render = {
         direct_scanout = 1;
+        cm_fs_passthrough = 1;
+        cm_auto_hdr = 2;
       };
 
       xwayland = {
@@ -251,16 +271,17 @@
 
       cursor = {
         enable_hyprcursor = false;
-        no_hardware_cursors = true;
+        no_hardware_cursors = false;
         #use_cpu_buffer = true;
         #no_break_fs_vrr = true;
         #min_refresh_rate = 48;
+        #hide_on_key_press = true;
       };
 
       env = [
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
-        "XDG_MENU_PREFIX,plasma-"
+        #"XDG_MENU_PREFIX,plasma-"
       ];
 
       dwindle = {
