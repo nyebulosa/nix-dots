@@ -63,7 +63,7 @@
   };
 
   services = {
-    fwupd.enable = true;
+    #fwupd.enable = true;
     #rpcbind.enable = true; # needed for nfs
     resolved.dnssec = lib.mkForce "true";
     scx = {
@@ -75,6 +75,7 @@
     # enable = true;
     # capSysAdmin = true;
     # };
+    #avahi.enable = false;
   };
 
   fileSystems = {
@@ -109,6 +110,7 @@
     # Setup lact and lactd
     packages = with pkgs; [ lact ];
     services.lactd.wantedBy = [ "multi-user.target" ];
+    services.libvirtd.wantedBy = lib.mkForce [ ];
   };
 
   networking = {

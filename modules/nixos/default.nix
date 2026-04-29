@@ -1,0 +1,6 @@
+{ ... }:
+
+{
+  include = [ ./features/default.nix ];
+}
+

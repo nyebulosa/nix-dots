@@ -11,23 +11,8 @@
       monitor = [
         "eDP-1,preferred,0x0,1.333333"
         "HDMI-A-1,1920x1080@60,auto-center-right,1,transform,3"
+        "DP-2,highrr,0x0,1,vrr,2"
       ];
-
-      monitorv2 = {
-        output = "DP-2";
-        mode = "2560x1440@180";
-        position = "0x0";
-        vrr = 1;
-
-        #cm = "srgb";
-
-        #sdr_min_luminance = 0.005;
-        #sdrbrightness = 1.0;
-        #sdr_max_luminance = 400;
-        #min_luminance = 0;
-        #max_luminance = 400;
-        #max_avg_luminance = 100;
-      };
 
       # Keybinds
       "$mod" = "SUPER";
@@ -66,7 +51,7 @@
         "$mod, L, exec, uwsm app -- hyprlock"
 
         # Apps
-        "$mod, X, exec, uwsm app -- kitty fish -C yy"
+        "$mod, X, exec, uwsm app -- kitty fish -C y"
         "$mod SHIFT, X, exec, uwsm app -- thunar"
         "$mod, B, exec, uwsm app -- vivaldi"
 
@@ -83,8 +68,6 @@
         "$mod, G, exec, bash ~/.config/hypr/replay/save.sh"
         "$mod SHIFT, G, exec, uwsm app -- nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"
 
-        "$mod, F9, exec, hyprctl keyword monitorv2[DP-2]:cm hdr"
-        "$mod, F10, exec, hyprctl keyword monitorv2[DP-2]:cm srgb"
       ]
       ++ (
         # Worspace switching
@@ -155,7 +138,7 @@
         "uwsm app -s b waybar" # TODO properly start these programs as systemd-services
         "uwsm app -s b mako"
         "[workspace 1 silent] uwsm app -- kitty"
-        "[workspace 2 silent] uwsm app -- vivaldi"
+        "[workspace 2 silent] uwsm app -- floorp"
         "[workspace 4 silent] uwsm app -- vesktop"
         "[workspace 5 silent] uwsm app -- steam -silent"
         "uwsm app -s b systemctl --user start hyprpolkitagent"
@@ -237,7 +220,7 @@
       windowrule = [
         "match:class kitty, workspace 1"
         "match:class firefox, workspace 2"
-        "match:class vivaldi, workspace 2"
+        "match:class floorp, workspace 2"
         "match:class vesktop, workspace 4"
         "match:class waydroid, fullscreen 1"
         "match:class ^$, match:title ^$, match:xwayland true, match:float true; match:fullscreen false; match:pin false, no_focus 1"
@@ -245,7 +228,6 @@
         "rounding 0, match:float 0, match:workspace w[tv1]"
         "border_size 0, match:float 0, match:workspace f[1]"
         "rounding 0, match:float 0, match:workspace f[1]"
-
       ];
 
       workspace = [

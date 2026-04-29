@@ -38,15 +38,15 @@
     gimp-with-plugins
     kitty
     anydesk
-    bottles
+    #bottles
     vivaldi
     floorp-bin
     waypaper
     kdePackages.filelight
     (discord.override {
-      withOpenASAR = true;
+      #withOpenASAR = true;
       withVencord = true;
-      withTTS = true;
+      #withTTS = true;
     })
     vesktop
     orca-slicer
@@ -96,12 +96,11 @@
     rustup
     vscodium
     wayvr
-    jetbrains.idea
+    #jetbrains.idea
     go
     nodejs
     python3
     claude-code
-    oterm
     opencode
 
     # Misc

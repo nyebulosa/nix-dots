@@ -1,0 +1,6 @@
+{ ... }:
+
+{
+  include = [ ./gui/default.nix ];
+}
+
