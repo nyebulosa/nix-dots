@@ -46,6 +46,7 @@
     let
       # Shared modules used across all configurations
       sharedModules = [
+        ./modules/default.nix
         ./configuration.nix
         inputs.disko.nixosModules.disko
         inputs.catppuccin.nixosModules.catppuccin

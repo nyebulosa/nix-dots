@@ -1,6 +1,5 @@
 { ... }:
 
 {
-  include = [ ./gui/default.nix ];
+  imports = [ ./gui ];
 }
-

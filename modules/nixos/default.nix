@@ -1,6 +1,5 @@
 { ... }:
 
 {
-  include = [ ./features/default.nix ];
+  imports = [ ./features ];
 }
-
