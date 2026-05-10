@@ -89,13 +89,6 @@
   systemd = {
     oomd.enable = true;
     packages = with pkgs; [ arrpc ];
-    coredump.extraConfig = ''
-      Storage=external
-      ProcessSizeMax=2G
-      ExternalSizeMax=2G
-      MaxUse=4G
-      KeepFree=1G
-    '';
     services = {
       "user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
       systemd-udev-settle.enable = false; # Reduces boot time
@@ -214,19 +207,21 @@
     };
     gamescope = {
       enable = true;
-      capSysNice = true;
       args = [
         "--expose-wayland"
         "--adaptive-sync"
       ];
+      package = pkgs.gamescope.overrideAttrs (_: {
+        NIX_CFLAGS_COMPILE = [ "-fno-fast-math" ];
+      });
     };
   };
   xdg = {
-    autostart.enable = true;
+    #autostart.enable = true;
     portal = {
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-gtk ]; # For file picker
-      xdgOpenUsePortal = false;
+      #xdgOpenUsePortal = false;
     };
   };
   virtualisation = {
@@ -448,6 +443,7 @@
     statix
     sbctl
     # swtpm
+    brotli
   ];
 
   stylix = {

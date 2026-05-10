@@ -44,7 +44,7 @@
     waypaper
     kdePackages.filelight
     (discord.override {
-      #withOpenASAR = true;
+      withOpenASAR = true;
       withVencord = true;
       #withTTS = true;
     })

@@ -27,6 +27,7 @@
         enable = true;
         ppfeaturemask = "0xffffffff";
       };
+      zluda.enable = true;
     };
     keyboard.qmk.enable = true;
   };

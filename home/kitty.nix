@@ -12,6 +12,8 @@
       confirm_os_window_close = "-1";
       font_family = "A-OTF Shin Go Pro";
       background = "#1e1e2e";
+      pixel_scroll = "yes";
+      momentum_scroll = 0.5;
     };
   };
 }
