@@ -19,8 +19,6 @@
     kitty
     waybar
     cursor-clip
-    rofi-bluetooth
-    rofi-network-manager
   ];
   systemd.user.services.niri-plasma-polkit-agent = {
     description = "KDE Polkit Agent service for Niri";

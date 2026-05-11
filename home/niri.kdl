@@ -294,6 +294,10 @@ hotkey-overlay {
     // skip-at-startup
 }
 
+overview {
+  backdrop-color "#11111b"
+}
+
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
 // Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
@@ -424,6 +428,8 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     Mod+L repeat=false { toggle-overview; }
+
+
 
     Mod+Q repeat=false { close-window; }
 
@@ -663,5 +669,9 @@ binds {
 
     Mod+V { spawn "rofi" "-show" "clipboard"; }
     
-    Mod+Period { spawn "rofi" "-show" "emoji"; }
+    //Mod+Period { spawn "rofi" "-show" "emoji"; }
+
+    Mod+G { spawn-sh "bash ~/.config/hypr/replay/save.sh"; }
+    Mod+Shift+G { spawn-sh "$mod SHIFT, G, exec, uwsm app -- nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"; }
+    Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
 }

@@ -62,10 +62,12 @@
         "cpu" = {
           format = "{usage}% ";
           tooltip = false;
+          on-click = "btop";
         };
 
         "memory" = {
           format = "{}% ";
+          on-click = "htop";
         };
 
         "temperature" = {
@@ -100,6 +102,7 @@
           format-wifi = "";
           format-ethernet = "";
           format-disconnected = "睊";
+          on-click = "kitty nmtui";
         };
 
         "pulseaudio" = {
