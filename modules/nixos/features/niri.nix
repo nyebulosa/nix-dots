@@ -10,19 +10,15 @@
     enable = true;
   };
   environment.systemPackages = with pkgs; [
-    fuzzel # TEMP
-    inputs.quickshell.packages.x86_64-linux.default # TEMP
+    fuzzel
+    inputs.quickshell.packages.x86_64-linux.default
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
     swww
-    nautilus
-    kdePackages.dolphin
-    kdePackages.dolphin-plugins
-    kdePackages.kio
-    kdePackages.kio-extras
-    kdePackages.ffmpegthumbs
-    kdePackages.kdegraphics-thumbnailers
-  ]; # TEMP means it should later be moved into it's own home-manager thing or module
+    nemo
+    kitty
+    waybar
+  ];
   systemd.user.services.niri-plasma-polkit-agent = {
     description = "KDE Polkit Agent service for Niri";
     wantedBy = [ "niri.service" ];

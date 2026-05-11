@@ -6,124 +6,6 @@
 }:
 
 {
-  nix = {
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      auto-optimise-store = true;
-      substituters = [
-        "https://nix-community.cachix.org"
-        "https://attic.xuyh0120.win/lantian"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-      ];
-    };
-    package = pkgs.lixPackageSets.stable.lix;
-  };
-  nixpkgs = {
-    config.allowUnfree = true; # Allow unfree packages
-    overlays = [
-      inputs.nix-cachyos-kernel.overlays.default
-    ];
-  };
-
-  home-manager.backupFileExtension = "hmbak"; # Backup file extension
-
-  # Bootloader related configuration
-  boot = {
-    loader = {
-      systemd-boot = {
-        enable = true;
-        consoleMode = "max"; # Use max resolution allowed
-        editor = false;
-        configurationLimit = 10;
-      };
-      efi.canTouchEfiVariables = true;
-      timeout = 0;
-    };
-    initrd.systemd.enable = true;
-    kernel.sysctl = {
-      #"kernel.sched_cfs_bandwidth_slice_us" = 3000;
-      "net.ipv4.tcp_fin_timeout" = 5;
-      "vm.max_map_count" = 2147483642;
-      "vm.swappiness" = 150;
-      "vm.watermark_boost_factor" = 0;
-      "vm.watermark_scale_factor" = 125;
-      "vm.page-cluster" = 0;
-      "vm.vfs_cache_pressure" = 50;
-      "vm.dirty_bytes" = 536870912;
-      "vm.dirty_background_bytes" = 134217728;
-      "vm.dirty_writeback_centisecs" = 1500;
-      "kernel.nmi_watchdog" = 0;
-      "kernel.printk" = "3 3 3 3";
-      "kernel.unprivileged_userns_clone" = 1;
-      "kernel.kptr_restrict" = 1;
-      "net.core.netdev_max_backlog" = 16384;
-      "net.ipv4.tcp_max_syn_backlog" = 8192;
-      "net.ipv4.tcp_tw_reuse" = 1;
-      "fs.file-max" = 2097152;
-      "net.core.default_qdisc" = "fq";
-      "net.ipv4.tcp_congestion_control" = "bbr";
-    };
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
-    kernelParams = [
-      "zswap.enabled=0"
-      "split_lock_detect=off"
-      "nowatchdog"
-    ];
-    tmp = {
-      useTmpfs = true;
-      #cleanOnBoot = true;
-    };
-    blacklistedKernelModules = [
-      "iTCO_wdt" # Intel TCO watchdog
-      "iTCO_vendor_support"
-      "sp5100_tco" # AMD SP5100 watchdog (Ryzen/EPYC southbridge)
-    ];
-  };
-
-  systemd = {
-    oomd.enable = true;
-    packages = with pkgs; [ arrpc ];
-    services = {
-      "user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
-      systemd-udev-settle.enable = false; # Reduces boot time
-      mullvad-daemon = {
-        after = lib.mkForce [ "network.target" ];
-        wants = lib.mkForce [ ];
-      };
-    };
-    settings.Manager = {
-      DefaultTimeoutStartSec = "15s";
-      DefaultTimeoutStopSec = "10s";
-      DefaultLimitNOFILE = "2048:2097152";
-    };
-    user.extraConfig = ''
-      DefaultLimitNOFILE=1024:1048576
-    '';
-    tmpfiles.rules = [
-      "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
-      "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 0"
-    ];
-  };
-  services.udev = {
-    extraRules = ''
-      SUBSYSTEM=="misc", KERNEL=="cpu_dma_latency", GROUP="audio", MODE="0660"
-      KERNEL=="rtc0", GROUP="audio"
-      KERNEL=="hpet", GROUP="audio"
-    '';
-    packages = with pkgs; [
-      via
-      vial
-      qmk-udev-rules
-    ];
-  };
-
-  # Enable and configure catppuccin globally
   catppuccin = {
     enable = true;
     accent = "mauve";
@@ -131,7 +13,6 @@
   };
 
   programs = {
-    pay-respects.enable = true; # Command error correction
     gpu-screen-recorder.enable = true; # Required for screen recording
     thunar = {
       enable = true;
@@ -140,26 +21,6 @@
         thunar-volman
         thunar-vcs-plugin
         thunar-media-tags-plugin
-      ];
-    };
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        (lib.getLib stdenv.cc.cc)
-        glfw3-minecraft
-        openal
-        alsa-lib
-        libjack2
-        libpulseaudio
-        pipewire
-        libGL
-        libx11
-        libxcursor
-        libxext
-        libxrandr
-        libxxf86vm
-        udev
-        vulkan-loader
       ];
     };
     fish.enable = true;
@@ -443,7 +304,6 @@
     statix
     sbctl
     # swtpm
-    brotli
   ];
 
   stylix = {
