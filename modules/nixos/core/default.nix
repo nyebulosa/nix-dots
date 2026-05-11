@@ -1,8 +1,6 @@
 { ... }:
-
 {
   imports = [
-    ./features
-    ./core
+    ./boot.nix
   ];
 }
