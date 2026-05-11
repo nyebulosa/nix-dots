@@ -115,7 +115,10 @@
   networking = {
     wireless.iwd = {
       enable = true;
-      settings.General.EnableNetworkConfiguration = true;
+    };
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
     };
     firewall.trustedInterfaces = [ "virbr0" ]; # Fixes libvirt networking
   };

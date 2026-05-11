@@ -14,10 +14,15 @@
     inputs.quickshell.packages.x86_64-linux.default
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
-    swww
+    awww
     nemo
     kitty
     waybar
+    rofi-power-menu
+    rofi-top
+    rofi-calc
+    rofi-emoji
+    rofi-bluetooth
   ];
   systemd.user.services.niri-plasma-polkit-agent = {
     description = "KDE Polkit Agent service for Niri";
@@ -39,8 +44,5 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
-    config = {
-      common.default = [ "gnome" ];
-    };
   };
 }

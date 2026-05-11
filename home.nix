@@ -199,6 +199,10 @@
       };
       initLua = ''require("git"):setup()'';
     };
+    swaylock = {
+      enable = true;
+      package = pkgs.swaylock-effects;
+    };
   };
 
   home.shell.enableFishIntegration = true;
@@ -256,6 +260,7 @@
       kitty.enable = false;
       yazi.enable = false;
       vencord.enable = false;
+      swaylock.enable = false;
     };
   };
 

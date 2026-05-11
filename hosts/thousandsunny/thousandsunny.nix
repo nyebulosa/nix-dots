@@ -55,7 +55,6 @@
       "amd_pstate=active"
     ];
     #supportedFilesystems = [ "nfs" ];
-    #tmp.useTmpfs = lib.mkForce false;
   };
 
   powerManagement = {
@@ -123,9 +122,6 @@
     ];
     defaultGateway = "192.168.1.1";
     #firewall.allowedTCPPorts = [ 25565 ]; # Allow Minecraft server port in case I want to host
-    networkmanager.enable = lib.mkForce false;
-    dhcpcd.enable = lib.mkForce false;
-    wireless.iwd.enable = lib.mkForce false;
     hostName = "thousandsunny"; # with this I don't have to use --flake on rebuild
   };
 
