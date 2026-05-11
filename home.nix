@@ -209,10 +209,6 @@
         "window"
         "emoji"
         {
-          name = "power";
-          path = "rofi-power-menu";
-        }
-        {
           name = "clipboard";
           path = "cliphist-rofi-img";
         }
@@ -225,11 +221,10 @@
         location = 0;
         disable-history = false;
         hide-scrollbar = true;
-        display-drun = " 󰀻  App ";
-        display-clipboard = " 󰅇  Cli ";
-        display-window = "   Win ";
-        display-power = " ⏻ Pow ";
-        display-emoji = " 󰞅 Emo ";
+        display-drun = " 󰀻  Apps ";
+        display-clipboard = " 󰅇  Clip ";
+        display-window = "   Win";
+        display-emoji = " 󰞅 Emoji ";
 
         sidebar-mode = true;
       };
@@ -253,7 +248,6 @@
       recursive = true;
     };
     "./.config/rofi/cliphist-rofi-img".source = ./home/rofi/cliphist-rofi-img;
-    "./.config/rofi/rofi-power-menu".source = ./home/rofi/rofi-power-menu;
     "./.local/share/rofi/themes" = {
       source = ./home/rofi-theme;
       recursive = true;

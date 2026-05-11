@@ -105,6 +105,7 @@ while true; do
     echo "                       use the same font as the text. That font is configured"
     echo "                       with rofi."
     echo "  -h,--help            Show this help text."
+    echo "  SIGMA MANGO PHONK IDK THIS IS A TEST WHY IS IT NOT WORKING I'M LOSING MY MIND"
     exit 0
     ;;
   "--dry-run")
