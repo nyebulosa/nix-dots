@@ -35,13 +35,11 @@
   home-manager.backupFileExtension = "hmbak";
 
   programs.nix-ld = {
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        (pkgs.runCommand "steamrun-lib" { }
-          "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib"
-        ) # This includes the default libraries in the steam-run thingy
-      ];
-    };
+    enable = true;
+    libraries = with pkgs; [
+      (pkgs.runCommand "steamrun-lib" { }
+        "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib"
+      ) # This includes the default libraries in the steam-run thingy
+    ];
   };
 }
