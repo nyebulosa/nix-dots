@@ -662,8 +662,4 @@ binds {
     Mod+W { spawn "rofi" "-show" "window"; }
 
     Mod+V { spawn "rofi" "-show" "clipboard"; }
-    
-
 }
-
-

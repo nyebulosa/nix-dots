@@ -112,7 +112,6 @@
     swaybg
     hyprpolkitagent
     waybar-mpris
-    rofi
     hyprshot
     satty
     hyprlock
@@ -203,6 +202,42 @@
       enable = true;
       package = pkgs.swaylock-effects;
     };
+    rofi = {
+      enable = true;
+      modes = [
+        "drun"
+        "window"
+        "emoji"
+        {
+          name = "power";
+          path = "rofi-power-menu";
+        }
+        {
+          name = "clipboard";
+          path = "cliphist-rofi-img";
+        }
+      ];
+      extraConfig = {
+        icon-theme = "ePapirus-dark";
+        show-icons = true;
+        terminal = "kitty";
+        drun-display-format = "{icon} | {name}";
+        location = 0;
+        disable-history = false;
+        hide-scrollbar = true;
+        display-drun = " 󰀻  App ";
+        display-clipboard = " 󰅇  Cli ";
+        display-window = "   Win ";
+        display-power = " ⏻ Pow ";
+        display-emoji = " 󰞅 Emo ";
+
+        sidebar-mode = true;
+      };
+      plugins = with pkgs; [
+        rofi-emoji
+      ];
+      theme = "catppuccin-mocha";
+    };
   };
 
   home.shell.enableFishIntegration = true;
@@ -217,10 +252,8 @@
       source = ./home/mako;
       recursive = true;
     };
-    "./.config/rofi" = {
-      source = ./home/rofi;
-      recursive = true;
-    };
+    "./.config/rofi/cliphist-rofi-img".source = ./home/rofi/cliphist-rofi-img;
+    "./.config/rofi/rofi-power-menu".source = ./home/rofi/rofi-power-menu;
     "./.local/share/rofi/themes" = {
       source = ./home/rofi-theme;
       recursive = true;
@@ -251,6 +284,7 @@
     };
     vivaldi.enable = false;
     waybar.enable = false;
+    rofi.enable = false;
   };
 
   stylix = {
@@ -261,6 +295,7 @@
       yazi.enable = false;
       vencord.enable = false;
       swaylock.enable = false;
+      rofi.enable = false;
     };
   };
 

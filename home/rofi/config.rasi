@@ -1,5 +1,5 @@
 configuration{
-    modi: "drun,window";
+    modi: "clipboard:cliphist-rofi-img,drun,window";
     icon-theme: "ePapirus-dark";
     show-icons: true;
     terminal: "kitty";
