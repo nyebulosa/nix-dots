@@ -46,7 +46,6 @@
     (discord.override {
       withOpenASAR = true;
       withVencord = true;
-      #withTTS = true;
     })
     vesktop
     orca-slicer
