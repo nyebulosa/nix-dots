@@ -228,6 +228,7 @@
     "./.config/hypr/hyprlock.conf".source = ./home/hypr/hyprlock.conf;
     "./.config/xdg-desktop-portal/hyprland-portals.conf".source = ./home/hypr/hyprland-portals.conf;
     "./.config/hypr/xdph.conf".source = ./home/hypr/xdph.conf;
+    "./.config/niri/config.kdl".source = ./home/niri.kdl;
   };
 
   # Catppuccin Theme Configuration

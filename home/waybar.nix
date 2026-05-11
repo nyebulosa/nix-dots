@@ -34,8 +34,6 @@
 
         # Module Configurations
         "niri/workspaces" = {
-          disable-scroll = true;
-          all-outputs = true;
           format = "{icon}";
           on-click = "activate";
           format-icons = {
