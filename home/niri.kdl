@@ -105,7 +105,7 @@ output "DP-2" {
     // automatically.
     position x=0 y=0
 
-    variable-refresh-rate on-demand=true
+    variable-refresh-rate //on-demand=true
 }
 
 output "HDMI-A-1" {
@@ -375,6 +375,14 @@ window-rule {
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+}
+
+// Freesync
+window-rule {
+  variable-refresh-rate true
+  match app-id="gamescope"
+  match title="Minecraft"
+  match app-id="steam_app_"
 }
 
 binds {
@@ -672,6 +680,6 @@ binds {
     //Mod+Period { spawn "rofi" "-show" "emoji"; }
 
     Mod+G { spawn-sh "bash ~/.config/hypr/replay/save.sh"; }
-    Mod+Shift+G { spawn-sh "$mod SHIFT, G, exec, uwsm app -- nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"; }
+    Mod+Shift+G { spawn-sh "nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
 }

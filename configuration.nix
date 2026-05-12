@@ -38,20 +38,7 @@
       enable = true;
       package = pkgs.temurin-bin-25;
     };
-    steam = {
-      enable = true;
-      extest.enable = true;
-      remotePlay.openFirewall = true;
-    };
-    gamemode = {
-      enable = true;
-    };
     virt-manager.enable = true; # QEMU/KVM
-    hyprland = {
-      enable = true;
-      withUWSM = true;
-    };
-    uwsm.enable = true;
     yazi = {
       enable = true;
     };
@@ -62,19 +49,8 @@
       viAlias = true;
       vimAlias = true;
     };
-    xfconf.enable = true;
     starship = {
       enable = true;
-    };
-    gamescope = {
-      enable = true;
-      args = [
-        "--expose-wayland"
-        "--adaptive-sync"
-      ];
-      package = pkgs.gamescope.overrideAttrs (_: {
-        NIX_CFLAGS_COMPILE = [ "-fno-fast-math" ];
-      });
     };
   };
   xdg = {
