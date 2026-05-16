@@ -72,7 +72,7 @@
 
         "temperature" = {
           thermal-zone = 2;
-          #hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
+          hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
           critical-threshold = 80;
           format = "{temperatureC}°{icon}";
           format-critical = "{temperatureC}°{icon}";
@@ -218,6 +218,7 @@
               background-color: @surface0;
               color: #ffffff;
               margin: 2px 2px;
+              transition: background 0.3s ease;
             }
 
             #workspaces button:hover {

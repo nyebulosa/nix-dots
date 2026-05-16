@@ -71,10 +71,10 @@
       scheduler = "scx_lavd";
       extraArgs = [ "--autopower" ];
     };
-    # sunshine = {
-    # enable = true;
-    # capSysAdmin = true;
-    # };
+    sunshine = {
+      enable = true;
+      capSysAdmin = true;
+    };
     #avahi.enable = false;
   };
 

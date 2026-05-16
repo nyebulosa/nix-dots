@@ -46,19 +46,9 @@
     neovim = {
       enable = true;
       defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
     };
     starship = {
       enable = true;
-    };
-  };
-  xdg = {
-    #autostart.enable = true;
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ]; # For file picker
-      #xdgOpenUsePortal = false;
     };
   };
   virtualisation = {
