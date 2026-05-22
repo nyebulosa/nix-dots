@@ -46,6 +46,7 @@
     (discord.override {
       withOpenASAR = true;
       withVencord = true;
+      # withEquicord = true;
     })
     vesktop
     orca-slicer
@@ -78,6 +79,8 @@
         temurin-jre-bin-25
         temurin-jre-bin
         zulu25
+        semeru-bin
+        graalvmPackages.graalvm-oracle_25
       ];
       additionalPrograms = [ vlc ];
       additionalLibs = [
@@ -95,7 +98,7 @@
     rustup
     vscodium
     wayvr
-    #jetbrains.idea
+    jetbrains.idea
     go
     nodejs
     python3

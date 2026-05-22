@@ -41,4 +41,9 @@
       arrpc # For discord
     ];
   };
+  # Fixes run0
+  security.pam.services.systemd-user = {
+    setEnvironment = true;
+    pamMount = false;
+  };
 }
