@@ -53,7 +53,6 @@
   boot = {
     kernelParams = [
       "amd_pstate=active"
-      "usbcore.autosuspend=-1"
     ];
     kernel.sysctl."net.ipv4.ip_forward" = 1;
     #supportedFilesystems = [ "nfs" ];
@@ -116,26 +115,8 @@
   };
 
   networking = {
-    interfaces.enp38s0.ipv4.addresses = [
-      {
-        address = "192.168.1.69";
-        prefixLength = 24;
-      }
-    ];
-    defaultGateway = "192.168.1.1";
     #firewall.allowedTCPPorts = [ 25565 ]; # Allow Minecraft server port in case I want to host
     hostName = "thousandsunny"; # with this I don't have to use --flake on rebuild
-    nftables = {
-      enable = true;
-      ruleset = ''
-        table ip nat {
-          chain postrouting {
-            type nat hook postrouting priority srcnat; policy accept;
-            iifname "enp42s0f1u2c2" oifname "enp38s0" masquerade
-          }
-        }
-      '';
-    };
   };
 
   environment.systemPackages = with pkgs; [
