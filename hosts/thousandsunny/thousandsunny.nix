@@ -116,6 +116,14 @@
 
   networking = {
     #firewall.allowedTCPPorts = [ 25565 ]; # Allow Minecraft server port in case I want to host
+    firewall.allowedUDPPorts = [
+      53
+      67
+    ];
+    firewall.allowedTCPPorts = [
+      53
+      67
+    ];
     hostName = "thousandsunny"; # with this I don't have to use --flake on rebuild
   };
 
