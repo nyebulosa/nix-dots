@@ -126,18 +126,19 @@
       pulse.enable = true;
       jack.enable = true;
       # Low-latency config (CachyOS defaults to lower quantum than stock)
-      extraConfig.pipewire = {
-        "99-low-latency" = {
-          context.properties = {
-            default.clock = {
-              rate = 48000;
-              quantum = 64; # CachyOS uses 64; stock is 1024
-              min-quantum = 32;
-              max-quantum = 8192;
-            };
-          };
-        };
-      };
+      # Temporarily commented while this gets revamped and modularized, don't want audio cracks and shi on my laptop
+      # extraConfig.pipewire = {
+      #   "99-low-latency" = {
+      #     context.properties = {
+      #       default.clock = {
+      #         rate = 48000;
+      #         quantum = 64; # CachyOS uses 64; stock is 1024
+      #         min-quantum = 32;
+      #         max-quantum = 8192;
+      #       };
+      #     };
+      #   };
+      # };
     };
     flatpak.enable = true;
     displayManager.sddm = {
