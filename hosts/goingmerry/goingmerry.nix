@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -77,6 +82,14 @@
     framework-tool
     clight-gui
   ];
+
+  programs = {
+    coolercontrol.enable = true;
+  };
+
+  my = {
+    illuminanced.enable = true;
+  };
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild
   networking.hostName = "goingmerry";
