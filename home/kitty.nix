@@ -14,8 +14,6 @@
       background = "#1e1e2e";
       #pixel_scroll = "yes";
       #momentum_scroll = 0.5;
-      padding = 0;
-      margin = 0;
     };
   };
 }
