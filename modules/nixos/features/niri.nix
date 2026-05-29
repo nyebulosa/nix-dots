@@ -26,7 +26,7 @@
     nemo-with-extensions
     nemo-fileroller
     nemo-preview
-    nmeo-python
+    nemo-python
     nemo-emblems
     nemo-share
     ffmpegthumbnailer
