@@ -8,6 +8,14 @@
 {
   programs.niri = {
     enable = true;
+    package = pkgs.niri.overrideAttrs (old: {
+      src = pkgs.fetchFromGitHub {
+        owner = "niri-wm";
+        repo = "niri";
+        rev = "ef4622768e57e641847245178c7953d6730079cd";
+        hash = "sha256-rCHu+uCH1bXEyBf7PoH9E8k1Qd55YoYkPNQIuTkSOtw=";
+      };
+    });
   };
   environment.systemPackages = with pkgs; [
     fuzzel
@@ -15,7 +23,14 @@
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
     awww
-    nemo
+    nemo-with-extensions
+    nemo-fileroller
+    nemo-preview
+    nmeo-python
+    nemo-emblems
+    nemo-share
+    ffmpegthumbnailer
+    gnome-font-viewer
     kitty
     waybar
     cursor-clip
@@ -40,5 +55,13 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
+  };
+  nixpkgs.overlays = [ inputs.niri-flake.overlays.niri ];
+  services.displayManager = {
+    defaultSession = "niri";
+    autoLogin = {
+      enable = true;
+      user = "leonillo";
+    };
   };
 }

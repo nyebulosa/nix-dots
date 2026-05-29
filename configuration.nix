@@ -231,6 +231,7 @@
       "render"
       "audio"
       "input"
+      "uinput"
       "networkmanager"
     ];
     initialHashedPassword = "$y$j9T$ReVR1vqESFLY8Y7dkJDb/.$7piDB7IUbIgbm/16XbzfnehT.bPFy4m7RZADZSysmz0"; # Default password on install, must be changed later
