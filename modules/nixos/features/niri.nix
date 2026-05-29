@@ -28,7 +28,6 @@
     nemo-preview
     nemo-python
     nemo-emblems
-    nemo-share
     ffmpegthumbnailer
     gnome-font-viewer
     kitty
