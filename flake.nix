@@ -31,24 +31,24 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
     };
 
-    affinity-nix = {
-      url = "github:mrshmllow/affinity-nix";
-    };
-
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # affinity-nix = {
+    #   url = "github:mrshmllow/affinity-nix";
+    # };
+    #
+    # quickshell = {
+    #   url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    niri-flake = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # niri-flake = {
+    #   url = "github:sodiboo/niri-flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
