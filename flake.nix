@@ -66,6 +66,7 @@
         inputs.disko.nixosModules.disko
         inputs.catppuccin.nixosModules.catppuccin
         inputs.stylix.nixosModules.stylix
+        inputs.nix-mineral.nixosModules.nix-mineral
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager
@@ -77,7 +78,6 @@
               imports = [
                 ./home.nix
                 inputs.catppuccin.homeModules.catppuccin
-                inputs.nix-mineral.nixosModules.nix-mineral
               ];
             };
           };
