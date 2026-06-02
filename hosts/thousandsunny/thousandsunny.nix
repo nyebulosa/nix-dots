@@ -70,7 +70,7 @@
     scx = {
       enable = true;
       scheduler = "scx_lavd";
-      extraArgs = [ "--autopower" ];
+      extraArgs = [ "--autopilot" ];
     };
     sunshine = {
       enable = true;

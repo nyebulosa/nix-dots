@@ -65,10 +65,10 @@
     zoom-us
     libreoffice-qt
     via
-    boxbuddy
+    # boxbuddy
     obsidian
-    logseq
-    ente-auth
+    # logseq
+    # ente-auth
 
     # Gaming
     parsec-bin

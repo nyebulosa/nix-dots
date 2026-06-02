@@ -15,6 +15,7 @@ in
         enable = true;
         extest.enable = true;
         remotePlay.openFirewall = true;
+        dedicatedServer.openFirewall = true;
       };
       gamemode.enable = true;
       gamescope = {

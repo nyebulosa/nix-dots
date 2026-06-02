@@ -45,6 +45,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-mineral = {
+      url = "github:cynicsketch/nix-mineral/";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # niri-flake = {
     #   url = "github:sodiboo/niri-flake";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -72,6 +77,7 @@
               imports = [
                 ./home.nix
                 inputs.catppuccin.homeModules.catppuccin
+                inputs.nix-mineral.nixosModules.nix-mineral
               ];
             };
           };
