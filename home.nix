@@ -268,6 +268,7 @@
   # Catppuccin Theme Configuration
   catppuccin = {
     enable = true;
+    autoEnable = true;
     flavor = "mocha";
     accent = "mauve";
     cursors = {

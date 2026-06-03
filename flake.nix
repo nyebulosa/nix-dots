@@ -31,29 +31,15 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
     };
 
-    # affinity-nix = {
-    #   url = "github:mrshmllow/affinity-nix";
-    # };
-    #
-    # quickshell = {
-    #   url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-mineral = {
-      url = "github:cynicsketch/nix-mineral/";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # niri-flake = {
-    #   url = "github:sodiboo/niri-flake";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs =
@@ -66,7 +52,7 @@
         inputs.disko.nixosModules.disko
         inputs.catppuccin.nixosModules.catppuccin
         inputs.stylix.nixosModules.stylix
-        inputs.nix-mineral.nixosModules.nix-mineral
+        nix-index-database.nixosModules.default
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager

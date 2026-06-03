@@ -52,21 +52,19 @@
 
   boot = {
     kernelParams = [
-      "amd_pstate=active"
+      "amd_pstate=guided"
     ];
-    kernel.sysctl."net.ipv4.ip_forward" = 1;
     #supportedFilesystems = [ "nfs" ];
   };
 
   powerManagement = {
     powertop.enable = lib.mkForce false; # Disable powertop due to USB issues
-    cpuFreqGovernor = "performance";
+    cpuFreqGovernor = "schedutil";
   };
 
   services = {
     #fwupd.enable = true;
     #rpcbind.enable = true; # needed for nfs
-    resolved.dnssec = lib.mkForce "true";
     scx = {
       enable = true;
       scheduler = "scx_lavd";

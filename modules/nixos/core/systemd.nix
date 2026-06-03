@@ -29,11 +29,6 @@
     ];
   };
   services.udev = {
-    extraRules = ''
-      SUBSYSTEM=="misc", KERNEL=="cpu_dma_latency", GROUP="audio", MODE="0660"
-      KERNEL=="rtc0", GROUP="audio"
-      KERNEL=="hpet", GROUP="audio"
-    '';
     packages = with pkgs; [
       via
       vial
@@ -42,8 +37,5 @@
     ];
   };
   # Fixes run0
-  security.pam.services.systemd-user = {
-    setEnvironment = true;
-    pamMount = false;
-  };
+  security.pam.services.systemd-run0 = { };
 }

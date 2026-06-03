@@ -5,5 +5,6 @@
     ./systemd.nix
     ./nix.nix
     ./hardening.nix
+    ./performance.nix
   ];
 }

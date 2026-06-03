@@ -8,6 +8,7 @@
 {
   catppuccin = {
     enable = true;
+    autoEnable = true;
     accent = "mauve";
     flavor = "mocha";
   };
@@ -50,6 +51,7 @@
     starship = {
       enable = true;
     };
+    nix-index.enable = true;
   };
   virtualisation = {
     libvirtd = {
@@ -107,7 +109,7 @@
     resolved = {
       enable = true;
       settings.Resolve = {
-        DNSSEC = "allow-downgrade";
+        DNSSEC = true;
         DNSOverTLS = "opportunistic";
         fallbackDns = [
           "9.9.9.9#dns.quad9.net"
@@ -234,7 +236,6 @@
       "uinput"
       "networkmanager"
     ];
-    initialHashedPassword = "$y$j9T$ReVR1vqESFLY8Y7dkJDb/.$7piDB7IUbIgbm/16XbzfnehT.bPFy4m7RZADZSysmz0"; # Default password on install, must be changed later
   };
 
   # System packages, installed globally
@@ -260,7 +261,6 @@
     lsfg-vk
     lsfg-vk-ui
     impala
-    nix-index
     fzf
     ffmpegthumbnailer
     webp-pixbuf-loader
@@ -277,6 +277,8 @@
     statix
     sbctl
     # swtpm
+    nh
+    comma
   ];
 
   stylix = {
