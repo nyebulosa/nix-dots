@@ -23,10 +23,6 @@
     user.extraConfig = ''
       DefaultLimitNOFILE=1024:1048576
     '';
-    tmpfiles.rules = [
-      "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
-      "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 0"
-    ];
   };
   services.udev = {
     packages = with pkgs; [

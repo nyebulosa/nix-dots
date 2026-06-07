@@ -7,11 +7,19 @@
 }:
 
 {
+  # imports = [
+  #   inputs.nix-mineral.nixosModules.nix-mineral
+  # ];
+  #
+  # nix-mineral = {
+  #   enable = true;
+  #   preset = "performance";
+  # };
   boot = {
     kernelParams = [
       "slab_nomerge"
       "page_alloc.shuffle=1"
-      # "pti=on" # Fixes Meltdown but adds syscall overhead. AMD is not vulnerable. Enable on Intel only.
+      "pti=on" # Fixes Meltdown but adds syscall overhead. AMD is not vulnerable.
       "randomize_kstack_offset=on"
       "vsyscall=none"
       "quiet"
@@ -53,6 +61,8 @@
       "net.ipv4.conf.default.accept_source_route" = 0;
       "net.ipv6.conf.all.accept_source_route" = 0;
       "net.ipv6.conf.default.accept_source_route" = 0;
+      # "net.ipv6.conf.all.use_tempaddr" = 2;
+      # "net.ipv6.conf.default.use_tempaddr" = 2;
       # "net.ipv6.conf.all.accept_ra" = 0;
       # "net.ipv6.conf.default.accept_ra" = 0; # These last two can mess with ipv6, I don't use it anyways but I'm on a home network soo...
 
@@ -65,5 +75,9 @@
   };
   security = {
     sudo.enable = lib.mkForce false;
+  };
+  environment = {
+    memoryAllocator.provider = "scudo";
+    variables.SCUDO_OPTIONS = lib.mkDefault "zero_contents=false";
   };
 }

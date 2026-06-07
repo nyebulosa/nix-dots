@@ -19,7 +19,7 @@
       "vm.page-cluster" = 0;
       "vm.vfs_cache_pressure" = 50;
       "vm.dirty_bytes" = 536870912;
-      "vm.dirty_background_bytes" = 134217728;
+      "vm.dirty_background_bytes" = 268435456;
       "vm.dirty_writeback_centisecs" = 1500;
       "kernel.nmi_watchdog" = 0;
       "kernel.printk" = "3 3 3 3";
@@ -36,7 +36,7 @@
       "nowatchdog"
     ];
   };
-  systemd = {
+  services = {
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="nvme[0-9]*", ATTR{queue/scheduler}="none"
       ACTION=="add|change", KERNEL=="sd[a-z]|xvd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
@@ -46,4 +46,8 @@
       KERNEL=="hpet", GROUP="audio"
     '';
   };
+  systemd.tmpfiles.rules = [
+    "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
+    "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 0"
+  ];
 }

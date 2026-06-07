@@ -156,12 +156,16 @@
     };
     openssh = {
       enable = true;
-      # openFirewall = false;
+      openFirewall = false;
       settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
         AllowUsers = [ "leonillo" ];
+        MaxAuthTries = 3;
+        ClientAliveInterval = 300;
+        ClientAliveCountMax = 2;
+        AuthenticationMethods = "publickey";
       };
     };
     gnome.gnome-keyring.enable = true;

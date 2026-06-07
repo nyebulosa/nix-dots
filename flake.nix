@@ -40,6 +40,11 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # nix-mineral = {
+    #   url = "github:cynicsketch/nix-mineral/";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
@@ -52,7 +57,7 @@
         inputs.disko.nixosModules.disko
         inputs.catppuccin.nixosModules.catppuccin
         inputs.stylix.nixosModules.stylix
-        nix-index-database.nixosModules.default
+        inputs.nix-index-database.nixosModules.default
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager

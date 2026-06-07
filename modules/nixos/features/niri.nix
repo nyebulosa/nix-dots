@@ -49,7 +49,7 @@
   services.displayManager = {
     defaultSession = "niri";
     autoLogin = {
-      enable = true;
+      enable = lib.mkDefault false;
       user = "leonillo";
     };
   };
