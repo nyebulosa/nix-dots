@@ -39,7 +39,10 @@
     kitty
     anydesk
     #bottles
-    vivaldi
+    # (vivaldi.override {
+    #   proprietaryCodecs = true;
+    #   enableWidevine = true;
+    # })
     floorp-bin
     waypaper
     kdePackages.filelight

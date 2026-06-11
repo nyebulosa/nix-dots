@@ -26,7 +26,7 @@
     };
     fish.enable = true;
     htop.enable = true;
-    git.enable = true;
+    # git.enable = true;
     obs-studio = {
       enable = true;
       enableVirtualCamera = true;
@@ -277,12 +277,14 @@
     #inputs.affinity-nix.packages.x86_64-linux.v3
     ffmpeg
     lazygit
+    git
     nixfmt
     statix
     sbctl
     # swtpm
     nh
     comma
+    nil
   ];
 
   stylix = {

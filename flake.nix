@@ -41,10 +41,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nix-mineral = {
-    #   url = "github:cynicsketch/nix-mineral/";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    nix-mineral = {
+      url = "github:cynicsketch/nix-mineral/";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

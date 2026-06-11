@@ -7,19 +7,31 @@
 }:
 
 {
-  # imports = [
-  #   inputs.nix-mineral.nixosModules.nix-mineral
-  # ];
-  #
+  imports = [
+    inputs.nix-mineral.nixosModules.nix-mineral
+  ];
+
   # nix-mineral = {
   #   enable = true;
   #   preset = "performance";
+  #   settings = {
+  #     kernel = {
+  #       vdso32 = true;
+  #     };
+  #   };
+  #   filesystems = {
+  #     normal = {
+  #       "/var/log".options.bind = false;
+  #       "/home".options.bind = false;
+  #       "/tmp".options.noexec = false;
+  #     };
+  #   };
   # };
   boot = {
     kernelParams = [
       "slab_nomerge"
       "page_alloc.shuffle=1"
-      "pti=on" # Fixes Meltdown but adds syscall overhead. AMD is not vulnerable.
+      "pti=off" # Fixes Meltdown but adds syscall overhead. AMD is not vulnerable.
       "randomize_kstack_offset=on"
       "vsyscall=none"
       "quiet"
@@ -43,6 +55,10 @@
       "kernel.yama.ptrace_scope" = 2; # Remove if debugging
       "vm.mmap_rnd_bits" = 32;
       "vm.mmap_rnd_compat_bits" = 16;
+
+      # Testing
+      "vm.mmap_min_addr" = 32768;
+      "fs.inotify.max_user_watches" = 524288;
 
       # Network
       "net.ipv4.tcp_syncookies" = 1;
