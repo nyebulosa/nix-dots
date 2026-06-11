@@ -57,8 +57,8 @@ in
                   };
                   "@home" = {
                     mountOptions = btrfsOptions ++ [
-                      "nosuid"
-                      "nodev"
+                      # "nosuid"
+                      # "nodev"
                       # "noexec"
                     ];
                     mountpoint = "/home";
@@ -69,8 +69,8 @@ in
                   };
                   "@log" = {
                     mountOptions = btrfsOptions ++ [
-                      "nosuid"
-                      "nodev"
+                      # "nosuid"
+                      # "nodev"
                       # "noexec"
                     ];
                     mountpoint = "/var/log";

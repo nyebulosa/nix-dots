@@ -43,6 +43,7 @@
     #   proprietaryCodecs = true;
     #   enableWidevine = true;
     # })
+    vivaldi
     floorp-bin
     waypaper
     kdePackages.filelight

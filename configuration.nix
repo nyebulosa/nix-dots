@@ -285,6 +285,9 @@
     nh
     comma
     nil
+    ripgrep
+    imagemagick
+    fd
   ];
 
   stylix = {
