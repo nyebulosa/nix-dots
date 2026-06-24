@@ -96,7 +96,7 @@
 
   services = {
     tlp.enable = lib.mkForce false;
-    ratbagd.enable = true;
+    # ratbagd.enable = true;
     mullvad-vpn = {
       enable = true;
       package = pkgs.mullvad-vpn;
@@ -112,7 +112,6 @@
         DNSSEC = true;
         DNSOverTLS = "opportunistic";
         fallbackDns = [
-          "9.9.9.9#dns.quad9.net"
           "1.1.1.1#cloudflare-dns.com"
         ];
       };

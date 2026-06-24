@@ -9,8 +9,8 @@
   # Import Modules
   imports = [
     home/waybar.nix
-    home/hypr/hyprland.nix
     home/kitty.nix
+    inputs.spicetify-nix.homeManagerModules.default
   ];
 
   # User Information
@@ -32,9 +32,9 @@
     filezilla
     pavucontrol
     qpwgraph
-    # oculante
+    oculante
     mpv
-    vlc
+    # vlc
     gimp-with-plugins
     kitty
     anydesk
@@ -44,22 +44,24 @@
     #   enableWidevine = true;
     # })
     vivaldi
-    floorp-bin
+    # floorp-bin
+    brave
     waypaper
     kdePackages.filelight
     (discord.override {
       withOpenASAR = true;
-      withVencord = true;
-      # withEquicord = true;
+      # withVencord = true;
+      withEquicord = true;
     })
     vesktop
+    equibop
     orca-slicer
-    prusa-slicer
+    # prusa-slicer
     #winboat
     easyeffects
     qbittorrent
-    tidal-hifi
-    lmstudio
+    # tidal-hifi
+    # lmstudio
     #krita
     #freecad
     piper
@@ -83,8 +85,8 @@
         temurin-jre-bin-25
         temurin-jre-bin
         zulu25
-        semeru-bin
-        graalvmPackages.graalvm-oracle_25
+        # semeru-bin
+        # graalvmPackages.graalvm-oracle_25
       ];
       additionalPrograms = [ vlc ];
       additionalLibs = [
@@ -94,9 +96,9 @@
       ];
     })
     r2modman
-    osu-lazer-bin
+    # osu-lazer-bin
     bs-manager
-    ryubing
+    # ryubing
 
     # Dev
     rustup
@@ -115,14 +117,9 @@
     nwg-bar
     playerctl
     mako
-    hyprpaper
     swaybg
-    hyprpolkitagent
     waybar-mpris
-    hyprshot
     satty
-    hyprlock
-    hyprpicker
     shared-mime-info
     file-roller
   ];
@@ -135,7 +132,13 @@
 
   # MIME Types
   xdg.mimeApps.associations.added = {
-    "inode/directory" = [ "pcmanfm.desktop" ];
+    "inode/directory" = [ "nemo.desktop" ];
+  };
+
+  services.arrpc = {
+    enable = true;
+    package = pkgs.arrpc; # Default
+    systemdTarget = "graphical-session.target"; # Default
   };
 
   # Programs
@@ -240,6 +243,28 @@
       ];
       theme = "catppuccin-mocha";
     };
+
+    spicetify =
+      let
+        spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
+      in
+      {
+        enable = true;
+        enabledExtensions = with spicePkgs.extensions; [
+          adblockify
+          shuffle
+          loopyLoop
+        ];
+        enabledCustomApps = with spicePkgs.apps; [
+          marketplace
+          lyricsPlus
+          newReleases
+          ncsVisualizer
+        ];
+        theme = spicePkgs.themes.catppuccin;
+        colorScheme = "mocha";
+        windowManagerPatch = true;
+      };
   };
 
   home.shell.enableFishIntegration = true;
@@ -263,9 +288,9 @@
       source = ./home/hypr/replay;
       recursive = true;
     };
-    "./.config/hypr/hyprlock.conf".source = ./home/hypr/hyprlock.conf;
-    "./.config/xdg-desktop-portal/hyprland-portals.conf".source = ./home/hypr/hyprland-portals.conf;
-    "./.config/hypr/xdph.conf".source = ./home/hypr/xdph.conf;
+    # "./.config/hypr/hyprlock.conf".source = ./home/hypr/hyprlock.conf;
+    # "./.config/xdg-desktop-portal/hyprland-portals.conf".source = ./home/hypr/hyprland-portals.conf;
+    # "./.config/hypr/xdph.conf".source = ./home/hypr/xdph.conf;
     "./.config/niri/config.kdl".source = ./home/niri.kdl;
   };
 
@@ -287,17 +312,19 @@
     vivaldi.enable = false;
     waybar.enable = false;
     rofi.enable = false;
+    kitty.enable = false;
   };
 
   stylix = {
     targets = {
       waybar.enable = false;
       btop.enable = false;
-      kitty.enable = false;
+      kitty.enable = true;
       yazi.enable = false;
       vencord.enable = false;
       swaylock.enable = false;
       rofi.enable = false;
+      spicetify.enable = false;
     };
   };
 

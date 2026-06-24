@@ -1,32 +1,38 @@
 {
-  config,
   inputs,
   lib,
-  pkgs,
   ...
 }:
 
 {
-  # imports = [
-  #   inputs.nix-mineral.nixosModules.nix-mineral
-  # ];
+  imports = [
+    inputs.nix-mineral.nixosModules.nix-mineral
+  ];
 
-  # nix-mineral = {
-  #   enable = true;
-  #   preset = "performance";
-  #   settings = {
-  #     kernel = {
-  #       vdso32 = true;
-  #     };
-  #   };
-  #   filesystems = {
-  #     normal = {
-  #       "/var/log".options.bind = false;
-  #       "/home".options.bind = false;
-  #       "/tmp".options.noexec = false;
-  #     };
-  #   };
-  # };
+  nix-mineral = {
+    enable = true;
+    preset = [
+      "performance"
+      "compatibility"
+    ];
+    settings = {
+      system = {
+        multilib = true;
+      };
+      network = {
+        tcp-sack = true;
+        log-martians = false;
+      };
+    };
+    filesystems = {
+      enable = false;
+      normal = {
+        "/var/log".options.bind = false;
+        "/home".options.bind = false;
+        "/tmp".options.noexec = false;
+      };
+    };
+  };
   # boot = {
   #   kernelParams = [
   #     "slab_nomerge"

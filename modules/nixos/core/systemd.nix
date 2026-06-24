@@ -20,9 +20,9 @@
       DefaultTimeoutStopSec = "10s";
       DefaultLimitNOFILE = "2048:2097152";
     };
-    user.extraConfig = ''
-      DefaultLimitNOFILE=1024:1048576
-    '';
+    user.settings.Manager = {
+      DefaultLimitNOFILE = "1024:1048576";
+    };
   };
   services.udev = {
     packages = with pkgs; [

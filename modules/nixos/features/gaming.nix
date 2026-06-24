@@ -24,9 +24,9 @@ in
           "--expose-wayland"
           "--adaptive-sync"
         ];
-        package = pkgs.gamescope.overrideAttrs (_: {
-          NIX_CFLAGS_COMPILE = [ "-fno-fast-math" ];
-        });
+        # package = pkgs.gamescope.overrideAttrs (_: {
+        #   NIX_CFLAGS_COMPILE = [ "-fno-fast-math" ];
+        # });
       };
     };
   };
