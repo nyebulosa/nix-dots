@@ -55,11 +55,15 @@
 
   boot = {
     loader.systemd-boot.enable = lib.mkForce false;
-    lanzaboote = {
-      pkiBundle = "/var/lib/sbctl";
+    # lanzaboote = {
+    #   pkiBundle = "/var/lib/sbctl";
+    #   enable = true;
+    #   autoGenerateKeys.enable = true;
+    #   autoEnrollKeys.enable = true;
+    # };
+    loader.limine = {
       enable = true;
-      autoGenerateKeys.enable = true;
-      autoEnrollKeys.enable = true;
+      secureBoot.enable = true;
     };
   };
 
@@ -81,6 +85,7 @@
   environment.systemPackages = with pkgs; [
     framework-tool
     clight-gui
+    sbctl
   ];
 
   programs = {

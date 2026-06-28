@@ -31,10 +31,10 @@
       url = "github:xddxdd/nix-cachyos-kernel/release";
     };
 
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.0.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # lanzaboote = {
+    #   url = "github:nix-community/lanzaboote/v1.0.0";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -92,7 +92,7 @@
           modules = sharedModules ++ [
             ./hosts/goingmerry/goingmerry.nix
             inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-            inputs.lanzaboote.nixosModules.lanzaboote
+            # inputs.lanzaboote.nixosModules.lanzaboote
           ];
         };
       };
