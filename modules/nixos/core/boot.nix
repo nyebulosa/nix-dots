@@ -10,10 +10,14 @@
   boot = {
     loader = {
       systemd-boot = {
-        enable = lib.mkDefault true; # This needs to be disabled if using lanzaboote
-        consoleMode = "max";
-        editor = false; # Better security
-        configurationLimit = 10;
+        enable = false;
+        #   consoleMode = "max";
+        #   editor = false; # Better security
+        #   configurationLimit = 10;
+      };
+      limine = {
+        enable = true;
+        # secureBoot.enable = true;
       };
       efi.canTouchEfiVariables = true;
       timeout = 3;
