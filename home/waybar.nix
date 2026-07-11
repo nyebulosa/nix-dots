@@ -13,7 +13,7 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 18;
+        height = 25;
 
         # Modules
         modules-left = [
@@ -219,6 +219,7 @@
               color: #ffffff;
               margin: 2px 2px;
               transition: background 0.3s ease;
+              font-size: 20px;
             }
 
             #workspaces button:hover {
@@ -381,7 +382,7 @@
               min-width: 100px;
               border-radius: 15px;
               margin: 2px 2px;
-              padding: 6px;
+              font-size: 11px;
             }
 
             #custom-media.custom-spotify {

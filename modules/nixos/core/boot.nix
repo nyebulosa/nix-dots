@@ -17,7 +17,7 @@
       };
       limine = {
         enable = true;
-        # secureBoot.enable = true;
+        secureBoot.enable = true;
       };
       efi.canTouchEfiVariables = true;
       timeout = 3;
