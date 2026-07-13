@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 
@@ -11,9 +10,6 @@
     loader = {
       systemd-boot = {
         enable = false;
-        #   consoleMode = "max";
-        #   editor = false; # Better security
-        #   configurationLimit = 10;
       };
       limine = {
         enable = true;

@@ -109,6 +109,7 @@
     nodejs
     python3
     claude-code
+    pi-coding-agent
     opencode
 
     # Misc
