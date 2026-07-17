@@ -43,9 +43,9 @@
       proprietaryCodecs = true;
       enableWidevine = true;
     })
-    # vivaldi
-    # floorp-bin
-    brave
+    floorp-bin
+    firefox
+    librewolf
     waypaper
     kdePackages.filelight
     (discord.override {
