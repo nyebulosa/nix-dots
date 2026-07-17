@@ -47,6 +47,11 @@
     };
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
