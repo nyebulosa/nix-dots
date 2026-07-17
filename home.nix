@@ -39,11 +39,11 @@
     kitty
     anydesk
     #bottles
-    # (vivaldi.override {
-    #   proprietaryCodecs = true;
-    #   enableWidevine = true;
-    # })
-    vivaldi
+    (vivaldi.override {
+      proprietaryCodecs = true;
+      enableWidevine = true;
+    })
+    # vivaldi
     # floorp-bin
     brave
     waypaper
@@ -53,7 +53,7 @@
       # withVencord = true;
       withEquicord = true;
     })
-    vesktop
+    # vesktop
     equibop
     orca-slicer
     # prusa-slicer
@@ -61,7 +61,7 @@
     easyeffects
     qbittorrent
     # tidal-hifi
-    # lmstudio
+    lmstudio
     #krita
     #freecad
     piper
