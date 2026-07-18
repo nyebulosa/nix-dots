@@ -11,17 +11,12 @@
     ./disko-config.nix
   ];
 
+  my = {
+    gpu.type = "amd";
+  };
+
   # Hardware Configuration
   hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        vulkan-loader
-        libva
-        mesa
-      ];
-    };
     bluetooth = {
       enable = true;
       powerOnBoot = false;
@@ -35,10 +30,6 @@
         };
       };
     };
-    amdgpu = {
-      initrd.enable = true;
-      opencl.enable = true;
-    };
   };
   # environment.variables = {
   #   RUSTICL_ENABLE = "radeonsi";
@@ -51,20 +42,6 @@
     "pcie_aspm=force"
     "pcie_aspm.policy=powersave"
   ];
-
-  boot = {
-    loader.systemd-boot.enable = lib.mkForce false;
-    # lanzaboote = {
-    #   pkiBundle = "/var/lib/sbctl";
-    #   enable = true;
-    #   autoGenerateKeys.enable = true;
-    #   autoEnrollKeys.enable = true;
-    # };
-    loader.limine = {
-      enable = true;
-      secureBoot.enable = true;
-    };
-  };
 
   services = {
     power-profiles-daemon.enable = true;
