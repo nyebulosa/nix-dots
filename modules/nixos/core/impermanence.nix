@@ -56,6 +56,8 @@
       "/var/lib/bluetooth"
       "/var/lib/nixos"
       "/etc/NetworkManager/system-connections"
+      "/var/lib/sbctl"
+      "/var/lib/tailscale"
     ];
     files = [
       "/etc/machine-id"
