@@ -52,6 +52,8 @@
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs =
@@ -65,6 +67,7 @@
         inputs.catppuccin.nixosModules.catppuccin
         inputs.stylix.nixosModules.stylix
         inputs.nix-index-database.nixosModules.default
+        inputs.impermanence.nixosModules.impermanence
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager

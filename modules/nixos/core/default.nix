@@ -6,5 +6,6 @@
     ./nix.nix
     ./hardening.nix
     ./performance.nix
+    ./impermanence.nix
   ];
 }
