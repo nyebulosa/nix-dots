@@ -9,12 +9,16 @@
   boot = {
     loader = {
       systemd-boot = {
-        enable = false;
+        enable = lib.mkForce false;
       };
-      limine = {
+      lanzaboote = {
         enable = true;
-        secureBoot.enable = true;
+        pkiBundle = "/var/lib/sbctl";
       };
+      # limine = {
+      #   enable = true;
+      #   secureBoot.enable = true;
+      # };
       efi.canTouchEfiVariables = true;
       timeout = 3;
     };

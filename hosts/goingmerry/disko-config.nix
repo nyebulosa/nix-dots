@@ -45,8 +45,6 @@ in
                   type = "btrfs";
                   extraArgs = [
                     "-f"
-                    "-L"
-                    "nixroot"
                   ]; # Enables overriding existing btrfs partitions and sets label
                   # Create subvolumes @ for /, @home for /home, @nix for /nix, and @log for /var/log,
                   # all of them with compress=zstd:2 for good balance between performance and compression,
@@ -77,11 +75,11 @@ in
                       mountpoint = "/var/log";
                     };
                     "@persist" = {
-                      mountpoint = "/persistent";
+                      mountpoint = "/persist";
                       mountOptions = btrfsOptions ++ [
-                        "nosuid"
-                        "nodev"
-                        "noexec"
+                        # "nosuid"
+                        # "nodev"
+                        # "noexec"
                       ];
                     };
                     "@swap" = {
@@ -97,4 +95,12 @@ in
       };
     };
   };
+  fileSystems = {
+    "/persist" = {
+      neededForBoot = true;
+  #     fsType = "btrfs";
+  #     device = "dm-uuid-CRYPT-LUKS2-121b25d6f07b493e912364917509c9cb-crypted";
+    };
+  };
+
 }

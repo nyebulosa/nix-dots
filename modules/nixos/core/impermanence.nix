@@ -7,6 +7,7 @@
 {
 
   boot = {
+    loader.efi.canTouchEfiVariables = true;
     initrd = {
       systemd = {
         enable = true;
@@ -18,7 +19,6 @@
           requires = [ "systemd-cryptsetup@crypted.service" ];
           unitConfig.DefaultDependencies = "no";
           serviceConfig.Type = "oneshot";
-          path = [ pkgs.btrfs-progs ];
 
           script = ''
             mkdir /btrfs_tmp
@@ -48,7 +48,7 @@
       };
     };
   };
-  environment.persistence."/persistent" = {
+  environment.persistence."/persist" = {
     enable = true;
     hideMounts = true;
     allowTrash = true;
@@ -58,9 +58,15 @@
       "/etc/NetworkManager/system-connections"
       "/var/lib/sbctl"
       "/var/lib/tailscale"
+      "/etc/mullvad-vpn"
+      "/var/lib/containers"
+      "/var/lib/swtpm-localca"
+      "/var/lib/libvirt"
+      "/var/lib/iwd"
+      "/var/lib/fprint"
     ];
     files = [
-      "/etc/machine-id"
+      "/var/lib/sddm/state.conf"
     ];
   };
 }
