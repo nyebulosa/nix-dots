@@ -67,6 +67,8 @@
     ];
     files = [
       "/var/lib/sddm/state.conf"
+      "/etc/nixos"
+      "/var/lib/systemd/pcrlock.json"
     ];
   };
 }

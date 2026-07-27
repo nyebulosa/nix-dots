@@ -7,28 +7,35 @@
 
 {
   boot = {
+    plymouth = {
+      enable = true;
+      theme = "bgrt";
+    };
     loader = {
       systemd-boot = {
         enable = lib.mkForce false;
-      };
-      lanzaboote = {
-        enable = true;
-        pkiBundle = "/var/lib/sbctl";
-        measuredBoot = {
-          enable = true;
-          pcrs = [
-            0
-            4
-            7
-          ];
-        };
+        consoleMode = "max";
       };
       # limine = {
       #   enable = true;
       #   secureBoot.enable = true;
       # };
       efi.canTouchEfiVariables = true;
-      timeout = 3;
+      timeout = 0;
+    };
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+      configurationLimit = 8;
+      autoGenerateKeys.enable = true;
+      measuredBoot = {
+        enable = true;
+        pcrs = [
+          0
+          4
+          7
+        ];
+      };
     };
     initrd = {
       systemd = {
@@ -39,12 +46,25 @@
         "tpm_crb"
         "tpm_tis"
       ];
+      kernelModules = [ "amdgpu" ];
+      verbose = false;
     };
     kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3; # All my current machines are v3, can be changed per host
     tmp = {
       useTmpfs = true;
-      #cleanOnBoot = true; # If not tmps then use this
+      #cleanOnBoot = true; # If not tmpfs then use this
     };
+
+    consoleLogLevel = 0;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "loglevel=3"
+      "systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+      "vt.global_cursor_default=0"
+    ];
   };
 
   environment.systemPackages = with pkgs; [ tpm2-tss ];

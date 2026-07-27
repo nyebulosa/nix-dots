@@ -11,6 +11,7 @@
     autoEnable = true;
     accent = "mauve";
     flavor = "mocha";
+    plymouth.enable = false;
   };
 
   programs = {
@@ -54,12 +55,12 @@
     nix-index.enable = true;
   };
   virtualisation = {
-    libvirtd = {
-      enable = true; # Enable libvirt daemon
-      qemu = {
-        swtpm.enable = true;
-      };
-    };
+    # libvirtd = {
+    #   enable = true; # Enable libvirt daemon
+    #   qemu = {
+    #     swtpm.enable = true;
+    #   };
+    # };
   };
   #virtualisation.waydroid.enable = true;
   virtualisation.podman = {
@@ -288,12 +289,16 @@
     imagemagick
     fd
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    libdisplay-info
   ];
 
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    targets.kmscon.enable = false;
+    targets = {
+      kmscon.enable = false;
+      plymouth.enable = false;
+    };
   };
 
   # Make apps run natively on Wayland

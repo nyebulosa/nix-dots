@@ -69,7 +69,7 @@
   };
 
   my = {
-    illuminanced.enable = true;
+    illuminanced.enable = false;
   };
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild
