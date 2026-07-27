@@ -68,6 +68,7 @@
         inputs.stylix.nixosModules.stylix
         inputs.nix-index-database.nixosModules.default
         inputs.impermanence.nixosModules.impermanence
+        inputs.lanzaboote.nixosModules.lanzaboote
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager

@@ -14,6 +14,14 @@
       lanzaboote = {
         enable = true;
         pkiBundle = "/var/lib/sbctl";
+        measuredBoot = {
+          enable = true;
+          pcrs = [
+            0
+            4
+            7
+          ];
+        };
       };
       # limine = {
       #   enable = true;
