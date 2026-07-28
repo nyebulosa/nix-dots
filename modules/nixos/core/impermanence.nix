@@ -64,6 +64,7 @@
       "/var/lib/libvirt"
       "/var/lib/iwd"
       "/var/lib/fprint"
+      "/var/lib/pcrlock.d"
     ];
     files = [
       "/var/lib/sddm/state.conf"
