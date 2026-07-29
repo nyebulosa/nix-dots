@@ -8,7 +8,16 @@ let
   cfg = config.my.illuminanced;
 in
 {
-  options.my.illuminanced.enable = lib.mkEnableOption "illuminanced";
+  options.my.illuminanced = {
+    enable = lib.mkEnableOption "illuminanced";
+    configFile = lib.mkOption {
+      type = lib.types.path;
+      default = "${pkgs.illuminanced}/share/illuminanced/illuminanced.toml";
+      defaultText = lib.literalExpression "\${pkgs.illuminanced}/share/illuminanced/illuminanced.toml";
+      description = "Config passed to illuminanced -c. The daemon runs as root, so this must not be user-writable.";
+    };
+  };
+
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.illuminanced ];
 
@@ -22,15 +31,18 @@ in
     systemd.services.illuminanced = {
       description = "Ambient Light Sensor Daemon for Linux";
       wantedBy = [ "multi-user.target" ];
-      after = [ "systemd-udev-settle.service" ];
       serviceConfig = {
-        ExecStart = "${pkgs.illuminanced}/bin/illuminanced -c /home/leonillo/.config/illuminanced/illuminanced.toml";
+        ExecStart = "${pkgs.illuminanced}/bin/illuminanced -c ${cfg.configFile}";
         Restart = "on-failure";
-        #User = "leonillo";
-        #SupplementaryGroups = [
-        #  "video"
-        #  "input"
-        #];
+        ProtectHome = true;
+        ProtectSystem = "strict";
+        PrivateTmp = true;
+        PrivateNetwork = true;
+        NoNewPrivileges = true;
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        LockPersonality = true;
+        SystemCallArchitectures = "native";
       };
     };
   };

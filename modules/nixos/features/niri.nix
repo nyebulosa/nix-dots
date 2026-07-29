@@ -33,7 +33,6 @@ in
     nemo-preview
     nemo-python
     nemo-emblems
-    ffmpegthumbnailer
     gnome-font-viewer
     kitty
     waybar

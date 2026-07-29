@@ -696,5 +696,6 @@ binds {
 
     Mod+G { spawn-sh "bash ~/.config/hypr/replay/save.sh"; }
     Mod+Shift+G { spawn-sh "nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json"; }
+    Super+Alt+P hotkey-overlay-title="Power Menu: nwg-bar" { spawn "nwg-bar"; }
     Mod+Ctrl+Shift+F { toggle-windowed-fullscreen; }
 }

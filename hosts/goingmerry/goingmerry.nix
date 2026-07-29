@@ -35,10 +35,9 @@
   #   RUSTICL_ENABLE = "radeonsi";
   # };
 
-  # Fixes a bug that causes lots and lots of lag
+  # Fixes a bug that causes lots and lots of lag. and some power saving.
   boot.kernelParams = [
     "amdgpu.dcdebugmask=0x0"
-    "amd_pstate=active"
     "pcie_aspm=force"
     "pcie_aspm.policy=powersave"
   ];
@@ -49,8 +48,8 @@
     fwupd.enable = true;
     scx = {
       enable = true;
-      scheduler = "scx_bpfland";
-      #extraArgs = [ "--autopower" ];
+      scheduler = "scx_lavd";
+      extraArgs = [ "--autopower" ];
     };
   };
   location = {
@@ -61,7 +60,6 @@
   environment.systemPackages = with pkgs; [
     framework-tool
     clight-gui
-    sbctl
   ];
 
   programs = {
@@ -70,6 +68,7 @@
 
   my = {
     illuminanced.enable = false;
+    gaming.openFirewall = false;
   };
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild

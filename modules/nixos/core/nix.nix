@@ -24,6 +24,16 @@
       ];
     };
     package = pkgs.lixPackageSets.stable.lix;
+    optimise.automatic = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    flake = "/home/leonillo/nixos-conf";
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 30d --keep 5";
+    };
   };
   nixpkgs = {
     config.allowUnfree = true;

@@ -65,6 +65,13 @@
       "/var/lib/iwd"
       "/var/lib/fprint"
       "/var/lib/pcrlock.d"
+      "/var/lib/systemd" # random seed, timer stamps, pcrlock.json
+      "/var/lib/flatpak"
+      "/var/lib/fwupd"
+      "/var/lib/power-profiles-daemon"
+      "/var/lib/upower"
+      "/var/lib/coolercontrold"
+      "/var/lib/AccountsService"
     ];
     files = [
       "/var/lib/sddm/state.conf"

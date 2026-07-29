@@ -28,11 +28,10 @@
     scx = {
       enable = true;
       scheduler = "scx_lavd";
-      extraArgs = [ "--autopilot" ];
+      extraArgs = [ "--performance" ]; # desktop is always on AC anyways
     };
     sunshine = {
       enable = true;
-      capSysAdmin = true;
     };
   };
 
