@@ -70,7 +70,7 @@
 
   # Hardware and power management
   hardware = {
-    enableAllFirmware = true;
+    enableRedistributableFirmware = true;
     wirelessRegulatoryDatabase = true; # Required for framework laptop
   };
   #powerManagement.powertop.enable = true; # Enable powertop
@@ -89,7 +89,7 @@
       enable = true;
       wifi.backend = "iwd";
     };
-    firewall.trustedInterfaces = [ "virbr0" ]; # Fixes libvirt networking
+    # firewall.trustedInterfaces = [ "virbr0" ]; # re-enable with virtualisation.libvirtd
   };
   boot.extraModprobeConfig = ''
     options cfg80211 ieee80211_regdom="ES"
@@ -154,20 +154,7 @@
         variant = "colemak";
       };
     };
-    openssh = {
-      enable = true;
-      openFirewall = false;
-      settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-        PermitRootLogin = "no";
-        AllowUsers = [ "leonillo" ];
-        MaxAuthTries = 3;
-        ClientAliveInterval = 300;
-        ClientAliveCountMax = 2;
-        AuthenticationMethods = "publickey";
-      };
-    };
+    openssh.enable = false; # Tailscale has it's own
     gnome.gnome-keyring.enable = true;
     # ollama = {
     #   enable = true;
@@ -229,11 +216,9 @@
     description = "leoNillo";
     extraGroups = [
       "wheel"
-      "libvirtd"
-      "games"
       "video"
       "gamemode"
-      "docker"
+      "podman"
       "render"
       "audio"
       "input"
@@ -247,7 +232,6 @@
     wget
     curl
     btop
-    htop
     zip
     unzip
     p7zip
@@ -282,7 +266,6 @@
     statix
     sbctl
     # swtpm
-    nh
     comma
     nil
     ripgrep
