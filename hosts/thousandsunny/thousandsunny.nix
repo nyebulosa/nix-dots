@@ -49,16 +49,7 @@
   };
 
   networking = {
-    firewall.allowedUDPPorts = [
-      53
-      67
-      24454
-    ];
-    firewall.allowedTCPPorts = [
-      53
-      67
-      25565
-    ];
+    # gaming ports moved to my.gaming.openFirewall
     hostName = "thousandsunny"; # with this I don't have to use --flake on rebuild
   };
 }

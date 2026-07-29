@@ -13,10 +13,22 @@ in
     openFirewall = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Open Steam remote play and dedicated server ports";
+      description = "Open Steam, Minecraft and wireless VR router ports";
     };
   };
   config = lib.mkIf cfg.enable {
+    networking.firewall = lib.mkIf cfg.openFirewall {
+      allowedTCPPorts = [
+        53 # DNS, for the wireless VR router
+        67 # DHCP
+        25565 # Minecraft
+      ];
+      allowedUDPPorts = [
+        53
+        67
+        24454 # Simple Voice Chat
+      ];
+    };
     programs = {
       steam = {
         enable = true;

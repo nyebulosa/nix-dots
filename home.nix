@@ -217,6 +217,29 @@
     swaylock = {
       enable = true;
       package = pkgs.swaylock-effects;
+      settings = {
+        screenshots = true;
+        effect-blur = "9x3";
+        effect-vignette = "0.4:0.4";
+        fade-in = 0.2;
+
+        clock = true;
+        timestr = "%H:%M";
+        datestr = "%A, %d %B";
+
+        indicator = true;
+        indicator-radius = 110;
+        indicator-thickness = 8;
+        indicator-caps-lock = true;
+
+        # rest of the palette comes from catppuccin.swaylock
+        ring-color = lib.mkForce "cba6f7";
+        inside-color = lib.mkForce "1e1e2ecc";
+        inside-ver-color = lib.mkForce "1e1e2ecc";
+        inside-clear-color = lib.mkForce "1e1e2ecc";
+        inside-wrong-color = lib.mkForce "1e1e2ecc";
+        inside-caps-lock-color = lib.mkForce "1e1e2ecc";
+      };
     };
     rofi = {
       enable = true;
