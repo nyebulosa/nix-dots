@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   inputs,
@@ -34,17 +35,9 @@
     qpwgraph
     oculante
     mpv
-    # vlc
     gimp-with-plugins
-    kitty
     anydesk
-    #bottles
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    })
-    floorp-bin
-    firefox
+    bottles
     librewolf
     waypaper
     kdePackages.filelight
@@ -53,17 +46,11 @@
       # withVencord = true;
       withEquicord = true;
     })
-    # vesktop
     equibop
     orca-slicer
-    # prusa-slicer
-    #winboat
     easyeffects
     qbittorrent
-    # tidal-hifi
     lmstudio
-    #krita
-    #freecad
     piper
     element-desktop
     fluffychat
@@ -71,10 +58,7 @@
     zoom-us
     libreoffice-qt
     via
-    # boxbuddy
     obsidian
-    # logseq
-    # ente-auth
 
     # Gaming
     parsec-bin
@@ -96,9 +80,7 @@
       ];
     })
     r2modman
-    # osu-lazer-bin
     bs-manager
-    # ryubing
 
     # Dev
     rustup
@@ -141,6 +123,29 @@
     package = pkgs.arrpc; # Default
     systemdTarget = "graphical-session.target"; # Default
   };
+
+  services.swayidle =
+    let
+      # pgrep guard so idle + suspend don't stack two lockers
+      lock = "${pkgs.procps}/bin/pgrep -x swaylock || ${config.programs.swaylock.package}/bin/swaylock -f";
+    in
+    {
+      enable = true;
+      events = {
+        "before-sleep" = lock;
+        "lock" = lock;
+      };
+      timeouts = [
+        {
+          timeout = 300;
+          command = lock;
+        }
+        {
+          timeout = 360;
+          command = "/run/current-system/sw/bin/niri msg action power-off-monitors";
+        }
+      ];
+    };
 
   # Programs
   programs = {
@@ -276,6 +281,33 @@
       source = ./home/nwg-bar;
       recursive = true;
     };
+    # generated so the icons resolve to the store instead of /usr/share
+    "./.config/nwg-bar/bar.json".text =
+      let
+        icon = name: "${pkgs.nwg-bar}/share/nwg-bar/images/${name}.svg";
+      in
+      builtins.toJSON [
+        {
+          label = "Lock";
+          exec = "${config.programs.swaylock.package}/bin/swaylock -f";
+          icon = icon "system-lock-screen";
+        }
+        {
+          label = "Suspend";
+          exec = "systemctl suspend";
+          icon = icon "system-suspend";
+        }
+        {
+          label = "Reboot";
+          exec = "systemctl reboot";
+          icon = icon "system-reboot";
+        }
+        {
+          label = "Shutdown";
+          exec = "systemctl -i poweroff";
+          icon = icon "system-shutdown";
+        }
+      ];
     "./.config/mako" = {
       source = ./home/mako;
       recursive = true;
