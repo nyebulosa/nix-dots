@@ -75,6 +75,7 @@
     ];
     files = [
       "/var/lib/sddm/state.conf"
+      "/var/lib/systemd/pcrlock.json"
     ];
   };
 }

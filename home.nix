@@ -105,6 +105,7 @@
     satty
     shared-mime-info
     file-roller
+    xdg-user-dirs-gtk
   ];
 
   # XDG User Directories
@@ -115,7 +116,7 @@
 
   # MIME Types
   xdg.mimeApps.associations.added = {
-    "inode/directory" = [ "nemo.desktop" ];
+    "inode/directory" = [ "thunar.desktop" ];
   };
 
   services.arrpc = {
