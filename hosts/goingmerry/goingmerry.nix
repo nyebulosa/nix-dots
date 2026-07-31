@@ -36,11 +36,14 @@
   # };
 
   # Fixes a bug that causes lots and lots of lag. and some power saving.
-  boot.kernelParams = [
-    "amdgpu.dcdebugmask=0x0"
-    "pcie_aspm=force"
-    "pcie_aspm.policy=powersave"
-  ];
+  boot = {
+    kernelParams = [
+      "amdgpu.dcdebugmask=0x0"
+      "pcie_aspm=force"
+      "pcie_aspm.policy=powersave"
+    ];
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lto-zen4;
+  };
 
   services = {
     power-profiles-daemon.enable = true;
