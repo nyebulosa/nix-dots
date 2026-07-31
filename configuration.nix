@@ -100,7 +100,7 @@
     # ratbagd.enable = true;
     mullvad-vpn = {
       enable = true;
-      package = pkgs.mullvad-vpn;
+      gui.enable = true;
     };
     tailscale = {
       enable = true;
