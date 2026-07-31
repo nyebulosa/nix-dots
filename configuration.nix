@@ -54,18 +54,18 @@
     };
     nix-index.enable = true;
   };
-  virtualisation = {
-    # libvirtd = {
-    #   enable = true; # Enable libvirt daemon
-    #   qemu = {
-    #     swtpm.enable = true;
-    #   };
-    # };
-  };
   #virtualisation.waydroid.enable = true;
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
+  virtualisation = {
+    libvirtd = {
+      enable = true; # Enable libvirt daemon
+      qemu = {
+        swtpm.enable = true;
+      };
+    };
+    podman = {
+      enable = true;
+      dockerCompat = true;
+    };
   };
 
   # Hardware and power management
@@ -89,7 +89,7 @@
       enable = true;
       wifi.backend = "iwd";
     };
-    # firewall.trustedInterfaces = [ "virbr0" ]; # re-enable with virtualisation.libvirtd
+    firewall.trustedInterfaces = [ "virbr0" ];
   };
   boot.extraModprobeConfig = ''
     options cfg80211 ieee80211_regdom="ES"
@@ -110,13 +110,19 @@
     resolved = {
       enable = true;
       settings.Resolve = {
-        DNSSEC = true;
+        # Strict DNSSEC hard-fails on the many zones with broken chains, which
+        # took out the lantian substituter, mullvad and google among others
+        DNSSEC = "allow-downgrade";
         DNSOverTLS = "opportunistic";
-        fallbackDns = [
+        FallbackDNS = [
           "1.1.1.1#cloudflare-dns.com"
         ];
       };
     };
+    journald.extraConfig = ''
+      SystemMaxUse=500M
+      SystemMaxFileSize=50M
+    '';
     udisks2.enable = true;
     gvfs.enable = true;
     pipewire = {
@@ -156,6 +162,8 @@
     };
     openssh.enable = false; # Tailscale has it's own
     gnome.gnome-keyring.enable = true;
+    speechd.enable = false;
+    ratbagd.enable = true; # Required by piper
     # ollama = {
     #   enable = true;
     #   package = pkgs.ollama-rocm;
@@ -192,6 +200,8 @@
     # };
   };
 
+  documentation.man.cache.enable = false; # Only feeds apropos/man -k, rebuilt every generation
+
   # Locale related settings
   time.timeZone = "Europe/Madrid";
   i18n = {
@@ -219,6 +229,7 @@
       "video"
       "gamemode"
       "podman"
+      "libvirtd"
       "render"
       "audio"
       "input"
@@ -231,7 +242,6 @@
   environment.systemPackages = with pkgs; [
     wget
     curl
-    btop
     zip
     unzip
     p7zip
@@ -265,7 +275,7 @@
     nixfmt
     statix
     sbctl
-    # swtpm
+    swtpm
     comma
     nil
     ripgrep
@@ -281,6 +291,7 @@
     targets = {
       kmscon.enable = false;
       plymouth.enable = false;
+      console.enable = false; # Emits 32 vt.default_* colours, the kernel takes 16
     };
   };
 

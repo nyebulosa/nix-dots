@@ -26,6 +26,12 @@ in
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                # Without this the ESP is world-readable and systemd flags the
+                # boot loader random seed as a security hole
+                mountOptions = [
+                  "umask=0077"
+                  "shortname=winnt"
+                ];
               };
             };
 
@@ -98,8 +104,8 @@ in
   fileSystems = {
     "/persist" = {
       neededForBoot = true;
-  #     fsType = "btrfs";
-  #     device = "dm-uuid-CRYPT-LUKS2-121b25d6f07b493e912364917509c9cb-crypted";
+      #     fsType = "btrfs";
+      #     device = "dm-uuid-CRYPT-LUKS2-121b25d6f07b493e912364917509c9cb-crypted";
     };
   };
 

@@ -43,7 +43,10 @@
       "pcie_aspm.policy=powersave"
     ];
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
+    lanzaboote.configurationLimit = 5; # 512M ESP
   };
+
+  networking.networkmanager.wifi.powersave = true;
 
   services = {
     power-profiles-daemon.enable = true;
@@ -64,10 +67,6 @@
     framework-tool
     clight-gui
   ];
-
-  programs = {
-    coolercontrol.enable = true;
-  };
 
   my = {
     illuminanced.enable = false;

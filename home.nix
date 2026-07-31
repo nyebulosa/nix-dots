@@ -50,10 +50,8 @@
     orca-slicer
     easyeffects
     qbittorrent
-    lmstudio
     piper
     element-desktop
-    fluffychat
     signal-desktop
     zoom-us
     libreoffice-qt
@@ -86,7 +84,6 @@
     rustup
     vscodium
     wayvr
-    jetbrains.idea
     go
     nodejs
     python3
@@ -345,9 +342,6 @@
       source = ./home/hypr/replay;
       recursive = true;
     };
-    # "./.config/hypr/hyprlock.conf".source = ./home/hypr/hyprlock.conf;
-    # "./.config/xdg-desktop-portal/hyprland-portals.conf".source = ./home/hypr/hyprland-portals.conf;
-    # "./.config/hypr/xdph.conf".source = ./home/hypr/xdph.conf;
     "./.config/niri/config.kdl".source = ./home/niri.kdl;
   };
 
