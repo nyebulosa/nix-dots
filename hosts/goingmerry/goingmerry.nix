@@ -42,7 +42,7 @@
       "pcie_aspm=force"
       "pcie_aspm.policy=powersave"
     ];
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lto-zen4;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
   };
 
   services = {
