@@ -222,10 +222,18 @@
   };
   console.keyMap = "colemak"; # Keymap outside X
 
+  # Users are fully declarative: passwd/useradd changes are reverted on rebuild.
+  users.mutableUsers = false;
+
   users.users.leonillo = {
     isNormalUser = true;
     shell = pkgs.fish;
     description = "leoNillo";
+    # Yescrypt hash, out of the store. Generate with:
+    #   run0 install -Dm600 -o root -g root /dev/null /var/lib/passwords/leonillo
+    #   mkpasswd -m yescrypt | run0 tee /var/lib/passwords/leonillo
+    # Persisted on goingmerry via core/impermanence.nix.
+    hashedPasswordFile = "/var/lib/passwords/leonillo";
     extraGroups = [
       "wheel"
       "video"

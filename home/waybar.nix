@@ -32,7 +32,6 @@
         # Module Configurations
         "niri/workspaces" = {
           format = "{icon}";
-          on-click = "activate";
           format-icons = {
             # Nerd Font: filled circle (nf-fa-circle) / hollow circle (nf-fa-circle_o).
             # Swap for "\uf0c8" / "\uf096" to get squares instead.
@@ -42,6 +41,10 @@
             default = "";
             empty = "";
           };
+        };
+
+        "niri/window" = {
+          max-length = 40;
         };
 
         "tray" = {
@@ -57,17 +60,20 @@
         "cpu" = {
           format = "{usage}% ";
           tooltip = false;
-          on-click = "btop";
+          on-click = "kitty btop";
         };
 
         "memory" = {
           format = "{}% ";
-          on-click = "htop";
+          on-click = "kitty btop";
         };
 
         "temperature" = {
-          thermal-zone = 2;
-          hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
+          # k10temp. AMD Zen fixes the Data Fabric at 00:18.3, so this path is
+          # stable across reboots and identical on both hosts, unlike hwmon<N>
+          # numbering (on goingmerry hwmon3 is cros_ec, an EC board sensor).
+          hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+          input-filename = "temp1_input";
           critical-threshold = 80;
           format = "{temperatureC}°{icon}";
           format-critical = "{temperatureC}°{icon}";
@@ -81,7 +87,7 @@
             critical = 10;
           };
           format = "{capacity}% {icon}";
-          format-charging = "{capacity}% ";
+          format-charging = "{capacity}% 󰃨";
           format-plugged = "{capacity}% ";
           format-alt = "{time} {icon}";
           format-icons = [
@@ -95,22 +101,22 @@
 
         "network" = {
           format-wifi = "";
-          format-ethernet = "";
-          format-disconnected = "睊";
+          format-ethernet = "󰈀";
+          format-disconnected = "󰖪";
           on-click = "kitty nmtui";
         };
 
         "pulseaudio" = {
           format = "{volume}% {icon} {format_source}";
           format-bluetooth = "{volume}% {icon}";
-          format-bluetooth-muted = " {icon} {format_source}";
-          format-muted = " {format_source}";
+          format-bluetooth-muted = "󰆪 {icon} {format_source}";
+          format-muted = "󰆪 {format_source}";
           format-source = "";
           format-source-muted = "";
           format-icons = {
             headphone = "";
-            hands-free = "";
-            headset = "";
+            hands-free = "󰂑";
+            headset = "󰂑";
             phone = "";
             portable = "";
             car = "";
@@ -279,6 +285,19 @@
 
       #pulseaudio.muted {
         color: @overlay0;
+      }
+
+      /* Without these, tooltips (e.g. the clock's calendar) fall through to the
+         default GTK theme and render light-on-light against the bar. */
+      tooltip {
+        background-color: alpha(@base, 0.95);
+        border: 1px solid @surface1;
+        border-radius: 8px;
+      }
+
+      tooltip label {
+        color: @text;
+        padding: 6px;
       }
     '';
   };

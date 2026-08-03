@@ -55,6 +55,7 @@
     directories = [
       "/var/lib/bluetooth"
       "/var/lib/nixos"
+      "/var/lib/passwords" # hashedPasswordFile targets, mutableUsers = false
       "/etc/NetworkManager/system-connections"
       "/var/lib/sbctl"
       "/var/lib/tailscale"
