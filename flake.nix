@@ -2,7 +2,6 @@
   description = "leoNillo's flake";
 
   inputs = {
-    # Official NixOS packages (nixpkgs)
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
@@ -20,7 +19,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     stylix = {
       url = "github:danth/stylix";
@@ -33,7 +35,6 @@
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
-      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-index-database = {
@@ -46,19 +47,32 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    impermanence.url = "github:nix-community/impermanence";
+    impermanence = {
+      url = "github:nix-community/impermanence";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }@inputs:
+    {
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
     let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+
       # Shared modules used across all configurations
       sharedModules = [
         ./modules/default.nix
@@ -85,25 +99,38 @@
           };
         }
       ];
+
+      # hostName has to match the directory and the `networking.hostName` set
+      # inside it, so `nixos-rebuild --flake .` auto-selects the right one
+      mkHost =
+        hostName: extraModules:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = sharedModules ++ [ ./hosts/${hostName}/${hostName}.nix ] ++ extraModules;
+        };
     in
     {
       # NixOS System Configurations
       nixosConfigurations = {
-        "thousandsunny" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = sharedModules ++ [ ./hosts/thousandsunny/thousandsunny.nix ];
-        };
+        thousandsunny = mkHost "thousandsunny" [ ];
 
-        "goingmerry" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = sharedModules ++ [
-            ./hosts/goingmerry/goingmerry.nix
-            inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-            # inputs.lanzaboote.nixosModules.lanzaboote
-          ];
-        };
+        goingmerry = mkHost "goingmerry" [
+          inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+        ];
+      };
+
+      # `nix fmt` formats every .nix file in the repo
+      formatter.${system} = pkgs.nixfmt-tree;
+
+      # `nix develop` for working on this repo itself
+      devShells.${system}.default = pkgs.mkShellNoCC {
+        packages = with pkgs; [
+          nixfmt
+          statix
+          deadnix
+          nix-tree
+          sbctl
+        ];
       };
     };
 }

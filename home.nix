@@ -345,6 +345,8 @@
     "./.config/niri/config.kdl".source = ./home/niri.kdl;
   };
 
+  home.pointerCursor.enable = true;
+
   # Catppuccin Theme Configuration
   catppuccin = {
     enable = true;

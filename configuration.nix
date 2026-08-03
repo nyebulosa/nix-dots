@@ -12,6 +12,7 @@
     accent = "mauve";
     flavor = "mocha";
     plymouth.enable = false;
+    tty.enable = false; # Emits 32 vt.default_* colours, the kernel takes 16
   };
 
   programs = {
@@ -40,7 +41,7 @@
       enable = true;
       package = pkgs.temurin-bin-25;
     };
-    virt-manager.enable = true; # QEMU/KVM
+    virt-manager.enable = true;
     yazi = {
       enable = true;
     };
@@ -57,7 +58,7 @@
   #virtualisation.waydroid.enable = true;
   virtualisation = {
     libvirtd = {
-      enable = true; # Enable libvirt daemon
+      enable = true;
       qemu = {
         swtpm.enable = true;
       };
@@ -68,7 +69,6 @@
     };
   };
 
-  # Hardware and power management
   hardware = {
     enableRedistributableFirmware = true;
     wirelessRegulatoryDatabase = true; # Required for framework laptop
@@ -110,8 +110,6 @@
     resolved = {
       enable = true;
       settings.Resolve = {
-        # Strict DNSSEC hard-fails on the many zones with broken chains, which
-        # took out the lantian substituter, mullvad and google among others
         DNSSEC = "allow-downgrade";
         DNSOverTLS = "opportunistic";
         FallbackDNS = [
@@ -173,17 +171,23 @@
   security = {
     rtkit.enable = true; # Required for pipewire
     polkit.enable = true;
-    pam.services.sddm.enableGnomeKeyring = true;
+    pam.services = {
+      sddm.enableGnomeKeyring = true;
+      swaylock.rules.auth.fprintd.control = lib.mkForce "required";
+    };
   };
 
   fonts = {
     packages = with pkgs; [
       nerd-fonts.symbols-only
       font-awesome
-      meslo-lgs-nf
       noto-fonts
       noto-fonts-color-emoji
       nanum # Orca slicer crashes without ts it seems
+      liberation_ttf
+      helvetica-neue-lt-std
+      geist-font
+      iosevka
     ];
     enableDefaultPackages = true;
     # fontconfig = {
@@ -199,8 +203,6 @@
     #   };
     # };
   };
-
-  documentation.man.cache.enable = false; # Only feeds apropos/man -k, rebuilt every generation
 
   # Locale related settings
   time.timeZone = "Europe/Madrid";
@@ -291,7 +293,7 @@
     targets = {
       kmscon.enable = false;
       plymouth.enable = false;
-      console.enable = false; # Emits 32 vt.default_* colours, the kernel takes 16
+      console.enable = true; # Themes the tty via console.colors instead
     };
   };
 

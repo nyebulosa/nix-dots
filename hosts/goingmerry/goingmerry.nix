@@ -1,7 +1,5 @@
 {
   pkgs,
-  lib,
-  inputs,
   ...
 }:
 
@@ -10,10 +8,6 @@
     ./hardware.nix
     ./disko-config.nix
   ];
-
-  my = {
-    gpu.type = "amd";
-  };
 
   # Hardware Configuration
   hardware = {
@@ -71,6 +65,7 @@
   my = {
     illuminanced.enable = false;
     gaming.openFirewall = false;
+    gpu.type = "amd";
   };
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild
