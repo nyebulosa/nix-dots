@@ -55,16 +55,64 @@
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
           format = "{:%H:%M} ";
           format-alt = "{:%d-%m-%Y} ";
+          calendar = {
+            mode = "month";
+            mode-mon-col = 3;
+            weeks-pos = "right";
+            on-scroll = 1;
+            format = {
+              months = "<span color='#cba6f7'><b>{}</b></span>";
+              weekdays = "<span color='#a6adc8'><b>{}</b></span>";
+              weeks = "<span color='#585b70'>{}</span>";
+              days = "<span color='#cdd6f4'>{}</span>";
+              today = "<span color='#a6e3a1'><b><u>{}</u></b></span>";
+            };
+          };
+          actions = {
+            on-click-right = "mode";
+            on-scroll-up = "shift_up";
+            on-scroll-down = "shift_down";
+          };
         };
 
         "cpu" = {
-          format = "{usage}% ";
+          interval = 2;
+          format = "{usage}% {icon} ";
+          format-icons = [
+            "▁"
+            "▂"
+            "▃"
+            "▄"
+            "▅"
+            "▆"
+            "▇"
+            "█"
+          ];
+          states = {
+            warning = 70;
+            critical = 90;
+          };
           tooltip = false;
           on-click = "kitty btop";
         };
 
         "memory" = {
-          format = "{}% ";
+          interval = 5;
+          format = "{percentage}% {icon} ";
+          format-icons = [
+            "󰪞"
+            "󰪟"
+            "󰪠"
+            "󰪡"
+            "󰪢"
+            "󰪣"
+            "󰪤"
+            "󰪥"
+          ];
+          states = {
+            warning = 80;
+            critical = 92;
+          };
           on-click = "kitty btop";
         };
 
@@ -74,13 +122,25 @@
           # numbering (on goingmerry hwmon3 is cros_ec, an EC board sensor).
           hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
           input-filename = "temp1_input";
+          interval = 2;
+          warning-threshold = 70;
           critical-threshold = 80;
           format = "{temperatureC}°{icon}";
-          format-critical = "{temperatureC}°{icon}";
-          format-icons = [ "" ];
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
         };
 
         "battery" = {
+          interval = 10;
+          events = {
+            on-discharging-warning = "notify-send -u normal 'Battery low' 'Under 20% left'";
+            on-discharging-critical = "notify-send -u critical 'Battery critical' 'Plug in now'";
+          };
           states = {
             good = 95;
             warning = 20;
@@ -100,9 +160,20 @@
         };
 
         "network" = {
-          format-wifi = "";
+          # Netlink events don't fire on signal changes, so poll for them.
+          interval = 5;
+          format-wifi = "{icon}";
+          format-icons = [
+            "󰤭"
+            "󰤟"
+            "󰤢"
+            "󰤥"
+            "󰤨"
+          ];
           format-ethernet = "󰈀";
           format-disconnected = "󰖪";
+          tooltip-format-wifi = "{essid}  {signalStrength}%  ({ipaddr})";
+          tooltip-format-ethernet = "{ifname}  {ipaddr}";
           on-click = "kitty nmtui";
         };
 
@@ -126,7 +197,10 @@
               ""
             ];
           };
+          scroll-step = 5;
+          max-volume = 120;
           on-click = "pavucontrol";
+          on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
         "custom/waybar-mpris" = {
@@ -148,7 +222,7 @@
     # Style Configuration (CSS)
     style = ''
       * {
-        font-family: "Geist", "Symbols Nerd Font";
+        font-family: "Geist", "Geist Mono", "Symbols Nerd Font";
         font-size: 14px;
         font-weight: 700;
       }
@@ -274,15 +348,25 @@
       }
 
       /* Alert states override the gradient, so they stay readable. */
+      #cpu.critical,
+      #memory.critical,
       #temperature.critical,
       #battery.critical:not(.charging) {
         color: @red;
       }
 
+      #cpu.warning,
+      #memory.warning,
+      #temperature.warning,
       #battery.warning:not(.charging) {
         color: @peach;
       }
 
+      #battery.charging {
+        color: @green;
+      }
+
+      #network.disconnected,
       #pulseaudio.muted {
         color: @overlay0;
       }

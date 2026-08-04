@@ -31,6 +31,4 @@
       arrpc # For discord
     ];
   };
-  # Fixes run0
-  security.pam.services.systemd-run0 = { };
 }

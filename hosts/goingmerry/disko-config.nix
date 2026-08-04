@@ -76,7 +76,7 @@ in
                       mountOptions = btrfsOptions ++ [
                         "nosuid"
                         "nodev"
-                        # "noexec"
+                        "noexec"
                       ];
                       mountpoint = "/var/log";
                     };

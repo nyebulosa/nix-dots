@@ -97,7 +97,17 @@
   # };
   security = {
     sudo.enable = lib.mkForce false;
+    run0 = {
+      enable = true;
+      sudo-shim.enable = true;
+      persistentAuth = {
+        enable = true;
+        enableRemote = true;
+      };
+    };
   };
+  system.tools.nixos-rebuild.enableRun0Elevation = true;
+  security.polkit.settings.Polkitd.ExpirationSeconds = 120;
   # environment = {
   #   memoryAllocator.provider = "scudo";
   #   variables.SCUDO_OPTIONS = lib.mkDefault "zero_contents=false";

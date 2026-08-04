@@ -55,7 +55,7 @@
     directories = [
       "/var/lib/bluetooth"
       "/var/lib/nixos"
-      "/var/lib/passwords" # hashedPasswordFile targets, mutableUsers = false
+      "/var/lib/passwords" # hashedPasswordFile in configuration.nix
       "/etc/NetworkManager/system-connections"
       "/var/lib/sbctl"
       "/var/lib/tailscale"
@@ -70,13 +70,9 @@
       "/var/lib/flatpak"
       "/var/lib/fwupd"
       "/var/lib/power-profiles-daemon"
-      "/var/lib/upower"
-      "/var/lib/coolercontrold"
-      "/var/lib/AccountsService"
     ];
     files = [
       "/var/lib/sddm/state.conf"
-      "/var/lib/systemd/pcrlock.json"
     ];
   };
 }
