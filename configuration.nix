@@ -72,6 +72,7 @@
   hardware = {
     enableRedistributableFirmware = true;
     wirelessRegulatoryDatabase = true; # Required for framework laptop
+    uinput.enable = true; # Creates the `uinput` group that leonillo's extraGroups references
   };
   #powerManagement.powertop.enable = true; # Enable powertop
   zramSwap = {

@@ -37,7 +37,10 @@
                 btrfs subvolume delete "$1"
             }
 
-            for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+            # -mindepth 1 keeps old_roots itself out of the list: once it ages past 30
+            # days find would return it, and deleting it recursively wipes every
+            # snapshot underneath regardless of that snapshot's own age.
+            for i in $(find /btrfs_tmp/old_roots/ -mindepth 1 -maxdepth 1 -mtime +30); do
                 delete_subvolume_recursively "$i"
             done
 
@@ -55,7 +58,6 @@
     directories = [
       "/var/lib/bluetooth"
       "/var/lib/nixos"
-      "/var/lib/passwords" # hashedPasswordFile in configuration.nix
       "/etc/NetworkManager/system-connections"
       "/var/lib/sbctl"
       "/var/lib/tailscale"
@@ -70,8 +72,10 @@
       "/var/lib/flatpak"
       "/var/lib/fwupd"
       "/var/lib/power-profiles-daemon"
+      "/etc/nixos"
     ];
     files = [
+      "/etc/machine-id"
       "/var/lib/sddm/state.conf"
     ];
   };

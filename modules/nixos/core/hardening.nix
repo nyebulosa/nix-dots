@@ -106,7 +106,6 @@
       };
     };
   };
-  system.tools.nixos-rebuild.enableRun0Elevation = true;
   security.polkit.settings.Polkitd.ExpirationSeconds = 120;
   # environment = {
   #   memoryAllocator.provider = "scudo";
