@@ -10,7 +10,7 @@
       background_opacity = lib.mkForce "0.9";
       term = "xterm-256color";
       confirm_os_window_close = "-1";
-      font_family = "A-OTF Shin Go Pro";
+      font_family = "Geist Mono";
       background = "#1e1e2e";
       #pixel_scroll = "yes";
       #momentum_scroll = 0.5;

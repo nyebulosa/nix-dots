@@ -31,6 +31,7 @@
       "split_lock_detect=off"
       "nowatchdog"
     ];
+    blacklistedKernelModules = [ "sp5100_tco" ];
   };
   services = {
     udev.extraRules = ''

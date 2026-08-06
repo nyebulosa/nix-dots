@@ -95,6 +95,8 @@
   #     "fs.protected_regular" = 2;
   #   };
   # };
+  boot.kernelParams = lib.mkAfter [ "iommu.passthrough=0" ];
+
   security = {
     sudo.enable = lib.mkForce false;
     run0 = {
@@ -105,6 +107,10 @@
         enableRemote = true;
       };
     };
+    # usbguard = {
+    #   enable = true;
+    #   ruleFile = "/persist/usbguardRules.conf";
+    # };
   };
   security.polkit.settings.Polkitd.ExpirationSeconds = 120;
   # environment = {

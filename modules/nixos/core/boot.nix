@@ -57,11 +57,10 @@
       #cleanOnBoot = true; # If not tmpfs then use this
     };
 
-    consoleLogLevel = 0;
+    consoleLogLevel = 3;
     kernelParams = [
       "quiet"
       "splash"
-      "loglevel=3"
       "systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"

@@ -291,6 +291,7 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "steam" "-silent"
 spawn-at-startup "waypaper" "--restore"
+spawn-at-startup "soteria"
 spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
 spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
 

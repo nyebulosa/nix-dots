@@ -85,6 +85,7 @@
   networking = {
     wireless.iwd = {
       enable = true;
+      settings.General.AddressRandomization = "network";
     };
     networkmanager = {
       enable = true;
@@ -111,12 +112,25 @@
     resolved = {
       enable = true;
       settings.Resolve = {
-        DNSSEC = "allow-downgrade";
-        DNSOverTLS = "opportunistic";
+        DNSSEC = "yes";
+        DNSOverTLS = "yes";
+        DNS = [
+          "1.1.1.1#cloudflare-dns.com"
+        ];
         FallbackDNS = [
           "1.1.1.1#cloudflare-dns.com"
         ];
       };
+    };
+    timesyncd.enable = false;
+    chrony = {
+      enable = true;
+      enableNTS = true;
+      servers = [
+        "time.cloudflare.com"
+        "nts.netnod.se"
+        "ptbtime1.ptb.de"
+      ];
     };
     journald.extraConfig = ''
       SystemMaxUse=500M
@@ -177,6 +191,7 @@
     pam.services = {
       sddm.enableGnomeKeyring = true;
       swaylock.rules.auth.fprintd.control = lib.mkForce "required";
+      "polkit-1".fprintAuth = false;
     };
   };
 
@@ -227,23 +242,26 @@
 
   users = {
     mutableUsers = false;
-    users.leonillo = {
-      isNormalUser = true;
-      shell = pkgs.fish;
-      description = "leoNillo";
-      hashedPasswordFile = "/persist/passwords/leonillo";
-      extraGroups = [
-        "wheel"
-        "video"
-        "gamemode"
-        "podman"
-        "libvirtd"
-        "render"
-        "audio"
-        "input"
-        "uinput"
-        "networkmanager"
-      ];
+    users = {
+      leonillo = {
+        isNormalUser = true;
+        shell = pkgs.fish;
+        description = "leoNillo";
+        hashedPasswordFile = "/persist/passwords/leonillo";
+        extraGroups = [
+          "wheel"
+          "video"
+          "gamemode"
+          "podman"
+          "libvirtd"
+          "render"
+          "audio"
+          "input"
+          "uinput"
+          "networkmanager"
+        ];
+      };
+      root.hashedPasswordFile = "/persist/passwords/root";
     };
   };
 

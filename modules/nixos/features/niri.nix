@@ -20,7 +20,7 @@
     kitty
     waybar
     cursor-clip
-    polkit_gnome
+    soteria
   ];
   xdg.portal = {
     enable = true;

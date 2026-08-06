@@ -94,6 +94,7 @@
     # Misc
     grim
     slurp
+    dragon-drop # yazi's <C-n> drag-and-drop bind
     nwg-bar
     playerctl
     mako
@@ -251,7 +252,7 @@
         }
       ];
       extraConfig = {
-        icon-theme = "ePapirus-dark";
+        icon-theme = "Papirus-Dark";
         show-icons = true;
         terminal = "kitty";
         drun-display-format = "{icon} | {name}";

@@ -24,20 +24,19 @@
         };
       };
     };
+    amdgpu.overdrive.enable = false;
   };
   # environment.variables = {
   #   RUSTICL_ENABLE = "radeonsi";
   # };
 
-  # Fixes a bug that causes lots and lots of lag. and some power saving.
   boot = {
     kernelParams = [
-      "amdgpu.dcdebugmask=0x0"
       "pcie_aspm=force"
       "pcie_aspm.policy=powersave"
     ];
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
-    lanzaboote.configurationLimit = 5; # 512M ESP
+    lanzaboote.configurationLimit = 5;
   };
 
   networking.networkmanager.wifi.powersave = true;
@@ -52,11 +51,6 @@
       extraArgs = [ "--autopower" ];
     };
   };
-  location = {
-    latitude = 38.8977;
-    longitude = 1.4022;
-  };
-
   environment.systemPackages = with pkgs; [
     framework-tool
     clight-gui
