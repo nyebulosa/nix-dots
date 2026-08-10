@@ -58,28 +58,6 @@
     via
     obsidian
 
-    # Gaming
-    parsec-bin
-    #heroic
-    (prismlauncher.override {
-      jdks = [
-        temurin-jre-bin-8
-        temurin-jre-bin-25
-        temurin-jre-bin
-        zulu25
-        # semeru-bin
-        # graalvmPackages.graalvm-oracle_25
-      ];
-      additionalPrograms = [ vlc ];
-      additionalLibs = [
-        vlc
-        opencl-headers
-        ocl-icd
-      ];
-    })
-    r2modman
-    bs-manager
-
     # Dev
     rustup
     vscodium

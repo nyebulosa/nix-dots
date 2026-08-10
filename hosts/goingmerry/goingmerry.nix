@@ -9,12 +9,7 @@
     ./disko-config.nix
   ];
 
-  # Hardware Configuration
   hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = false;
-    };
     framework = {
       enableKmod = true;
       laptop13 = {
@@ -26,9 +21,6 @@
     };
     amdgpu.overdrive.enable = false;
   };
-  # environment.variables = {
-  #   RUSTICL_ENABLE = "radeonsi";
-  # };
 
   boot = {
     kernelParams = [
@@ -60,6 +52,8 @@
     illuminanced.enable = false;
     gaming.openFirewall = false;
     gpu.type = "amd";
+    bluetooth.enable = true;
+    network.wifi.enable = true;
   };
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild

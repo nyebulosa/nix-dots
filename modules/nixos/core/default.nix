@@ -7,5 +7,7 @@
     ./hardening.nix
     ./performance.nix
     ./impermanence.nix
+    ./network.nix
+    ./fonts.nix
   ];
 }

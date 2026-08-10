@@ -52,6 +52,7 @@
         };
 
         "clock" = {
+          smooth-scrolling-threshold = 5;
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
           format = "{:%H:%M} ";
           format-alt = "{:%d-%m-%Y} ";
@@ -198,6 +199,7 @@
             ];
           };
           scroll-step = 5;
+          smooth-scrolling-threshold = 4;
           max-volume = 120;
           on-click = "pavucontrol";
           on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -213,6 +215,7 @@
           on-click-right = "waybar-mpris --send toggle";
           on-scroll-up = "waybar-mpris --send next";
           on-scroll-down = "waybar-mpris --send prev";
+          smooth-scrolling-threshold = 12;
           escape = true;
           max-length = 48;
         };

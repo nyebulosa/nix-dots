@@ -9,7 +9,9 @@ let
 in
 {
   options.my.illuminanced = {
-    enable = lib.mkEnableOption "illuminanced";
+    enable = lib.mkEnableOption "illuminanced" // {
+      default = false;
+    };
     configFile = lib.mkOption {
       type = lib.types.path;
       default = "${pkgs.illuminanced}/share/illuminanced/illuminanced.toml";

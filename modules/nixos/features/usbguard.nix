@@ -9,7 +9,9 @@ let
 in
 {
   options.my.usbguard = {
-    enable = lib.mkEnableOption "USBGuard";
+    enable = lib.mkEnableOption "USBGuard" // {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {

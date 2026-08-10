@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -8,11 +9,14 @@ let
 in
 {
   options.my.gaming = {
-    enable = lib.mkEnableOption "gaming";
-    openFirewall = lib.mkOption {
-      type = lib.types.bool;
+    enable = lib.mkEnableOption "gaming" // {
+      default = false;
+    };
+    openFirewall = lib.mkEnableOption "Gaming-related ports" // {
       default = true;
-      description = "Open Steam, Minecraft and wireless VR router ports";
+    };
+    enableReplay = lib.mkEnableOption "quick replay via gpu-screen-recorder" // {
+      default = true;
     };
   };
   config = lib.mkIf cfg.enable {
@@ -35,6 +39,7 @@ in
         remotePlay.openFirewall = cfg.openFirewall;
         dedicatedServer.openFirewall = cfg.openFirewall;
       };
+      gpu-screen-recorder.enable = cfg.enableReplay;
       gamemode.enable = true;
       gamescope = {
         enable = true;
@@ -47,5 +52,28 @@ in
         # });
       };
     };
+    users.users.leonillo.extraGroups = [ "gamemode" ];
+    environment.systemPackages = with pkgs; [
+      parsec-bin
+      heroic
+      (prismlauncher.override {
+        jdks = [
+          temurin-jre-bin-8
+          temurin-jre-bin-25
+          temurin-jre-bin
+          zulu25
+        ];
+        additionalPrograms = [ vlc ];
+        additionalLibs = [
+          vlc
+          opencl-headers
+          ocl-icd
+        ];
+      })
+      r2modman
+      bs-manager
+      lsfg-vk
+      lsfg-vk-ui
+    ];
   };
 }

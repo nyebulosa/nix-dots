@@ -16,7 +16,6 @@
   };
 
   programs = {
-    gpu-screen-recorder.enable = true; # Required for screen recording
     thunar = {
       enable = true;
       plugins = with pkgs; [
@@ -68,34 +67,6 @@
       dockerCompat = true;
     };
   };
-
-  hardware = {
-    enableRedistributableFirmware = true;
-    wirelessRegulatoryDatabase = true; # Required for framework laptop
-    uinput.enable = true; # Creates the `uinput` group that leonillo's extraGroups references
-  };
-  #powerManagement.powertop.enable = true; # Enable powertop
-  zramSwap = {
-    enable = true;
-    memoryPercent = 100;
-    priority = 100;
-    algorithm = "zstd"; # Better performance/compression ratio
-  };
-
-  networking = {
-    wireless.iwd = {
-      enable = true;
-      settings.General.AddressRandomization = "network";
-    };
-    networkmanager = {
-      enable = true;
-      wifi.backend = "iwd";
-    };
-    firewall.trustedInterfaces = [ "virbr0" ];
-  };
-  boot.extraModprobeConfig = ''
-    options cfg80211 ieee80211_regdom="ES"
-  '';
 
   services = {
     tlp.enable = lib.mkForce false;
@@ -195,33 +166,6 @@
     };
   };
 
-  fonts = {
-    packages = with pkgs; [
-      nerd-fonts.symbols-only
-      font-awesome
-      noto-fonts
-      noto-fonts-color-emoji
-      nanum # Orca slicer crashes without ts it seems
-      liberation_ttf
-      helvetica-neue-lt-std
-      geist-font
-      iosevka
-    ];
-    enableDefaultPackages = true;
-    # fontconfig = {
-    #   antialias = true;
-    #   cache32Bit = true;
-    #   hinting = {
-    #     enable = true;
-    #     #autohint = true;
-    #   };
-    #   subpixel = {
-    #     rgba = "rgb";
-    #     lcdfilter = "default";
-    #   };
-    # };
-  };
-
   # Locale related settings
   time.timeZone = "Europe/Madrid";
   i18n = {
@@ -251,7 +195,6 @@
         extraGroups = [
           "wheel"
           "video"
-          "gamemode"
           "podman"
           "libvirtd"
           "render"
@@ -282,9 +225,6 @@
     powertop
     pulseaudio
     brightnessctl
-    gpu-screen-recorder
-    lsfg-vk
-    lsfg-vk-ui
     impala
     fzf
     ffmpegthumbnailer
@@ -310,6 +250,7 @@
     fd
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     libdisplay-info
+    fq
   ];
 
   stylix = {
@@ -327,8 +268,6 @@
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
   };
-
-  hardware.cpu.amd.updateMicrocode = true;
 
   # State version
   system.stateVersion = "26.05"; # Do not change

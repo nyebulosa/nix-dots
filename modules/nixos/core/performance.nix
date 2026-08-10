@@ -33,6 +33,12 @@
     ];
     blacklistedKernelModules = [ "sp5100_tco" ];
   };
+  zramSwap = {
+    enable = true;
+    memoryPercent = 100;
+    priority = 100;
+    algorithm = "zstd";
+  };
   services = {
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ENV{DEVTYPE}=="disk", ATTR{queue/scheduler}="none"
