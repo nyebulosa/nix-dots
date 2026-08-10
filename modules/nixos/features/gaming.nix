@@ -13,10 +13,10 @@ in
       default = false;
     };
     openFirewall = lib.mkEnableOption "Gaming-related ports" // {
-      default = true;
+      default = false;
     };
     enableReplay = lib.mkEnableOption "quick replay via gpu-screen-recorder" // {
-      default = true;
+      default = cfg.enable;
     };
   };
   config = lib.mkIf cfg.enable {

@@ -9,5 +9,6 @@
     ./impermanence.nix
     ./network.nix
     ./fonts.nix
+    ./polkit.nix
   ];
 }

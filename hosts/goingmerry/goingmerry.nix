@@ -9,6 +9,13 @@
     ./disko-config.nix
   ];
 
+  my = {
+    gpu.type = "amd";
+    bluetooth.enable = true;
+    network.wifi.enable = true;
+    gaming.enable = true;
+  };
+
   hardware = {
     framework = {
       enableKmod = true;
@@ -47,14 +54,6 @@
     framework-tool
     clight-gui
   ];
-
-  my = {
-    illuminanced.enable = false;
-    gaming.openFirewall = false;
-    gpu.type = "amd";
-    bluetooth.enable = true;
-    network.wifi.enable = true;
-  };
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild
   networking.hostName = "goingmerry";

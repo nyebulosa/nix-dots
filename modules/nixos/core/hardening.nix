@@ -112,7 +112,6 @@
     #   ruleFile = "/persist/usbguardRules.conf";
     # };
   };
-  security.polkit.settings.Polkitd.ExpirationSeconds = 120;
   # environment = {
   #   memoryAllocator.provider = "scudo";
   #   variables.SCUDO_OPTIONS = lib.mkDefault "zero_contents=false";

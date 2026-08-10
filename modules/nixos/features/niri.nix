@@ -20,7 +20,6 @@
     kitty
     waybar
     cursor-clip
-    soteria
   ];
   xdg.portal = {
     enable = true;

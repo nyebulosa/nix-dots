@@ -156,13 +156,9 @@
 
   security = {
     rtkit.enable = true; # Required for pipewire
-    polkit = {
-      enable = true;
-    };
     pam.services = {
       sddm.enableGnomeKeyring = true;
       swaylock.rules.auth.fprintd.control = lib.mkForce "required";
-      "polkit-1".fprintAuth = false;
     };
   };
 
