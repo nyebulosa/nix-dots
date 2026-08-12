@@ -26,7 +26,6 @@ in
           enable32Bit = true;
           extraPackages = with pkgs; [
             libva
-            libva-utils
             vulkan-loader
           ];
         };
@@ -45,9 +44,10 @@ in
         };
         systemPackages = with pkgs; [
           nvtopPackages.amd
+          libva-utils
         ];
       };
-      services.lact.enable = true;
+      services.lact.enable = lib.mkDefault config.hardware.amdgpu.overdrive.enable;
     })
 
     (lib.mkIf (cfg.type == "nvidia") {

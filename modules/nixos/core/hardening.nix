@@ -95,8 +95,6 @@
   #     "fs.protected_regular" = 2;
   #   };
   # };
-  boot.kernelParams = lib.mkAfter [ "iommu.passthrough=0" ];
-
   security = {
     sudo.enable = lib.mkForce false;
     run0 = {

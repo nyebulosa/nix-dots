@@ -25,11 +25,6 @@
   };
 
   services = {
-    scx = {
-      enable = true;
-      scheduler = "scx_lavd";
-      extraArgs = [ "--performance" ]; # desktop is always on AC anyways
-    };
     sunshine = {
       enable = true;
     };

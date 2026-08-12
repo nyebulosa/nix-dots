@@ -80,19 +80,6 @@
       extraSetFlags = [ "--ssh" ];
     };
     tumbler.enable = true;
-    resolved = {
-      enable = true;
-      settings.Resolve = {
-        DNSSEC = "yes";
-        DNSOverTLS = "yes";
-        DNS = [
-          "1.1.1.1#cloudflare-dns.com"
-        ];
-        FallbackDNS = [
-          "1.1.1.1#cloudflare-dns.com"
-        ];
-      };
-    };
     timesyncd.enable = false;
     chrony = {
       enable = true;

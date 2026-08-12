@@ -4,6 +4,7 @@
   imports = [
     ./gpu.nix
     ./bluetooth.nix
+    ./power.nix
   ];
   hardware = {
     cpu.amd.updateMicrocode = true;

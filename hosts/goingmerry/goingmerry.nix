@@ -14,6 +14,7 @@
     bluetooth.enable = true;
     network.wifi.enable = true;
     gaming.enable = true;
+    power.laptop = true;
   };
 
   hardware = {
@@ -30,25 +31,13 @@
   };
 
   boot = {
-    kernelParams = [
-      "pcie_aspm=force"
-      "pcie_aspm.policy=powersave"
-    ];
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
     lanzaboote.configurationLimit = 5;
   };
 
-  networking.networkmanager.wifi.powersave = true;
-
   services = {
-    power-profiles-daemon.enable = true;
     fprintd.enable = true;
     fwupd.enable = true;
-    scx = {
-      enable = true;
-      scheduler = "scx_lavd";
-      extraArgs = [ "--autopower" ];
-    };
   };
   environment.systemPackages = with pkgs; [
     framework-tool
