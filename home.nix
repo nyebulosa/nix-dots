@@ -105,6 +105,8 @@
     let
       # pgrep guard so idle + suspend don't stack two lockers
       lock = "${pkgs.procps}/bin/pgrep -x swaylock || ${config.programs.swaylock.package}/bin/swaylock -f";
+      # Guarded on AC so a long build or download on mains isn't cut short
+      suspend = "[ $(${pkgs.coreutils}/bin/cat /sys/class/power_supply/ACAD/online) = 0 ] && ${pkgs.systemd}/bin/systemctl suspend";
     in
     {
       enable = true;
@@ -120,6 +122,10 @@
         {
           timeout = 360;
           command = "/run/current-system/sw/bin/niri msg action power-off-monitors";
+        }
+        {
+          timeout = 1800;
+          command = suspend;
         }
       ];
     };
@@ -321,7 +327,6 @@
       source = ./home/hypr/replay;
       recursive = true;
     };
-    "./.config/niri/config.kdl".source = ./home/niri.kdl;
   };
 
   home.pointerCursor.enable = true;

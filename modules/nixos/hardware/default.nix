@@ -5,6 +5,7 @@
     ./gpu.nix
     ./bluetooth.nix
     ./power.nix
+    ./brightness.nix
   ];
   hardware = {
     cpu.amd.updateMicrocode = true;

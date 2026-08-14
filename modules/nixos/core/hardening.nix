@@ -23,6 +23,18 @@
         tcp-sack = true;
         log-martians = false;
       };
+      kernel = {
+        zero-alloc = false;
+        io-uring = true;
+        harden-bpf = false;
+        strict-iommu = false;
+        amd-iommu-force-isolation = false;
+        iommu-passthrough = false;
+        perf-subsystem.restrict-usage = false;
+      };
+      entropy = {
+        hwrng = true;
+      };
     };
     filesystems = {
       enable = false;
@@ -31,6 +43,14 @@
         "/home".options.bind = false;
         "/tmp".options.noexec = false;
       };
+    };
+  };
+
+  boot = {
+    kernelParams = [ "init_on_alloc=1" ];
+    kernel.sysctl = {
+      "kernel.io_uring_disabled" = 1;
+      "net.core.bpf_jit_harden" = 1;
     };
   };
   # boot = {
@@ -105,10 +125,6 @@
         enableRemote = true;
       };
     };
-    # usbguard = {
-    #   enable = true;
-    #   ruleFile = "/persist/usbguardRules.conf";
-    # };
   };
   # environment = {
   #   memoryAllocator.provider = "scudo";

@@ -198,7 +198,7 @@
               ""
             ];
           };
-          scroll-step = 5;
+          scroll-step = 1;
           smooth-scrolling-threshold = 4;
           max-volume = 120;
           on-click = "pavucontrol";

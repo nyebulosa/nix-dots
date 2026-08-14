@@ -1,7 +1,14 @@
 {
+  config,
+  lib,
+  pkgs,
   ...
 }:
 
+let
+  laptop = config.my.power.laptop;
+  alpmPolicy = if laptop then "med_power_with_dipm" else "max_performance";
+in
 {
   boot = {
     kernel.sysctl = {
@@ -14,8 +21,8 @@
       "vm.watermark_scale_factor" = 125;
       "vm.page-cluster" = 0;
       "vm.vfs_cache_pressure" = 50;
-      "vm.dirty_bytes" = 536870912;
-      "vm.dirty_background_bytes" = 268435456;
+      "vm.dirty_bytes" = 268435456;
+      "vm.dirty_background_bytes" = 67108864;
       "vm.dirty_writeback_centisecs" = 1500;
       "kernel.nmi_watchdog" = 0;
       "kernel.printk" = "3 3 3 3";
@@ -31,7 +38,12 @@
       "split_lock_detect=off"
       "nowatchdog"
     ];
-    blacklistedKernelModules = [ "sp5100_tco" ];
+    kernelModules = [ "ntsync" ];
+    blacklistedKernelModules = [
+      "sp5100_tco"
+      "iTCO_wdt"
+    ];
+    extraModprobeConfig = "options snd_hda_intel power_save=0";
   };
   zramSwap = {
     enable = true;
@@ -40,17 +52,42 @@
     algorithm = "zstd";
   };
   services = {
+    ananicy = {
+      enable = true;
+      package = pkgs.ananicy-cpp;
+      rulesProvider = pkgs.ananicy-rules-cachyos;
+      settings.cgroup_realtime_workaround = lib.mkForce false;
+    };
     udev.extraRules = ''
-      ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ENV{DEVTYPE}=="disk", ATTR{queue/scheduler}="none"
-      ACTION=="add|change", KERNEL=="sd[a-z]|xvd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
-      ACTION=="add|change", KERNEL=="sd[a-z]|xvd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+      ACTION=="add|change", KERNEL=="nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="kyber"
+      ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+      ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+      ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_supported}=="1", ATTR{link_power_management_policy}="${alpmPolicy}"
       SUBSYSTEM=="misc", KERNEL=="cpu_dma_latency", GROUP="audio", MODE="0660"
       KERNEL=="rtc0", GROUP="audio"
       KERNEL=="hpet", GROUP="audio"
+    ''
+    + lib.optionalString laptop ''
+      SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 10 > /sys/module/snd_hda_intel/parameters/power_save'"
+      SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 0 > /sys/module/snd_hda_intel/parameters/power_save'"
     '';
   };
   systemd.tmpfiles.rules = [
     "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
-    "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 0"
+    "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
+  ];
+  security.pam.loginLimits = [
+    {
+      domain = "@audio";
+      type = "-";
+      item = "rtprio";
+      value = "99";
+    }
+    {
+      domain = "@audio";
+      type = "-";
+      item = "nice";
+      value = "-11";
+    }
   ];
 }

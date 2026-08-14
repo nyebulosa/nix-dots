@@ -82,8 +82,7 @@
       ];
     };
     journald.extraConfig = ''
-      SystemMaxUse=500M
-      SystemMaxFileSize=50M
+      SystemMaxUse=50M
     '';
     udisks2.enable = true;
     gvfs.enable = true;
@@ -204,7 +203,6 @@
     ffmpegthumbnailer
     webp-pixbuf-loader
     gdk-pixbuf
-    waypipe
     xdg-utils
     glib
     distrobox

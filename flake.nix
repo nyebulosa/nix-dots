@@ -94,6 +94,7 @@
             users.leonillo = {
               imports = [
                 ./home.nix
+                ./modules/home
                 inputs.catppuccin.homeModules.catppuccin
               ];
             };

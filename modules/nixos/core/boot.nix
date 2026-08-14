@@ -51,7 +51,7 @@
       kernelModules = [ "amdgpu" ];
       verbose = false;
     };
-    kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3; # All my current machines are v3, can be changed per host
+    kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3; # All my current machines are v3, can be changed per host
     tmp = {
       useTmpfs = true;
       #cleanOnBoot = true; # If not tmpfs then use this
