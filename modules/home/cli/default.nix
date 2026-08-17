@@ -1,7 +1,7 @@
-{ lib, ... }:
+_:
 
 {
   imports = [
-
+    ./wluma.nix
   ];
 }

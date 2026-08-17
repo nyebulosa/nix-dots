@@ -19,6 +19,7 @@ in
       };
       networkmanager = {
         enable = true;
+        ethernet.macAddress = "random";
         wifi.backend = lib.mkIf cfg.wifi.enable "iwd";
         settings."global-dns-domain-*".servers = "1.1.1.1,1.0.0.1,9.9.9.9";
       };

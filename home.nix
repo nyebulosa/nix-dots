@@ -95,12 +95,6 @@
     "inode/directory" = [ "thunar.desktop" ];
   };
 
-  services.arrpc = {
-    enable = true;
-    package = pkgs.arrpc; # Default
-    systemdTarget = "graphical-session.target"; # Default
-  };
-
   services.swayidle =
     let
       # pgrep guard so idle + suspend don't stack two lockers

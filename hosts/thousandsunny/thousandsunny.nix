@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 
 {
   imports = [
@@ -19,10 +19,7 @@
     ];
   };
 
-  powerManagement = {
-    powertop.enable = lib.mkForce false; # Disable powertop due to USB issues
-    cpuFreqGovernor = "schedutil";
-  };
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   services = {
     sunshine = {

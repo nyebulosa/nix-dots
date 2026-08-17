@@ -6,5 +6,6 @@
     ./gaming.nix
     ./usbguard.nix
     ./colorscheme.nix
+    ./illuminanced.nix
   ];
 }

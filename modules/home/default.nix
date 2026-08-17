@@ -1,5 +1,8 @@
 { ... }:
 
 {
-  imports = [ ./gui ];
+  imports = [
+    ./cli
+    ./gui
+  ];
 }

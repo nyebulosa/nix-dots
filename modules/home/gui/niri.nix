@@ -160,18 +160,16 @@
           _props.allow-when-locked = true;
           spawn = [
             "brightnessctl"
-            "--class=backlight"
             "set"
-            "+10%"
+            "+5%"
           ];
         };
         "XF86MonBrightnessDown" = {
           _props.allow-when-locked = true;
           spawn = [
             "brightnessctl"
-            "--class=backlight"
             "set"
-            "10%-"
+            "5%-"
           ];
         };
 
@@ -348,35 +346,34 @@
             _args = [ "eDP-1" ];
             mode = "2256x1504@59.999";
             scale = 1.3333333;
-            off = { };
           };
         }
-        {
-          output = {
-            _args = [ "DP-3" ];
-            mode = "2560x1440";
-            scale = 1;
-            transform = "normal";
-            position._props = {
-              x = 0;
-              y = 0;
-            };
-            variable-refresh-rate = { };
-          };
-        }
-        {
-          output = {
-            _args = [ "DP-2" ];
-            mode = "1920x1080";
-            scale = 1;
-            transform = "270";
-            position._props = {
-              x = 2560;
-              y = -240;
-            };
-            layout.default-column-width.proportion = 1.0;
-          };
-        }
+        # {
+        #   output = {
+        #     _args = [ "DP-3" ];
+        #     mode = "2560x1440";
+        #     scale = 1;
+        #     transform = "normal";
+        #     position._props = {
+        #       x = 0;
+        #       y = 0;
+        #     };
+        #     variable-refresh-rate = { };
+        #   };
+        # }
+        # {
+        #   output = {
+        #     _args = [ "DP-2" ];
+        #     mode = "1920x1080";
+        #     scale = 1;
+        #     transform = "270";
+        #     position._props = {
+        #       x = 2560;
+        #       y = -240;
+        #     };
+        #     layout.default-column-width.proportion = 1.0;
+        #   };
+        # }
 
         { spawn-at-startup = [ "waybar" ]; }
         {

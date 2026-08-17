@@ -20,6 +20,7 @@
         modules-center = [ "custom/waybar-mpris" ];
         modules-right = [
           "tray"
+          "idle_inhibitor"
           "pulseaudio"
           "network"
           "cpu"
@@ -51,6 +52,17 @@
           spacing = 10;
         };
 
+        "idle_inhibitor" = {
+          start-activated = false;
+          format = "{icon}";
+          format-icons = {
+            activated = "󰅶";
+            deactivated = "󰒲";
+          };
+          tooltip-format-activated = "Staying awake";
+          tooltip-format-deactivated = "Idle timeout active";
+        };
+
         "clock" = {
           smooth-scrolling-threshold = 5;
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
@@ -77,7 +89,7 @@
         };
 
         "cpu" = {
-          interval = 2;
+          interval = 5;
           format = "{usage}% {icon} ";
           format-icons = [
             "▁"
@@ -123,7 +135,7 @@
           # numbering (on goingmerry hwmon3 is cros_ec, an EC board sensor).
           hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
           input-filename = "temp1_input";
-          interval = 2;
+          interval = 5;
           warning-threshold = 70;
           critical-threshold = 80;
           format = "{temperatureC}°{icon}";
@@ -137,7 +149,7 @@
         };
 
         "battery" = {
-          interval = 10;
+          interval = 30;
           events = {
             on-discharging-warning = "notify-send -u normal 'Battery low' 'Under 20% left'";
             on-discharging-critical = "notify-send -u critical 'Battery critical' 'Plug in now'";
@@ -271,6 +283,7 @@
       #workspaces,
       #window,
       #tray,
+      #idle_inhibitor,
       #pulseaudio,
       #network,
       #cpu,
@@ -320,6 +333,14 @@
 
       #custom-waybar-mpris {
         color: @pink;
+      }
+
+      #idle_inhibitor {
+        color: @overlay0;
+      }
+
+      #idle_inhibitor.activated {
+        color: @yellow;
       }
 
       #pulseaudio {

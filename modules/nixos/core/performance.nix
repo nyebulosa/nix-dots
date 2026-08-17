@@ -11,6 +11,7 @@ let
 in
 {
   boot = {
+    kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3; # All my current machines are v3, can be changed per host
     kernel.sysctl = {
       # Based on Valve's platform optimizations and cachyos optimizations
       "kernel.sched_cfs_bandwidth_slice_us" = 3000;
@@ -43,21 +44,21 @@ in
       "sp5100_tco"
       "iTCO_wdt"
     ];
-    extraModprobeConfig = "options snd_hda_intel power_save=0";
+    extraModprobeConfig = "options snd_hda_intel power_save=${if laptop then "10" else "0"}";
   };
   zramSwap = {
     enable = true;
-    memoryPercent = 100;
+    memoryPercent = 50;
     priority = 100;
     algorithm = "zstd";
   };
   services = {
-    ananicy = {
-      enable = true;
-      package = pkgs.ananicy-cpp;
-      rulesProvider = pkgs.ananicy-rules-cachyos;
-      settings.cgroup_realtime_workaround = lib.mkForce false;
-    };
+    # ananicy = {
+    #   enable = true;
+    #   package = pkgs.ananicy-cpp;
+    #   rulesProvider = pkgs.ananicy-rules-cachyos;
+    #   # settings.cgroup_realtime_workaround = lib.mkForce false;
+    # };
     udev.extraRules = ''
       ACTION=="add|change", KERNEL=="nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="kyber"
       ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
@@ -68,8 +69,8 @@ in
       KERNEL=="hpet", GROUP="audio"
     ''
     + lib.optionalString laptop ''
-      SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 10 > /sys/module/snd_hda_intel/parameters/power_save'"
-      SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="1", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 0 > /sys/module/snd_hda_intel/parameters/power_save'"
+      SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_TYPE}=="Mains", ENV{POWER_SUPPLY_ONLINE}=="0", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 10 > /sys/module/snd_hda_intel/parameters/power_save'"
+      SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_TYPE}=="Mains", ENV{POWER_SUPPLY_ONLINE}=="1", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 0 > /sys/module/snd_hda_intel/parameters/power_save'"
     '';
   };
   systemd.tmpfiles.rules = [

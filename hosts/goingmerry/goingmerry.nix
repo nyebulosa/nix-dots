@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   ...
 }:
@@ -34,9 +33,6 @@
   boot = {
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-zen4;
     lanzaboote.configurationLimit = 5;
-    # nixos-hardware sets dcdebugmask=0x10 (DC_DISABLE_PSR) for drm/amd#3647.
-    # mkAfter puts this last on the cmdline, and the last module param wins.
-    kernelParams = lib.mkAfter [ "amdgpu.dcdebugmask=0x0" ];
   };
 
   services = {
@@ -45,7 +41,6 @@
   };
   environment.systemPackages = with pkgs; [
     framework-tool
-    clight-gui
   ];
 
   # Hostname Configuration, used so I don't have to use --flake on rebuild

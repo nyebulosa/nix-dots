@@ -10,13 +10,13 @@ in
 {
   options.my.gaming = {
     enable = lib.mkEnableOption "gaming" // {
-      default = false;
+      default = true;
     };
     openFirewall = lib.mkEnableOption "Gaming-related ports" // {
       default = false;
     };
     enableReplay = lib.mkEnableOption "quick replay via gpu-screen-recorder" // {
-      default = cfg.enable;
+      default = true;
     };
   };
   config = lib.mkIf cfg.enable {
