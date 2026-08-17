@@ -22,10 +22,6 @@
       network = {
         tcp-sack = true;
       };
-      kernel = {
-        strict-iommu = false;
-        iommu-passthrough = true;
-      };
       debug.debugfs = true;
     };
     filesystems = {
