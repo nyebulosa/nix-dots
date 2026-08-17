@@ -133,10 +133,6 @@
 
   security = {
     rtkit.enable = true; # Required for pipewire
-    pam.services = {
-      sddm.enableGnomeKeyring = true;
-      swaylock.rules.auth.fprintd.control = lib.mkForce "required";
-    };
   };
 
   # Locale related settings

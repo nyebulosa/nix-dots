@@ -9,6 +9,14 @@
     inputs.nix-mineral.nixosModules.nix-mineral
   ];
 
+  boot = {
+    kernel = {
+      sysctl = {
+        "net.core.bpf_jit_harden" = 1;
+      };
+    };
+  };
+
   nix-mineral = {
     enable = true;
     preset = [
@@ -21,6 +29,11 @@
       };
       network = {
         tcp-sack = true;
+        log-martians = false;
+      };
+      kernel = {
+        iommu-passthrough = false;
+        harden-bpf = false;
       };
       debug.debugfs = true;
     };
@@ -33,17 +46,18 @@
       };
     };
   };
+
   security = {
     sudo.enable = lib.mkForce false;
     run0 = {
       enable = true;
-      sudo-shim.enable = true;
       persistentAuth = {
         enable = true;
         enableRemote = true;
       };
     };
   };
+
   # environment = {
   #   memoryAllocator.provider = "scudo";
   #   variables.SCUDO_OPTIONS = lib.mkDefault "zero_contents=false";
