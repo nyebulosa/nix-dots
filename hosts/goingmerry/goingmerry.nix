@@ -15,6 +15,7 @@
     network.wifi.enable = true;
     gaming.enable = true;
     power.laptop = true;
+    wluma.enable = true;
   };
 
   hardware = {

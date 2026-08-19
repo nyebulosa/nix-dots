@@ -7,5 +7,6 @@
     ./usbguard.nix
     ./colorscheme.nix
     ./illuminanced.nix
+    ./wluma.nix
   ];
 }

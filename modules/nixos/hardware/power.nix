@@ -29,9 +29,13 @@ in
       services.power-profiles-daemon.enable = true;
       networking.networkmanager.wifi.powersave = true;
       boot.kernelParams = [ "pcie_aspm.policy=powersave" ];
-      services.udev.extraRules = ''
-        ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
-      '';
+      services = {
+        udev.extraRules = ''
+          ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"
+        '';
+        upower.enable = true;
+      };
+
     })
   ];
 }
