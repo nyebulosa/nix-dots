@@ -20,6 +20,7 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
+
     networking.firewall = lib.mkIf cfg.openFirewall {
       allowedTCPPorts = [
         53 # DNS, for the wireless VR router
@@ -32,6 +33,7 @@ in
         24454 # Simple Voice Chat
       ];
     };
+
     programs = {
       steam = {
         enable = true;
@@ -52,7 +54,18 @@ in
         # });
       };
     };
+
     users.users.leonillo.extraGroups = [ "gamemode" ];
+
+    nixpkgs.overlays = [
+      (final: prev: {
+        lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
+      })
+      (final: prev: {
+        lsfg-vk-ui-experimental = final.callPackage ../../../pkgs/lsfg-vk-ui-experimental.nix { };
+      })
+    ];
+
     environment.systemPackages = with pkgs; [
       parsec-bin
       heroic
@@ -72,8 +85,10 @@ in
       })
       r2modman
       bs-manager
-      lsfg-vk
-      lsfg-vk-ui
+      # lsfg-vk
+      # lsfg-vk-ui
+      lsfg-vk-experimental
+      lsfg-vk-ui-experimental
     ];
   };
 }

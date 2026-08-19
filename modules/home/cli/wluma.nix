@@ -13,11 +13,11 @@
       }
       {
         name = "framework_laptop::kbd_backlight";
-        enabled = false;
+        enabled = true;
       }
       {
         name = "chromeos::kbd_backlight";
-        enabled = false;
+        enabled = true;
       }
     ];
   };
