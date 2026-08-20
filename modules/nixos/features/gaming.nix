@@ -61,8 +61,8 @@ in
       (final: prev: {
         lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
       })
-      (final: prev: {
-        lsfg-vk-ui-experimental = final.callPackage ../../../pkgs/lsfg-vk-ui-experimental.nix { };
+      (qt6Packages: prev: {
+        lsfg-vk-ui-experimental = qt6Packages.callPackage ../../../pkgs/lsfg-vk-ui-experimental.nix { };
       })
     ];
 
