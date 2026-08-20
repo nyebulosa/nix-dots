@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
@@ -34,12 +35,28 @@
   boot = {
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-zen4;
     lanzaboote.configurationLimit = 5;
+    resumeDevice = "/dev/disk/by-uuid/6347b813-8e2a-47de-8a75-b5d86483bb99";
+    kernelParams = lib.mkAfter [
+      "amdgpu.dcdebugmask=0x0" # Testing this
+      "resume_offset=533760"
+    ];
   };
 
   services = {
     fprintd.enable = true;
     fwupd.enable = true;
+    logind.settings.Login = {
+      HandleLidSwitch = "suspend-then-hibernate";
+      HandleLidSwitchExternalPower = "suspend";
+    };
+    upower = {
+      criticalPowerAction = "Hibernate";
+      noPollBatteries = true;
+    };
   };
+
+  systemd.sleep.settings.Sleep.HibernateDelaySec = "60min";
+
   environment.systemPackages = with pkgs; [
     framework-tool
   ];

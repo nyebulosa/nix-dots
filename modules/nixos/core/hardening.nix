@@ -23,6 +23,9 @@
       "compatibility"
       "performance"
     ];
+    # Some of the disabled settings here are either
+    # because of incompatibilities or for performance.
+    # I'm considering moving them into performance.nix.
     settings = {
       system = {
         multilib = true;
@@ -32,8 +35,9 @@
         log-martians = false;
       };
       kernel = {
-        iommu-passthrough = false;
         harden-bpf = false;
+        zero-alloc = false; # Enabled init_on_alloc only instead to gain back a bit of performance
+
       };
       debug.debugfs = true;
     };
@@ -46,6 +50,10 @@
       };
     };
   };
+
+  boot.kernelParams = lib.mkAfter [
+    "init_on_alloc=1"
+  ];
 
   security = {
     sudo.enable = lib.mkForce false;

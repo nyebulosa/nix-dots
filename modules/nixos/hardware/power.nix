@@ -18,10 +18,9 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf cfg.scx {
-      services.scx = {
+      services.scx-loader = {
         enable = true;
-        scheduler = lib.mkDefault "scx_lavd";
-        extraArgs = lib.mkDefault [ (if cfg.laptop then "--autopower" else "--performance") ];
+        config.default_sched = lib.mkDefault "scx_bpfland";
       };
     })
 

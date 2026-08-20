@@ -1,6 +1,4 @@
-{
-  ...
-}:
+_:
 
 {
   # Waybar configuration
@@ -89,7 +87,7 @@
         };
 
         "cpu" = {
-          interval = 5;
+          interval = 15;
           format = "{usage}% {icon} ";
           format-icons = [
             "▁"
@@ -110,7 +108,7 @@
         };
 
         "memory" = {
-          interval = 5;
+          interval = 30;
           format = "{percentage}% {icon} ";
           format-icons = [
             "󰪞"
@@ -135,7 +133,7 @@
           # numbering (on goingmerry hwmon3 is cros_ec, an EC board sensor).
           hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
           input-filename = "temp1_input";
-          interval = 5;
+          interval = 15;
           warning-threshold = 70;
           critical-threshold = 80;
           format = "{temperatureC}°{icon}";
@@ -174,7 +172,7 @@
 
         "network" = {
           # Netlink events don't fire on signal changes, so poll for them.
-          interval = 5;
+          interval = 10;
           format-wifi = "{icon}";
           format-icons = [
             "󰤭"

@@ -25,7 +25,6 @@ in
       "vm.dirty_bytes" = 268435456;
       "vm.dirty_background_bytes" = 67108864;
       "vm.dirty_writeback_centisecs" = 1500;
-      "kernel.nmi_watchdog" = 0;
       "kernel.printk" = "3 3 3 3";
       "net.core.netdev_max_backlog" = 16384;
       "net.ipv4.tcp_max_syn_backlog" = 8192;
@@ -37,18 +36,18 @@ in
     kernelParams = [
       "zswap.enabled=0" # ZRAM Conflict
       "split_lock_detect=off"
-      "nowatchdog"
+      # "nowatchdog" # Is no watchdog actually worth it?...
     ];
     kernelModules = [ "ntsync" ];
-    blacklistedKernelModules = [
-      "sp5100_tco"
-      "iTCO_wdt"
-    ];
+    # blacklistedKernelModules = [
+    #   "sp5100_tco"
+    #   "iTCO_wdt"
+    # ];
     extraModprobeConfig = "options snd_hda_intel power_save=${if laptop then "10" else "0"}";
   };
   zramSwap = {
     enable = true;
-    memoryPercent = 50;
+    memoryPercent = 100;
     priority = 100;
     algorithm = "zstd";
   };
@@ -64,6 +63,9 @@ in
       ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*|mmcblk[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
       ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
       ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_supported}=="1", ATTR{link_power_management_policy}="${alpmPolicy}"
+      KERNEL=="rtc0", GROUP="audio"
+      KERNEL=="hpet", GROUP="audio"
+      DEVPATH=="/devices/virtual/misc/cpu_dma_latency", OWNER="root", GROUP="audio", MODE="0660"
     ''
     + lib.optionalString laptop ''
       SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_TYPE}=="Mains", ENV{POWER_SUPPLY_ONLINE}=="0", TEST=="/sys/module/snd_hda_intel", RUN+="${pkgs.runtimeShell} -c 'echo 10 > /sys/module/snd_hda_intel/parameters/power_save'"
@@ -73,5 +75,26 @@ in
   systemd.tmpfiles.rules = [
     "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
     "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
+  ];
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "game-performance" ''
+      exec systemd-inhibit --why "game-performance is running" \
+        ${pkgs.power-profiles-daemon}/bin/powerprofilesctl launch \
+          -p performance -r "game-performance" -- "$@"
+    '')
+  ];
+  security.pam.loginLimits = [
+    {
+      domain = "@audio";
+      type = "-";
+      item = "rtprio";
+      value = "99";
+    }
+    {
+      domain = "@audio";
+      type = "-";
+      item = "nice";
+      value = "-11";
+    }
   ];
 }

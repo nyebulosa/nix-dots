@@ -61,9 +61,6 @@ in
       (final: prev: {
         lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
       })
-      (qt6Packages: prev: {
-        lsfg-vk-ui-experimental = qt6Packages.callPackage ../../../pkgs/lsfg-vk-ui-experimental.nix { };
-      })
     ];
 
     environment.systemPackages = with pkgs; [
@@ -88,7 +85,6 @@ in
       # lsfg-vk
       # lsfg-vk-ui
       lsfg-vk-experimental
-      lsfg-vk-ui-experimental
     ];
   };
 }
