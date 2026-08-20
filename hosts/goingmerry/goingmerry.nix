@@ -37,7 +37,6 @@
     lanzaboote.configurationLimit = 5;
     resumeDevice = "/dev/disk/by-uuid/6347b813-8e2a-47de-8a75-b5d86483bb99";
     kernelParams = lib.mkAfter [
-      "amdgpu.dcdebugmask=0x0" # Testing this
       "resume_offset=533760"
     ];
   };
@@ -48,6 +47,8 @@
     logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
       HandleLidSwitchExternalPower = "suspend";
+      # niri takes no handle-power-key inhibitor, so logind acts on the key itself
+      HandlePowerKey = "suspend-then-hibernate";
     };
     upower = {
       criticalPowerAction = "Hibernate";

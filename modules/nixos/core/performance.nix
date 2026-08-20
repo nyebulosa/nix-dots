@@ -51,6 +51,25 @@ in
     priority = 100;
     algorithm = "zstd";
   };
+  # zram sits at the top of the swap priority list, so the memory shrink the
+  # kernel does before snapshotting only compresses pages back into RAM instead
+  # of freeing any, and the image then doesn't fit in the half of RAM a snapshot
+  # needs (ENOMEM). Drop zram for the hibernate path so that shrink reaches the
+  # disk swap instead. Plain suspend never runs these units, so it is untouched.
+  systemd.services = lib.mkIf config.zramSwap.enable (
+    lib.genAttrs
+      [
+        "systemd-hibernate"
+        "systemd-suspend-then-hibernate"
+      ]
+      (_: {
+        overrideStrategy = "asDropin";
+        serviceConfig = {
+          ExecStartPre = "-${config.systemd.package}/bin/systemctl stop dev-zram0.swap";
+          ExecStopPost = "-${config.systemd.package}/bin/systemctl start dev-zram0.swap";
+        };
+      })
+  );
   services = {
     # ananicy = {
     #   enable = true;

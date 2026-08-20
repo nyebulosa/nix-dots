@@ -37,7 +37,9 @@
       kernel = {
         harden-bpf = false;
         zero-alloc = false; # Enabled init_on_alloc only instead to gain back a bit of performance
-
+        bdev-write-mount = true; # Disabling this breaks hibernation on swapfile
+        busmaster-bit = true;
+        strict-iommu = false;
       };
       debug.debugfs = true;
     };
