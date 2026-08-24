@@ -11,10 +11,6 @@
         capturer = "auto";
         predictor = "adaptive";
       }
-      # The in-kernel cros_kbd_led_backlight and the out-of-tree framework_laptop
-      # module both expose the same physical keyboard backlight, so wluma's output
-      # discovery finds it twice and two controllers write to one LED. Keep the
-      # in-kernel `chromeos::kbd_backlight` and drop the duplicate.
       {
         name = "framework_laptop::kbd_backlight";
         enabled = false;
