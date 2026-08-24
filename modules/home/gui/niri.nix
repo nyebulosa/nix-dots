@@ -1,4 +1,4 @@
-{ ... }:
+{ osConfig, ... }:
 
 {
   wayland.windowManager.niri = {
@@ -8,7 +8,7 @@
     portalPackage = null;
     xwaylandSatellitePackage = null;
 
-    enable = true;
+    enable = osConfig.my.niri.enable;
 
     settings = {
       input = {
@@ -392,23 +392,7 @@
         { spawn-sh-at-startup = "wl-paste --type text --watch cliphist store"; }
         { spawn-sh-at-startup = "wl-paste --type image --watch cliphist store"; }
 
-        # Work around WezTerm's initial configure bug by setting an empty
-        # default-column-width
-        {
-          window-rule = {
-            match._props.app-id = ''^org\.wezfurlong\.wezterm$'';
-            default-column-width = { };
-          };
-        }
-        {
-          window-rule = {
-            match._props.app-id = "^kitty$";
-            default-column-width = { };
-          };
-        }
-
         { window-rule.background-effect.blur = true; }
-        # Blur behind waybar, same as windows get above
         {
           layer-rule = {
             match._props.namespace = "^waybar$";
@@ -429,7 +413,6 @@
             };
           };
         }
-        # Matches both host Firefox and the Flatpak
         {
           window-rule = {
             match._props.title = "^Picture-in-Picture$";

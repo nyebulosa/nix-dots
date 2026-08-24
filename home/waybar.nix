@@ -1,7 +1,6 @@
 _:
 
 {
-  # Waybar configuration
   programs.waybar = {
     enable = true;
     settings = {
@@ -28,12 +27,9 @@ _:
           "clock"
         ];
 
-        # Module Configurations
         "niri/workspaces" = {
           format = "{icon}";
           format-icons = {
-            # Nerd Font: filled circle (nf-fa-circle) / hollow circle (nf-fa-circle_o).
-            # Swap for "\uf0c8" / "\uf096" to get squares instead.
             focused = "";
             active = "";
             urgent = "";
@@ -87,9 +83,6 @@ _:
         };
 
         "cpu" = {
-          # Explicit: leaving this out means waybar's own default of 10s.
-          # 15/30/60 keeps every polled module on one harmonic grid, so their
-          # updates land in the same frame instead of three separate redraws.
           interval = 15;
           format = "{usage}% {icon} ";
           format-icons = [
@@ -131,9 +124,6 @@ _:
         };
 
         "temperature" = {
-          # k10temp. AMD Zen fixes the Data Fabric at 00:18.3, so this path is
-          # stable across reboots and identical on both hosts, unlike hwmon<N>
-          # numbering (on goingmerry hwmon3 is cros_ec, an EC board sensor).
           hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
           input-filename = "temp1_input";
           interval = 15;
@@ -150,11 +140,6 @@ _:
         };
 
         "battery" = {
-          # udev on the power_supply subsystem plus inotify on the sysfs nodes
-          # already push every capacity/AC change; upstream's timer is only a
-          # fallback for missed inotify events. "once" runs the timer thread
-          # exactly once, leaving the module purely event-driven. Note that
-          # omitting interval does NOT do this - it falls back to 60s.
           interval = "once";
           events = {
             on-discharging-warning = "notify-send -u normal 'Battery low' 'Under 20% left'";
@@ -179,9 +164,6 @@ _:
         };
 
         "network" = {
-          # Link and address changes arrive over netlink instantly; the timer
-          # only re-reads wifi signal strength, which a 5-level icon barely
-          # needs. Omitting it would default to 60s.
           interval = 30;
           format-wifi = "{icon}";
           format-icons = [
@@ -225,18 +207,12 @@ _:
           on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
-        # Built-in module - waybar is linked against libplayerctl, so this
-        # replaces the waybar-mpris helper process entirely. interval defaults
-        # to 0, meaning no polling at all: playerctld pushes play/pause/metadata
-        # over D-Bus. To get the live position back, add "position" to
-        # dynamic-order and set interval = 1 - that buys a bar redraw every
-        # second while something plays, which is what the helper used to cost.
         "mpris" = {
           player = "playerctld";
           format = "{status_icon} {dynamic}";
           status-icons = {
-            playing = ":(";
-            paused = ":3";
+            playing = ":3";
+            paused = ":(";
             stopped = "󰓛";
           };
           dynamic-order = [
