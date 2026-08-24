@@ -57,11 +57,11 @@ in
 
     users.users.leonillo.extraGroups = [ "gamemode" ];
 
-    nixpkgs.overlays = [
-      (final: prev: {
-        lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
-      })
-    ];
+    # nixpkgs.overlays = [
+    #   (final: prev: {
+    #     lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
+    #   })
+    # ];
 
     environment.systemPackages = with pkgs; [
       parsec-bin
@@ -82,9 +82,9 @@ in
       })
       r2modman
       bs-manager
-      # lsfg-vk
-      # lsfg-vk-ui
-      lsfg-vk-experimental
+      lsfg-vk
+      lsfg-vk-ui
+      # lsfg-vk-experimental
     ];
   };
 }

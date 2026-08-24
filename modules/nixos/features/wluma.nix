@@ -15,8 +15,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # nixpkgs ships 4.11.1; this builds upstream `main`, whose predictor works
-    # on continuous lux instead of named buckets. See pkgs/wluma-git.nix.
     nixpkgs.overlays = [
       (final: _prev: {
         wluma = final.callPackage ../../../pkgs/wluma-git.nix { };

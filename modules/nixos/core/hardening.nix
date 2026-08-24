@@ -9,13 +9,13 @@
     inputs.nix-mineral.nixosModules.nix-mineral
   ];
 
-  boot = {
-    kernel = {
-      sysctl = {
-        "net.core.bpf_jit_harden" = 1;
-      };
-    };
-  };
+  # boot = {
+  #   kernel = {
+  #     sysctl = {
+  #       "net.core.bpf_jit_harden" = 1;
+  #     };
+  #   };
+  # };
 
   nix-mineral = {
     enable = true;
@@ -35,11 +35,10 @@
         log-martians = false;
       };
       kernel = {
-        harden-bpf = false;
-        zero-alloc = false; # Enabled init_on_alloc only instead to gain back a bit of performance
+        # harden-bpf = false;
+        # zero-alloc = false; # Enabled init_on_alloc only instead to gain back a bit of performance
+        zero-alloc = true;
         bdev-write-mount = true; # Disabling this breaks hibernation on swapfile
-        busmaster-bit = true;
-        strict-iommu = false;
       };
       debug.debugfs = true;
     };
@@ -53,9 +52,9 @@
     };
   };
 
-  boot.kernelParams = lib.mkAfter [
-    "init_on_alloc=1"
-  ];
+  # boot.kernelParams = lib.mkAfter [
+  #   "init_on_alloc=1"
+  # ];
 
   security = {
     sudo.enable = lib.mkForce false;

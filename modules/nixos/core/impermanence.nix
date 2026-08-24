@@ -1,11 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
+_:
 
+{
   boot = {
     loader.efi.canTouchEfiVariables = true;
     initrd = {
@@ -69,7 +64,6 @@
       "/var/lib/flatpak"
       "/var/lib/fwupd"
       "/var/lib/power-profiles-daemon"
-      "/etc/nixos"
       "/etc/lact"
       "/var/lib/chrony"
       "/var/lib/usbguard"

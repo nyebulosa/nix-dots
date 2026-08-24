@@ -38,7 +38,11 @@
     resumeDevice = "/dev/disk/by-uuid/6347b813-8e2a-47de-8a75-b5d86483bb99";
     kernelParams = lib.mkAfter [
       "resume_offset=533760"
+      "zsawp.enabled=1" # to avoid conflict with hibernation, disabling zram in this host
     ];
+    kernel.sysctl = {
+      "vm.swappiness" = lib.mkForce 60;
+    };
   };
 
   services = {
@@ -46,8 +50,7 @@
     fwupd.enable = true;
     logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
-      HandleLidSwitchExternalPower = "suspend";
-      # niri takes no handle-power-key inhibitor, so logind acts on the key itself
+      HandleLidSwitchExternalPower = "suspend-then-hibernate";
       HandlePowerKey = "suspend-then-hibernate";
     };
     upower = {
@@ -57,6 +60,8 @@
   };
 
   systemd.sleep.settings.Sleep.HibernateDelaySec = "60min";
+
+  zramSwap.enable = false;
 
   environment.systemPackages = with pkgs; [
     framework-tool

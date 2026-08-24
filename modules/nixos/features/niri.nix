@@ -11,15 +11,8 @@
   environment.systemPackages = with pkgs; [
     xwayland-satellite
     awww
-    nemo-with-extensions
-    nemo-fileroller
-    nemo-preview
-    nemo-python
-    nemo-emblems
-    gnome-font-viewer
     kitty
     waybar
-    cursor-clip
   ];
   xdg.portal = {
     enable = true;

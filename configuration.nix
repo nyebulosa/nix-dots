@@ -61,11 +61,6 @@
 
   services = {
     tlp.enable = lib.mkForce false;
-    # ratbagd.enable = true;
-    mullvad-vpn = {
-      enable = true;
-      gui.enable = true;
-    };
     tailscale = {
       enable = true;
       extraSetFlags = [ "--ssh" ];
@@ -84,7 +79,7 @@
     journald.extraConfig = ''
       SystemMaxUse=50M
     '';
-    udisks2.enable = true;
+    # udisks2.enable = true;
     gvfs.enable = true;
     pipewire = {
       enable = true;
@@ -94,27 +89,14 @@
       };
       pulse.enable = true;
       jack.enable = true;
-      # Low-latency config (CachyOS defaults to lower quantum than stock)
-      # Temporarily commented while this gets revamped and modularized, don't want audio cracks and shi on my laptop
-      # extraConfig.pipewire = {
-      #   "99-low-latency" = {
-      #     context.properties = {
-      #       default.clock = {
-      #         rate = 48000;
-      #         quantum = 64; # CachyOS uses 64; stock is 1024
-      #         min-quantum = 32;
-      #         max-quantum = 8192;
-      #       };
-      #     };
-      #   };
-      # };
     };
     flatpak.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-      package = pkgs.kdePackages.sddm;
-    };
+    # displayManager.sddm = {
+    #   enable = true;
+    #   wayland.enable = true;
+    #   package = pkgs.kdePackages.sddm;
+    # };
+    displayManager.ly.enable = true;
     xserver = {
       xkb = {
         layout = "us";
@@ -123,7 +105,6 @@
     };
     openssh.enable = false; # Tailscale has it's own
     gnome.gnome-keyring.enable = true;
-    speechd.enable = false;
     ratbagd.enable = true; # Required by piper
     # ollama = {
     #   enable = true;
@@ -190,22 +171,11 @@
     libnotify
     killall
     lzip
-    # linux-firmware
     powertop
-    pulseaudio
     brightnessctl
-    impala
-    fzf
-    ffmpegthumbnailer
-    webp-pixbuf-loader
-    gdk-pixbuf
     xdg-utils
-    glib
     distrobox
-    arrpc
-    #inputs.affinity-nix.packages.x86_64-linux.v3
     ffmpeg
-    lazygit
     git
     nixfmt
     statix
@@ -217,8 +187,9 @@
     imagemagick
     fd
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    libdisplay-info
-    fq
+    proton-vpn
+    protonplus
+    scx-loader
   ];
 
   # Make apps run natively on Wayland

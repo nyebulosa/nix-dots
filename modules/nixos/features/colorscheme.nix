@@ -13,6 +13,7 @@
     flavor = "mocha";
     plymouth.enable = false;
     tty.enable = false; # Emits 32 vt.default_* colours, the kernel takes 16
+    cache.enable = true;
   };
   stylix = {
     enable = true;

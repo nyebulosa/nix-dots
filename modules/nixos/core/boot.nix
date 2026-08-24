@@ -51,10 +51,6 @@
       kernelModules = [ "amdgpu" ];
       verbose = false;
     };
-    tmp = {
-      useTmpfs = true;
-      #cleanOnBoot = true; # If not tmpfs then use this
-    };
 
     consoleLogLevel = 3;
     kernelParams = [

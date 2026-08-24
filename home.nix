@@ -77,7 +77,6 @@
     playerctl
     mako
     swaybg
-    waybar-mpris
     satty
     shared-mime-info
     file-roller

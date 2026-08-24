@@ -15,7 +15,7 @@ _:
           "niri/workspaces"
           "niri/window"
         ];
-        modules-center = [ "custom/waybar-mpris" ];
+        modules-center = [ "mpris" ];
         modules-right = [
           "tray"
           "idle_inhibitor"
@@ -87,6 +87,9 @@ _:
         };
 
         "cpu" = {
+          # Explicit: leaving this out means waybar's own default of 10s.
+          # 15/30/60 keeps every polled module on one harmonic grid, so their
+          # updates land in the same frame instead of three separate redraws.
           interval = 15;
           format = "{usage}% {icon} ";
           format-icons = [
@@ -147,7 +150,12 @@ _:
         };
 
         "battery" = {
-          interval = 30;
+          # udev on the power_supply subsystem plus inotify on the sysfs nodes
+          # already push every capacity/AC change; upstream's timer is only a
+          # fallback for missed inotify events. "once" runs the timer thread
+          # exactly once, leaving the module purely event-driven. Note that
+          # omitting interval does NOT do this - it falls back to 60s.
+          interval = "once";
           events = {
             on-discharging-warning = "notify-send -u normal 'Battery low' 'Under 20% left'";
             on-discharging-critical = "notify-send -u critical 'Battery critical' 'Plug in now'";
@@ -171,8 +179,10 @@ _:
         };
 
         "network" = {
-          # Netlink events don't fire on signal changes, so poll for them.
-          interval = 10;
+          # Link and address changes arrive over netlink instantly; the timer
+          # only re-reads wifi signal strength, which a 5-level icon barely
+          # needs. Omitting it would default to 60s.
+          interval = 30;
           format-wifi = "{icon}";
           format-icons = [
             "󰤭"
@@ -215,19 +225,31 @@ _:
           on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
-        "custom/waybar-mpris" = {
-          return-type = "json";
-          exec = ''
-            waybar-mpris --position --autofocus --order "SYMBOL:ARTIST:TITLE:POSITION" \
-              --play " :( " --pause " :3 "
-          '';
-          on-click = "waybar-mpris --send toggle";
-          on-click-right = "waybar-mpris --send toggle";
-          on-scroll-up = "waybar-mpris --send next";
-          on-scroll-down = "waybar-mpris --send prev";
-          smooth-scrolling-threshold = 12;
-          escape = true;
+        # Built-in module - waybar is linked against libplayerctl, so this
+        # replaces the waybar-mpris helper process entirely. interval defaults
+        # to 0, meaning no polling at all: playerctld pushes play/pause/metadata
+        # over D-Bus. To get the live position back, add "position" to
+        # dynamic-order and set interval = 1 - that buys a bar redraw every
+        # second while something plays, which is what the helper used to cost.
+        "mpris" = {
+          player = "playerctld";
+          format = "{status_icon} {dynamic}";
+          status-icons = {
+            playing = ":(";
+            paused = ":3";
+            stopped = "󰓛";
+          };
+          dynamic-order = [
+            "artist"
+            "title"
+          ];
+          dynamic-len = 40;
           max-length = 48;
+          tooltip-format = "{player}  -  {title}  -  {artist}";
+          on-click-right = "playerctl play-pause";
+          on-scroll-up = "playerctl next";
+          on-scroll-down = "playerctl previous";
+          smooth-scrolling-threshold = 12;
         };
       };
     };
@@ -289,7 +311,7 @@ _:
       #memory,
       #battery,
       #clock,
-      #custom-waybar-mpris {
+      #mpris {
         padding: 0 10px;
       }
 
@@ -329,7 +351,7 @@ _:
         color: @rosewater;
       }
 
-      #custom-waybar-mpris {
+      #mpris {
         color: @pink;
       }
 

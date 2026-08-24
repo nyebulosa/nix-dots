@@ -24,10 +24,6 @@ in
         graphics = {
           enable = true;
           enable32Bit = true;
-          extraPackages = with pkgs; [
-            libva
-            vulkan-loader
-          ];
         };
         amdgpu = {
           opencl.enable = lib.mkDefault true;
@@ -39,9 +35,6 @@ in
         };
       };
       environment = {
-        variables = {
-          AMD_VULKAN_ICD = "RADV";
-        };
         systemPackages = with pkgs; [
           nvtopPackages.amd
           libva-utils

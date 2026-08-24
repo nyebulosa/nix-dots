@@ -22,16 +22,13 @@
       ];
     };
     package = pkgs.lixPackageSets.stable.lix;
-    optimise.automatic = true;
   };
+
+  environment.etc."nixos".source = "/home/leonillo/nixos-conf";
 
   programs.nh = {
     enable = true;
     flake = "/home/leonillo/nixos-conf";
-    clean = {
-      enable = true;
-      extraArgs = "--keep-since 30d --keep 5";
-    };
   };
   nixpkgs = {
     config.allowUnfree = true;
@@ -45,7 +42,7 @@
   programs = {
     nix-ld = {
       enable = true;
-      libraries = with pkgs; [
+      libraries = [
         (pkgs.runCommand "steamrun-lib" { }
           "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib"
         ) # This includes the default libraries in the steam-run thingy
