@@ -6,7 +6,12 @@
     ./disko-config.nix
   ];
 
-  my.gpu.type = "amd";
+  my = {
+    gpu.type = "amd";
+    # Desktop hosts the game/VR-router services, so open the gaming ports here
+    # (these used to be hardcoded in networking.firewall below)
+    gaming.openFirewall = true;
+  };
 
   # Hardware configuration, this desktop has an AMD GPU
   hardware = {

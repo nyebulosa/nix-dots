@@ -12,7 +12,7 @@
       "kernel.sched_cfs_bandwidth_slice_us" = 3000;
       "net.ipv4.tcp_fin_timeout" = 5;
       "vm.max_map_count" = 2147483642;
-      "vm.swappiness" = 150;
+      "vm.swappiness" = 180;
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
       "vm.page-cluster" = 0;
@@ -53,8 +53,14 @@
       DEVPATH=="/devices/virtual/misc/cpu_dma_latency", OWNER="root", GROUP="audio", MODE="0660"
     '';
   };
-  systemd.tmpfiles.rules = [
-    "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
-    "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
-  ];
+  systemd = {
+    tmpfiles.rules = [
+      "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
+      "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
+    ];
+    oomd = {
+      enable = true;
+      enableUserSlices = true;
+    };
+  };
 }
