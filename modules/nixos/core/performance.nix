@@ -6,7 +6,7 @@
 
 {
   boot = {
-    kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3; # All my current machines are v3, can be changed per host
+    kernelPackages = lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3; # All my current machines are at least v3, can be changed per host
     kernel.sysctl = {
       # Based on Valve's platform optimizations and cachyos optimizations
       "kernel.sched_cfs_bandwidth_slice_us" = 3000;

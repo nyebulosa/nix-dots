@@ -26,7 +26,7 @@
       enable = true;
       pkiBundle = "/var/lib/sbctl";
       configurationLimit = lib.mkDefault 8;
-      # autoGenerateKeys.enable = true;
+      autoGenerateKeys.enable = true;
       measuredBoot = {
         enable = true;
         pcrs = [

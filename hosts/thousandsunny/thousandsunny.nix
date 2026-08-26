@@ -26,11 +26,11 @@
 
   powerManagement.cpuFreqGovernor = "schedutil";
 
-  services = {
-    sunshine = {
-      enable = true;
-    };
-  };
+  # services = {
+  #   sunshine = {
+  #     enable = true;
+  #   };
+  # };
 
   fileSystems = {
     "/media/DiscoExtra" = {
