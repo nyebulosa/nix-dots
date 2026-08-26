@@ -19,12 +19,9 @@ in
         content = {
           type = "gpt";
           partitions = {
-            # ESP/Boot partition, for systemd-boot or grub (haven't decided)
             ESP = {
-              # Set size to 1G, necessary for systemd-boot, and type EF00, which means efi boot partition
               size = "1G";
               type = "EF00";
-              # Set Filesystem to FAT32, and mountpoint to /boot
               content = {
                 type = "filesystem";
                 format = "vfat";
@@ -38,48 +35,59 @@ in
               };
             };
 
-            # 16G swap partition. Unnecesarily big, but storage is not a problem YET
-            swap = {
-              size = "16G";
-              content = {
-                type = "swap";
-                discardPolicy = "both";
-              };
-            };
-
-            # Root partition, formatted with btrfs
-            root = {
+            luks = {
               size = "100%";
               content = {
-                type = "btrfs";
-                extraArgs = [ "-f" ]; # Enables overriding existing btrfs partitions
-                # Create subvolumes @ for /, @home for /home, @nix for /nix, and @log for /var/log,
-                # all of them with compress=zstd:2 for good balance between performance and compression,
-                # and some additional optimizations, options defined in the let at the start of the file
-                subvolumes = {
-                  "@" = {
-                    mountOptions = btrfsOptions;
-                    mountpoint = "/";
-                  };
-                  "@home" = {
-                    mountOptions = btrfsOptions ++ [
-                      "nosuid"
-                      "nodev"
-                      # "noexec"
-                    ];
-                    mountpoint = "/home";
-                  };
-                  "@nix" = {
-                    mountOptions = btrfsOptions;
-                    mountpoint = "/nix";
-                  };
-                  "@log" = {
-                    mountOptions = btrfsOptions ++ [
-                      "nosuid"
-                      "nodev"
-                      # "noexec"
-                    ];
-                    mountpoint = "/var/log";
+                name = "crypted";
+                type = "luks";
+                settings = {
+                  allowDiscards = true;
+                  crypttabExtraOpts = [
+                    "tpm2-device=auto"
+                    "tpm2-measure-pcr=yes"
+                  ];
+                };
+                content = {
+                  type = "btrfs";
+                  extraArgs = [
+                    "-f"
+                  ]; # Enables overriding existing btrfs partitions and sets label
+                  # Create subvolumes @ for /, @home for /home, @nix for /nix, @log for
+                  # /var/log, and @persist for /persist (impermanence). No swap subvolume:
+                  # this is a desktop with no hibernation, so it runs zram-only.
+                  subvolumes = {
+                    "@" = {
+                      mountOptions = btrfsOptions;
+                      mountpoint = "/";
+                    };
+                    "@home" = {
+                      mountOptions = btrfsOptions ++ [
+                        "nosuid"
+                        "nodev"
+                        # "noexec" # noexec disabled here and in others because of possible problems
+                      ];
+                      mountpoint = "/home";
+                    };
+                    "@nix" = {
+                      mountOptions = btrfsOptions;
+                      mountpoint = "/nix";
+                    };
+                    "@log" = {
+                      mountOptions = btrfsOptions ++ [
+                        "nosuid"
+                        "nodev"
+                        "noexec"
+                      ];
+                      mountpoint = "/var/log";
+                    };
+                    "@persist" = {
+                      mountpoint = "/persist";
+                      mountOptions = btrfsOptions ++ [
+                        # "nosuid"
+                        # "nodev"
+                        # "noexec"
+                      ];
+                    };
                   };
                 };
               };
@@ -89,4 +97,12 @@ in
       };
     };
   };
+  fileSystems = {
+    "/persist" = {
+      neededForBoot = true;
+      #     fsType = "btrfs";
+      #     device = "dm-uuid-CRYPT-LUKS2-...-crypted";
+    };
+  };
+
 }

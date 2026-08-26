@@ -12,7 +12,7 @@
       "kernel.sched_cfs_bandwidth_slice_us" = 3000;
       "net.ipv4.tcp_fin_timeout" = 5;
       "vm.max_map_count" = 2147483642;
-      "vm.swappiness" = 150;
+      "vm.swappiness" = 180;
       "vm.watermark_boost_factor" = 0;
       "vm.watermark_scale_factor" = 125;
       "vm.page-cluster" = 0;
@@ -52,9 +52,25 @@
       ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
       DEVPATH=="/devices/virtual/misc/cpu_dma_latency", OWNER="root", GROUP="audio", MODE="0660"
     '';
+    earlyoom = {
+      enable = true;
+      freeMemThreshold = 5;
+      freeSwapThreshold = 100; # see below
+      enableNotifications = true;
+      extraArgs = [
+        "--avoid"
+        "^(niri|Xwayland|pipewire|wireplumber|dbus-broker)$"
+        "--prefer"
+        "^(zen|steamwebhelper|cc1plus|rustc|ld\\.lld)$"
+      ];
+    };
   };
-  systemd.tmpfiles.rules = [
-    "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
-    "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
-  ];
+  systemd = {
+    tmpfiles.rules = [
+      "w /sys/kernel/mm/transparent_hugepage/defrag - - - - defer+madvise"
+      "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
+    ];
+    oomd.enable = false; # conflicts with cachyos' le9
+
+  };
 }
