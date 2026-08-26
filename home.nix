@@ -15,73 +15,72 @@
   ];
 
   # User Information
-  home.username = "leonillo";
-  home.homeDirectory = "/home/leonillo";
+  home = {
+    username = "leonillo";
+    homeDirectory = "/home/leonillo";
+    packages = with pkgs; [
+      # CLI
+      gh
+      yt-dlp
+      fastfetch
+      pamixer
+      wl-clipboard
+      cliphist
+      hyfetch
 
-  # Packages
-  home.packages = with pkgs; [
-    # CLI
-    gh
-    yt-dlp
-    fastfetch
-    pamixer
-    wl-clipboard
-    cliphist
-    hyfetch
+      # GUI
+      filezilla
+      pavucontrol
+      qpwgraph
+      oculante
+      mpv
+      gimp-with-plugins
+      anydesk
+      bottles
+      librewolf
+      waypaper
+      kdePackages.filelight
+      (discord-ptb.override {
+        withOpenASAR = true;
+        withEquicord = true;
+      })
+      equibop
+      orca-slicer
+      easyeffects
+      qbittorrent
+      piper
+      element-desktop
+      signal-desktop
+      zoom-us
+      libreoffice-qt
+      via
+      obsidian
 
-    # GUI
-    filezilla
-    pavucontrol
-    qpwgraph
-    oculante
-    mpv
-    gimp-with-plugins
-    anydesk
-    bottles
-    librewolf
-    waypaper
-    kdePackages.filelight
-    (discord.override {
-      withOpenASAR = true;
-      # withVencord = true;
-      withEquicord = true;
-    })
-    equibop
-    orca-slicer
-    easyeffects
-    qbittorrent
-    piper
-    element-desktop
-    signal-desktop
-    zoom-us
-    libreoffice-qt
-    via
-    obsidian
+      # Dev
+      rustup
+      vscodium
+      wayvr
+      go
+      nodejs
+      python3
+      claude-code
+      pi-coding-agent
+      opencode
 
-    # Dev
-    rustup
-    vscodium
-    wayvr
-    go
-    nodejs
-    python3
-    claude-code
-    pi-coding-agent
-    opencode
-
-    # Misc
-    grim
-    slurp
-    dragon-drop # yazi's <C-n> drag-and-drop bind
-    nwg-bar
-    playerctl
-    mako
-    swaybg
-    satty
-    shared-mime-info
-    file-roller
-    xdg-user-dirs-gtk
-  ];
+      # Misc
+      grim
+      slurp
+      dragon-drop # yazi's <C-n> drag-and-drop bind
+      nwg-bar
+      playerctl
+      mako
+      swaybg
+      satty
+      shared-mime-info
+      file-roller
+      xdg-user-dirs-gtk
+    ];
+  };
 
   # XDG User Directories
   xdg.userDirs = {

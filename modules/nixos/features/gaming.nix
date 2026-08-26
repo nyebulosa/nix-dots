@@ -6,6 +6,12 @@
 }:
 let
   cfg = config.my.gaming;
+  mcJDKs = with pkgs; [
+    temurin-jre-bin-8
+    temurin-jre-bin-25
+    temurin-jre-bin
+    zulu25
+  ];
 in
 {
   options.my.gaming = {
@@ -67,12 +73,7 @@ in
       parsec-bin
       heroic
       (prismlauncher.override {
-        jdks = [
-          temurin-jre-bin-8
-          temurin-jre-bin-25
-          temurin-jre-bin
-          zulu25
-        ];
+        jdks = mcJDKs;
         additionalPrograms = [ vlc ];
         additionalLibs = [
           vlc
@@ -85,6 +86,15 @@ in
       lsfg-vk
       lsfg-vk-ui
       # lsfg-vk-experimental
+      (pandora-launcher.override {
+        jdks = mcJDKs;
+        additionalPrograms = [ vlc ];
+        additionalLibs = [
+          vlc
+          opencl-headers
+          ocl-icd
+        ];
+      })
     ];
   };
 }
