@@ -71,6 +71,10 @@
       "w /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none - - - - 409"
     ];
     oomd.enable = false; # conflicts with cachyos' le9
-
+  };
+  chaotic = {
+    mesa-git = {
+      enable = true;
+    };
   };
 }

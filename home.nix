@@ -98,7 +98,7 @@
       # pgrep guard so idle + suspend don't stack two lockers
       lock = "${pkgs.procps}/bin/pgrep -x swaylock || ${config.programs.swaylock.package}/bin/swaylock -f";
       # Guarded on AC so a long build or download on mains isn't cut short
-      sleep = "[ $(${pkgs.coreutils}/bin/cat /sys/class/power_supply/ACAD/online) = 0 ] && ${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+      sleep = "[ $(${pkgs.coreutils}/bin/cat /sys/class/power_supply/ACAD/online) = 0 ] && ${pkgs.systemd}/bin/systemctl suspend";
     in
     {
       enable = true;
