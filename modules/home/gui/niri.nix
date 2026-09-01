@@ -12,7 +12,13 @@
 
     settings = {
       input = {
-        keyboard.numlock = { };
+        keyboard = {
+          xkb = {
+            layout = "us,es";
+            variant = "colemak,";
+          };
+          numlock = { };
+        };
         touchpad = {
           tap = { };
           disabled-on-external-mouse = { };
@@ -21,8 +27,8 @@
       };
 
       layout = {
-        gaps = 6;
-        center-focused-column = "never";
+        gaps = 14;
+        center-focused-column = "on-overflow";
 
         preset-column-widths._children = [
           { proportion = 0.2; }
@@ -47,7 +53,7 @@
         };
 
         border = {
-          width = 1;
+          width = 2;
           active-color = "#cba6f7";
           inactive-color = "#9399b2";
           urgent-color = "#f38ba8";
@@ -64,6 +70,10 @@
           };
           color = "#00000064";
           inactive-color = "#00000064";
+        };
+        insert-hint = {
+          on = { };
+          color = "#b4befe";
         };
       };
 
@@ -338,6 +348,7 @@
         "Mod+Shift+P".power-off-monitors = { };
         "Mod+Shift+Ctrl+Q".quit = { };
         "Ctrl+Alt+Delete".quit = { };
+        "Mod+k".switch-layout = "next";
       };
 
       _children = [
