@@ -7,6 +7,10 @@
 
 {
   programs = {
+    kdeconnect = {
+      enable = true;
+      package = pkgs.valent;
+    };
     thunar = {
       enable = true;
       plugins = with pkgs; [
@@ -196,6 +200,16 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
+  };
+
+  networking.firewall = rec {
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      }
+    ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
   };
 
   # State version

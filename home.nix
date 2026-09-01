@@ -93,34 +93,41 @@
     "inode/directory" = [ "thunar.desktop" ];
   };
 
-  services.swayidle =
-    let
-      # pgrep guard so idle + suspend don't stack two lockers
-      lock = "${pkgs.procps}/bin/pgrep -x swaylock || ${config.programs.swaylock.package}/bin/swaylock -f";
-      # Guarded on AC so a long build or download on mains isn't cut short
-      sleep = "[ $(${pkgs.coreutils}/bin/cat /sys/class/power_supply/ACAD/online) = 0 ] && ${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
-    in
-    {
+  services = {
+    kdeconnect = {
       enable = true;
-      events = {
-        "before-sleep" = lock;
-        "lock" = lock;
-      };
-      timeouts = [
-        {
-          timeout = 300;
-          command = lock;
-        }
-        {
-          timeout = 360;
-          command = "/run/current-system/sw/bin/niri msg action power-off-monitors";
-        }
-        {
-          timeout = 1800;
-          command = sleep;
-        }
-      ];
+      indicator = true;
+      package = pkgs.valent;
     };
+    swayidle =
+      let
+        # pgrep guard so idle + suspend don't stack two lockers
+        lock = "${pkgs.procps}/bin/pgrep -x swaylock || ${config.programs.swaylock.package}/bin/swaylock -f";
+        # Guarded on AC so a long build or download on mains isn't cut short
+        sleep = "[ $(${pkgs.coreutils}/bin/cat /sys/class/power_supply/ACAD/online) = 0 ] && ${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+      in
+      {
+        enable = true;
+        events = {
+          "before-sleep" = lock;
+          "lock" = lock;
+        };
+        timeouts = [
+          {
+            timeout = 300;
+            command = lock;
+          }
+          {
+            timeout = 360;
+            command = "/run/current-system/sw/bin/niri msg action power-off-monitors";
+          }
+          {
+            timeout = 1800;
+            command = sleep;
+          }
+        ];
+      };
+  };
 
   # Programs
   programs = {
