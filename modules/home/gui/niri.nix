@@ -373,21 +373,29 @@
           };
         }
         {
-          # output = {
-          #   _args = [ "HDMI-A-1" ];
-          #   mode = "1920x1080";
-          #   scale = 1;
-          #   transform = "270";
-          #   position._props = {
-          #     x = 2560;
-          #     y = -240;
-          #   };
-          #   layout.default-column-width.proportion = 1.0;
-          # };
+          output = {
+            _args = [ "HDMI-A-1" ];
+            mode = "1920x1080";
+            scale = 1;
+            transform = "270";
+            position._props = {
+              x = 2560;
+              y = -240;
+            };
+            layout.default-column-width.proportion = 1.0;
+          };
+        }
+        {
           output = {
             _args = [ "DP-3" ];
             mode = "3840x2160";
             scale = 2;
+          };
+        }
+        {
+          output = {
+            _args = [ "DP-1" ];
+            mode = "1920x1080";
           };
         }
 

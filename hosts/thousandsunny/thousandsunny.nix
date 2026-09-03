@@ -8,9 +8,8 @@
 
   my = {
     gpu.type = "amd";
-    # Desktop hosts the game/VR-router services, so open the gaming ports here
-    # (these used to be hardcoded in networking.firewall below)
     gaming.openFirewall = true;
+    bluetooth.enable = true;
   };
 
   # Hardware configuration, this desktop has an AMD GPU
@@ -26,11 +25,11 @@
 
   powerManagement.cpuFreqGovernor = "schedutil";
 
-  # services = {
-  #   sunshine = {
-  #     enable = true;
-  #   };
-  # };
+  services = {
+    sunshine = {
+      enable = true;
+    };
+  };
 
   fileSystems = {
     "/media/DiscoExtra" = {
