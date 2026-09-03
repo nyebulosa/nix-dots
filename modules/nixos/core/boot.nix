@@ -25,7 +25,7 @@
     lanzaboote = {
       enable = true;
       pkiBundle = "/var/lib/sbctl";
-      configurationLimit = lib.mkDefault 8;
+      configurationLimit = 5;
       autoGenerateKeys.enable = true;
       measuredBoot = {
         enable = true;
