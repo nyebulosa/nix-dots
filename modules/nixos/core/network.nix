@@ -43,6 +43,9 @@ in
           DNSSEC = "yes";
         };
       };
+      zerotierone = {
+        enable = true;
+      };
     };
   };
 }
