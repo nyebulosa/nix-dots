@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.network;
@@ -21,10 +26,29 @@ in
         enable = true;
         ethernet.macAddress = "random";
         wifi.backend = lib.mkIf cfg.wifi.enable "iwd";
-        settings."global-dns-domain-*".servers = "1.1.1.1,1.0.0.1,9.9.9.9";
+        dns = "systemd-resolved";
+        logLevel = "WARN";
+        settings = {
+          "global-dns-domain-*".servers = "1.1.1.1,1.0.0.1,9.9.9.9";
+          connectivity.enabled = false; # ima jst do this myself
+        };
       };
+      modemmanager.enable = false; # i don't use ts bruh
       firewall.trustedInterfaces = [ "virbr0" ];
     };
+
+    systemd.services.NetworkManager.serviceConfig = {
+      # a bit of hardening never hurts i guess
+      ProtectHome = true;
+      PrivateTmp = true;
+      ProtectClock = true;
+      ProtectKernelLogs = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+      LockPersonality = true;
+      SystemCallArchitectures = "native";
+    };
+
     boot.extraModprobeConfig = ''
       options cfg80211 ieee80211_regdom="ES"
     '';
@@ -43,9 +67,10 @@ in
           DNSSEC = "yes";
         };
       };
-      zerotierone = {
-        enable = true;
-      };
+      # zerotierone = {
+      #   enable = true;
+      # };
     };
+    environment.systemPackages = with pkgs; lib.mkIf cfg.wifi.enable [ impala ];
   };
 }
