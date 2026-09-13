@@ -202,12 +202,15 @@
     protonplus
     scx-loader
     waypipe
+    xdg-utils
+    desktop-file-utils
   ];
 
   # Make apps run natively on Wayland
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
+    BROWSER = "/run/current-system/sw/bin/zen";
   };
 
   networking.firewall = rec {
