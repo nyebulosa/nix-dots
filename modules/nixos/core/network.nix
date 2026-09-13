@@ -67,9 +67,9 @@ in
           DNSSEC = "yes";
         };
       };
-      # zerotierone = {
-      #   enable = true;
-      # };
+      zerotierone = {
+        enable = true;
+      };
     };
     environment.systemPackages = with pkgs; lib.mkIf cfg.wifi.enable [ impala ];
   };

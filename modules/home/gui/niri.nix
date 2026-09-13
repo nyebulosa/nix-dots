@@ -446,7 +446,7 @@
 
         {
           window-rule = {
-            geometry-corner-radius = 5;
+            geometry-corner-radius = 10;
             clip-to-geometry = true;
           };
         }

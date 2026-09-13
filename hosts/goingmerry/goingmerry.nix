@@ -56,8 +56,12 @@
       HandlePowerKey = "suspend-then-hibernate";
     };
     upower = {
-      criticalPowerAction = "Hibernate";
-      noPollBatteries = true;
+      enable = true;
+      percentageLow = 15;
+      percentageCritical = 7;
+      percentageAction = 5;
+      # criticalPowerAction = "Hibernate";
+      # noPollBatteries = true;
     };
   };
 
