@@ -38,7 +38,9 @@
     resumeDevice = "/dev/disk/by-uuid/6347b813-8e2a-47de-8a75-b5d86483bb99";
     kernelParams = lib.mkAfter [
       "resume_offset=533760"
-      "zsawp.enabled=1" # to avoid conflict with hibernation, disabling zram in this host
+      "zswap.enabled=1" # to avoid conflict with hibernation, disabling zram in this host
+      "zswap.compressor=zstd"
+      "zswap.max_pool_percent=25"
     ];
     kernel.sysctl = {
       "vm.swappiness" = lib.mkForce 60;
@@ -54,8 +56,12 @@
       HandlePowerKey = "suspend-then-hibernate";
     };
     upower = {
-      criticalPowerAction = "Hibernate";
-      noPollBatteries = true;
+      enable = true;
+      percentageLow = 15;
+      percentageCritical = 7;
+      percentageAction = 5;
+      # criticalPowerAction = "Hibernate";
+      # noPollBatteries = true;
     };
   };
 

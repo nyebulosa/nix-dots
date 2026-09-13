@@ -80,9 +80,6 @@
         "ptbtime1.ptb.de"
       ];
     };
-    journald.extraConfig = ''
-      SystemMaxUse=50M
-    '';
     # udisks2.enable = true;
     gvfs.enable = true;
     pipewire = {
