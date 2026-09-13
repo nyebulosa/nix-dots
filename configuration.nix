@@ -107,7 +107,17 @@
         variant = "colemak";
       };
     };
-    openssh.enable = false; # Tailscale has it's own
+    # openssh.enable = false; # Tailscale has it's own
+    openssh = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        PermitRootLogin = "no";
+        AllowUsers = [ "leonillo" ];
+      };
+    };
     gnome.gnome-keyring.enable = true;
     ratbagd.enable = true; # Required by piper
     # ollama = {
@@ -194,6 +204,7 @@
     proton-vpn
     protonplus
     scx-loader
+    waypipe
   ];
 
   # Make apps run natively on Wayland
