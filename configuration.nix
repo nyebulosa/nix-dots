@@ -158,10 +158,6 @@
           "video"
           "podman"
           "libvirtd"
-          "render"
-          "audio"
-          "input"
-          "uinput"
           "networkmanager"
         ];
       };
