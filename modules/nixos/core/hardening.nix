@@ -20,7 +20,7 @@
   nix-mineral = {
     enable = true;
     preset = [
-      "compatibility"
+      # "compatibility"
       "performance"
     ];
     # Some of the disabled settings here are either
@@ -32,15 +32,12 @@
       };
       network = {
         tcp-sack = true;
-        log-martians = false;
       };
       kernel = {
-        # harden-bpf = false;
-        # zero-alloc = false; # Enabled init_on_alloc only instead to gain back a bit of performance
         zero-alloc = true;
         bdev-write-mount = true; # Disabling this breaks hibernation on swapfile
       };
-      debug.debugfs = true;
+      # debug.debugfs = true;
     };
     filesystems = {
       enable = false;
