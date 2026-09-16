@@ -104,7 +104,17 @@
         variant = "colemak";
       };
     };
-    openssh.enable = false; # Tailscale has it's own
+    # openssh.enable = false; # Tailscale has it's own
+    openssh = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        PermitRootLogin = "no";
+        AllowUsers = [ "leonillo" ];
+      };
+    };
     gnome.gnome-keyring.enable = true;
     ratbagd.enable = true; # Required by piper
     # ollama = {
@@ -192,12 +202,15 @@
     protonplus
     scx-loader
     waypipe
+    xdg-utils
+    desktop-file-utils
   ];
 
   # Make apps run natively on Wayland
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
+    BROWSER = "/run/current-system/sw/bin/zen";
   };
 
   networking.firewall = rec {
