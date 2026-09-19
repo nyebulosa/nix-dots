@@ -5,4 +5,6 @@ I do not have much knowledge to be honest, some code might be taken from other p
 
 if something is wrong please open an issue
 
+Gotta be honest this nix flake is currently my magnum larpus because it's all larp, spaghetti, stuff from forums and others. But it works for me I guess... don't expect anything good of this flake.
+
 bye!
