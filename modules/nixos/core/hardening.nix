@@ -51,6 +51,9 @@
           noexec = false;
         };
         "/tmp".options.noexec = false;
+        # Oops! not adding there two broke impermanence at eval.
+        "/etc".enable = false;
+        "/var".enable = false;
       };
     };
   };
