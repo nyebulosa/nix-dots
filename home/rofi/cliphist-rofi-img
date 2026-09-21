@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-tmp_dir="/tmp/cliphist"
+# Thumbnails are clipboard contents: keep them in the per-user runtime dir
+# (0700, tmpfs) rather than a predictable world-readable path in /tmp
+tmp_dir="${XDG_RUNTIME_DIR:?}/cliphist"
 rm -rf "$tmp_dir"
 
 if [[ -n "$1" ]]; then
@@ -8,7 +10,7 @@ if [[ -n "$1" ]]; then
     exit
 fi
 
-mkdir -p "$tmp_dir"
+mkdir -m 700 -p "$tmp_dir"
 
 read -r -d '' prog <<EOF
 /^[0-9]+\s<meta http-equiv=/ { next }

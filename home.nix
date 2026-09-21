@@ -14,10 +14,8 @@
     inputs.spicetify-nix.homeManagerModules.default
   ];
 
-  # User Information
+  # username/homeDirectory are filled in from my.user by the NixOS module
   home = {
-    username = "leonillo";
-    homeDirectory = "/home/leonillo";
     packages = with pkgs; [
       # CLI
       gh
@@ -94,17 +92,19 @@
   };
 
   services = {
-    kdeconnect = {
-      enable = true;
-      indicator = true;
-      package = pkgs.valent;
-    };
     swayidle =
       let
         # pgrep guard so idle + suspend don't stack two lockers
         lock = "${pkgs.procps}/bin/pgrep -x swaylock || ${config.programs.swaylock.package}/bin/swaylock -f";
-        # Guarded on AC so a long build or download on mains isn't cut short
-        sleep = "[ $(${pkgs.coreutils}/bin/cat /sys/class/power_supply/ACAD/online) = 0 ] && ${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+        # Skipped while any mains supply is online, so a long build or download
+        # on AC isn't cut short. Looks the supply up by type instead of by name.
+        sleep = pkgs.writeShellScript "idle-sleep" ''
+          for supply in /sys/class/power_supply/*; do
+            [ "$(${pkgs.coreutils}/bin/cat "$supply/type" 2>/dev/null)" = Mains ] || continue
+            [ "$(${pkgs.coreutils}/bin/cat "$supply/online" 2>/dev/null)" = 1 ] && exit 0
+          done
+          exec ${pkgs.systemd}/bin/systemctl suspend-then-hibernate
+        '';
       in
       {
         enable = true;
@@ -123,7 +123,7 @@
           }
           {
             timeout = 1800;
-            command = sleep;
+            command = "${sleep}";
           }
         ];
       };
@@ -326,6 +326,29 @@
       source = ./home/hypr/replay;
       recursive = true;
     };
+    # generated for the same reason as the power menu above
+    "./.config/hypr/replay/nwg-bar/bar.json".text =
+      let
+        icon = name: "${pkgs.nwg-bar}/share/nwg-bar/images/${name}.svg";
+        script = name: "${pkgs.bash}/bin/bash ${config.xdg.configHome}/hypr/replay/${name}.sh";
+      in
+      builtins.toJSON [
+        {
+          label = "Iniciar";
+          exec = script "start";
+          icon = icon "system-shutdown";
+        }
+        {
+          label = "Guardar";
+          exec = script "save";
+          icon = icon "system-reboot";
+        }
+        {
+          label = "Parar";
+          exec = script "stop";
+          icon = icon "system-suspend";
+        }
+      ];
   };
 
   home.pointerCursor.enable = true;

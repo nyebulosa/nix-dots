@@ -40,7 +40,7 @@ in
       defaultSession = "niri";
       autoLogin = {
         enable = lib.mkDefault cfg.autoLogin;
-        user = "leonillo";
+        user = config.my.user.name;
       };
     };
   };

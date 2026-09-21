@@ -21,24 +21,40 @@ in
     openFirewall = lib.mkEnableOption "Gaming-related ports" // {
       default = false;
     };
+    vrInterface = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "eno1";
+      description = ''
+        Interface the wireless VR router hangs off. DNS/DHCP are only opened
+        there; null opens them on every interface.
+      '';
+    };
     enableReplay = lib.mkEnableOption "quick replay via gpu-screen-recorder" // {
       default = true;
     };
   };
   config = lib.mkIf cfg.enable {
 
-    networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedTCPPorts = [
-        53 # DNS, for the wireless VR router
-        67 # DHCP
-        25565 # Minecraft
-      ];
-      allowedUDPPorts = [
-        53
-        67
-        24454 # Simple Voice Chat
-      ];
-    };
+    networking.firewall = lib.mkIf cfg.openFirewall (
+      let
+        # DNS + DHCP served to the wireless VR router
+        vrPorts = {
+          allowedTCPPorts = [ 53 ];
+          allowedUDPPorts = [
+            53
+            67
+          ];
+        };
+      in
+      lib.mkMerge [
+        {
+          allowedTCPPorts = [ 25565 ]; # Minecraft
+          allowedUDPPorts = [ 24454 ]; # Simple Voice Chat
+        }
+        (if cfg.vrInterface == null then vrPorts else { interfaces.${cfg.vrInterface} = vrPorts; })
+      ]
+    );
 
     programs = {
       steam = {
@@ -61,7 +77,7 @@ in
       };
     };
 
-    users.users.leonillo.extraGroups = [ "gamemode" ];
+    users.users.${config.my.user.name}.extraGroups = [ "gamemode" ];
 
     # nixpkgs.overlays = [
     #   (final: prev: {

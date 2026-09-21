@@ -57,7 +57,10 @@ in
                   # this is a desktop with no hibernation, so it runs zram-only.
                   subvolumes = {
                     "@" = {
-                      mountOptions = btrfsOptions;
+                      mountOptions = btrfsOptions ++ [
+                        "nosuid"
+                        "nodev"
+                      ];
                       mountpoint = "/";
                     };
                     "@home" = {
@@ -69,7 +72,9 @@ in
                       mountpoint = "/home";
                     };
                     "@nix" = {
-                      mountOptions = btrfsOptions;
+                      mountOptions = btrfsOptions ++ [
+                        "nodev"
+                      ];
                       mountpoint = "/nix";
                     };
                     "@log" = {
@@ -82,11 +87,7 @@ in
                     };
                     "@persist" = {
                       mountpoint = "/persist";
-                      mountOptions = btrfsOptions ++ [
-                        # "nosuid"
-                        # "nodev"
-                        # "noexec"
-                      ];
+                      mountOptions = btrfsOptions;
                     };
                   };
                 };

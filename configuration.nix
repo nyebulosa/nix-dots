@@ -7,10 +7,6 @@
 
 {
   programs = {
-    kdeconnect = {
-      enable = true;
-      package = pkgs.valent;
-    };
     thunar = {
       enable = true;
       plugins = with pkgs; [
@@ -97,37 +93,20 @@
       wayland.enable = true;
       package = pkgs.kdePackages.sddm;
     };
-    # displayManager.ly.enable = true;
     xserver = {
       xkb = {
         layout = "us";
         variant = "colemak";
       };
     };
-    # openssh.enable = false; # Tailscale has it's own
-    openssh = {
-      enable = true;
-      openFirewall = true;
-      settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-        PermitRootLogin = "no";
-        AllowUsers = [ "leonillo" ];
-      };
-    };
     gnome.gnome-keyring.enable = true;
     ratbagd.enable = true; # Required by piper
-    # ollama = {
-    #   enable = true;
-    #   package = pkgs.ollama-rocm;
-    # };
   };
 
   security = {
     rtkit.enable = true; # Required for pipewire
   };
 
-  # Locale related settings
   time.timeZone = "Europe/Madrid";
   i18n = {
     defaultLocale = "en_US.UTF-8";
@@ -144,26 +123,6 @@
     };
   };
   console.keyMap = "colemak"; # Keymap outside X
-
-  users = {
-    mutableUsers = false;
-    users = {
-      leonillo = {
-        isNormalUser = true;
-        shell = pkgs.fish;
-        description = "leoNillo";
-        hashedPasswordFile = "/persist/passwords/leonillo";
-        extraGroups = [
-          "wheel"
-          "video"
-          "podman"
-          "libvirtd"
-          "networkmanager"
-        ];
-      };
-      root.hashedPasswordFile = "/persist/passwords/root";
-    };
-  };
 
   # System packages, installed globally
   environment.systemPackages = with pkgs; [
@@ -207,16 +166,6 @@
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
     BROWSER = "/run/current-system/sw/bin/zen";
-  };
-
-  networking.firewall = rec {
-    allowedTCPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-    ];
-    allowedUDPPortRanges = allowedTCPPortRanges;
   };
 
   # State version

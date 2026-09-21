@@ -201,7 +201,6 @@ _:
             ];
           };
           scroll-step = 1;
-          smooth-scrolling-threshold = 4;
           max-volume = 120;
           on-click = "pavucontrol";
           on-click-right = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -225,7 +224,6 @@ _:
           on-click-right = "playerctl play-pause";
           on-scroll-up = "playerctl next";
           on-scroll-down = "playerctl previous";
-          smooth-scrolling-threshold = 12;
         };
       };
     };

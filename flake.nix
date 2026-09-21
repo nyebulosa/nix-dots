@@ -90,19 +90,23 @@
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.leonillo = {
-              imports = [
-                ./home.nix
-                ./modules/home
-                inputs.catppuccin.homeModules.catppuccin
-              ];
+        (
+          { config, ... }:
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              # The user itself is declared in modules/nixos/core/user.nix
+              users.${config.my.user.name} = {
+                imports = [
+                  ./home.nix
+                  ./modules/home
+                  inputs.catppuccin.homeModules.catppuccin
+                ];
+              };
             };
-          };
-        }
+          }
+        )
       ];
 
       # hostName has to match the directory and the `networking.hostName` set
@@ -126,6 +130,23 @@
 
       # `nix fmt` formats every .nix file in the repo
       formatter.${system} = pkgs.nixfmt-tree;
+
+      # `nix flake check` lints the repo and evaluates every host above
+      checks.${system} =
+        let
+          lint =
+            name: tool: cmd:
+            pkgs.runCommand name { nativeBuildInputs = [ tool ]; } ''
+              cd ${inputs.self}
+              ${cmd}
+              touch $out
+            '';
+        in
+        {
+          statix = lint "statix" pkgs.statix "statix check .";
+          deadnix = lint "deadnix" pkgs.deadnix "deadnix --fail .";
+          format = lint "format" pkgs.nixfmt "find . -name '*.nix' -exec nixfmt --check {} +";
+        };
 
       # `nix develop` for working on this repo itself
       devShells.${system}.default = pkgs.mkShellNoCC {

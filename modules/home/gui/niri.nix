@@ -82,11 +82,6 @@
       hotkey-overlay.skip-at-startup = { };
       overview.backdrop-color = "#11111b";
 
-      # The per-surface `background-effect { blur true }` rules below only toggle
-      # blur on; the look is tuned here. There is no radius/size setting -- blur
-      # width comes from `passes` (dual-kawase), and each pass costs GPU time,
-      # which matters on goingmerry. `noise` dithers the result to hide banding
-      # on flat gradients.
       blur = {
         passes = 3;
         noise = 0.03;
@@ -108,28 +103,13 @@
             "drun"
           ];
         };
-        "KP_9" = {
-          _props.hotkey-overlay-title = "Run an Application: rofi";
-          spawn = [
-            "rofi"
-            "-show"
-            "drun"
-          ];
-        };
-        "Super+Alt+L" = {
+        "Mod+Alt+L" = {
           _props.hotkey-overlay-title = "Lock the Screen: swaylock";
           spawn = [ "swaylock" ];
         };
-        "Super+Alt+P" = {
+        "Mod+Alt+P" = {
           _props.hotkey-overlay-title = "Power Menu: nwg-bar";
           spawn = [ "nwg-bar" ];
-        };
-        "Super+Alt+S" = {
-          _props = {
-            allow-when-locked = true;
-            hotkey-overlay-title = null;
-          };
-          spawn-sh = "pkill orca || exec orca";
         };
 
         "XF86AudioRaiseVolume" = {
@@ -184,7 +164,6 @@
         };
 
         "Mod+X".spawn = [ "thunar" ];
-        "Mod+Shift+X".spawn = [ "nemo" ];
         "Mod+W".spawn = [
           "rofi"
           "-show"
@@ -198,10 +177,15 @@
         "Mod+G".spawn-sh = "bash ~/.config/hypr/replay/save.sh";
         "Mod+Shift+G".spawn-sh = "nwg-bar -t ~/.config/hypr/replay/nwg-bar/bar.json";
 
+        "Mod+A" = {
+          _props.repeat = false;
+          toggle-overview = { };
+        };
         "Mod+L" = {
           _props.repeat = false;
           toggle-overview = { };
         };
+
         "Mod+Q" = {
           _props.repeat = false;
           close-window = { };
@@ -361,7 +345,7 @@
         }
         {
           output = {
-            _args = [ "DP-2" ];
+            _args = [ "LG Electronics LG ULTRAGEAR 308MAWLBD073" ];
             mode = "2560x1440";
             scale = 1;
             transform = "normal";
@@ -374,7 +358,7 @@
         }
         {
           output = {
-            _args = [ "HDMI-A-1" ];
+            _args = [ "Dell Inc. DELL S2715H PP92G54F007L" ];
             mode = "1920x1080";
             scale = 1;
             transform = "270";
@@ -412,7 +396,6 @@
             "--restore"
           ];
         }
-        { spawn-at-startup = [ "soteria" ]; }
         { spawn-sh-at-startup = "wl-paste --type text --watch cliphist store"; }
         { spawn-sh-at-startup = "wl-paste --type image --watch cliphist store"; }
 
@@ -456,7 +439,7 @@
             variable-refresh-rate = true;
             _children = [
               { match._props.app-id = "gamescope"; }
-              { match._props.title = "Minecraft"; }
+              { match._props.title = ''^Minecraft\*? \d''; }
               { match._props.app-id = "steam_app_"; }
               { match._props.title = "Lethal Company"; }
             ];

@@ -24,7 +24,7 @@ in
       };
       networkmanager = {
         enable = true;
-        ethernet.macAddress = "random";
+        ethernet.macAddress = "stable"; # Set this to random if you want it to change every time, might break sum stuff tho.
         wifi.backend = lib.mkIf cfg.wifi.enable "iwd";
         dns = "systemd-resolved";
         logLevel = "WARN";
@@ -66,9 +66,6 @@ in
           DNSOverTLS = "yes";
           DNSSEC = "yes";
         };
-      };
-      zerotierone = {
-        enable = true;
       };
     };
     environment.systemPackages = with pkgs; lib.mkIf cfg.wifi.enable [ impala ];

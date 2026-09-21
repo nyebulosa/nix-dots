@@ -1,0 +1,5 @@
+# nixos-generate-config output, left untouched
+ignore = ["hosts/*/hardware.nix"]
+
+# `btrfsOptions ++ [ # "nosuid" ... ]` in the disko configs is a deliberate placeholder
+disabled = ["empty_list_concat"]

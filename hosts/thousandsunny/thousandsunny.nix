@@ -12,7 +12,6 @@
     bluetooth.enable = true;
   };
 
-  # Hardware configuration, this desktop has an AMD GPU
   hardware = {
     keyboard.qmk.enable = true;
   };
@@ -24,12 +23,6 @@
   };
 
   powerManagement.cpuFreqGovernor = "schedutil";
-
-  services = {
-    sunshine = {
-      enable = true;
-    };
-  };
 
   fileSystems = {
     "/media/DiscoExtra" = {

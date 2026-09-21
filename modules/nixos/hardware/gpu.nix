@@ -51,12 +51,8 @@ in
           enable32Bit = true;
         };
         nvidia = {
-          # modesetting.enable = true;
-          powerManagement = lib.mkDefault {
-            enable = true;
-            finegrained = true;
-          };
-          # open = true;
+          open = lib.mkDefault true;
+          powerManagement.enable = lib.mkDefault true;
           nvidiaSettings = lib.mkDefault true;
           package = lib.mkDefault config.boot.kernelPackages.nvidiaPackages.latest;
         };

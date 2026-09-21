@@ -20,7 +20,7 @@
   nix-mineral = {
     enable = true;
     preset = [
-      # "compatibility"
+      # "compatibility" # I think ima do this manually
       "performance"
     ];
     # Some of the disabled settings here are either
@@ -29,6 +29,8 @@
     settings = {
       system = {
         multilib = true;
+        yama = "relaxed"; # For antichets
+        lower-address-mmap = true;
       };
       network = {
         tcp-sack = true;
@@ -36,14 +38,18 @@
       kernel = {
         zero-alloc = true;
         bdev-write-mount = true; # Disabling this breaks hibernation on swapfile
+        binfmt-misc = true;
       };
       # debug.debugfs = true;
     };
     filesystems = {
-      enable = false;
+      enable = true;
       normal = {
         "/var/log".options.bind = false;
-        "/home".options.bind = false;
+        "/home".options = {
+          bind = false;
+          noexec = false;
+        };
         "/tmp".options.noexec = false;
       };
     };
@@ -59,7 +65,7 @@
       enable = true;
       persistentAuth = {
         enable = true;
-        enableRemote = true;
+        # enableRemote = true;
       };
     };
   };

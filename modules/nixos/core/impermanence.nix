@@ -9,7 +9,10 @@ _:
         services.rollback = {
           description = "Rollback BTRFS for impermanence";
           wantedBy = [ "initrd.target" ];
-          after = [ "systemd-cryptsetup@crypted.service" ];
+          after = [
+            "systemd-cryptsetup@crypted.service"
+            "local-fs-pre.target"
+          ];
           before = [ "sysroot.mount" ];
           requires = [ "systemd-cryptsetup@crypted.service" ];
           unitConfig.DefaultDependencies = "no";
@@ -51,6 +54,7 @@ _:
       "/var/lib/bluetooth"
       "/var/lib/nixos"
       "/etc/NetworkManager/system-connections"
+      "/etc/ssh" # host keys, in case sshd is ever enabled again
       "/var/lib/sbctl"
       "/var/lib/tailscale"
       "/etc/mullvad-vpn"

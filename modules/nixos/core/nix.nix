@@ -1,9 +1,12 @@
 {
+  config,
   pkgs,
   inputs,
   ...
 }:
-
+let
+  flakeDir = "${config.users.users.${config.my.user.name}.home}/nixos-conf";
+in
 {
   nix = {
     settings = {
@@ -24,11 +27,11 @@
     package = pkgs.lixPackageSets.stable.lix;
   };
 
-  environment.etc."nixos".source = "/home/leonillo/nixos-conf";
+  environment.etc."nixos".source = flakeDir;
 
   programs.nh = {
     enable = true;
-    flake = "/home/leonillo/nixos-conf";
+    flake = flakeDir;
   };
   nixpkgs = {
     config.allowUnfree = true;
