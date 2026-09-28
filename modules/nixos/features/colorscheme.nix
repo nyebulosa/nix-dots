@@ -20,6 +20,7 @@
       kmscon.enable = false;
       plymouth.enable = false;
       console.enable = true; # Themes the tty via console.colors instead
+      chromium.enable = false;
     };
   };
 }

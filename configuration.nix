@@ -44,6 +44,8 @@
       enable = true;
     };
     nix-index.enable = true;
+    solaar.enable = true;
+    direnv.enable = true;
   };
   #virtualisation.waydroid.enable = true;
   virtualisation = {
@@ -152,7 +154,9 @@
     ripgrep
     imagemagick
     fd
-    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    chromium
+    ungoogled-chromium
+    vivaldi
     proton-vpn
     protonplus
     scx-loader
@@ -161,11 +165,24 @@
     desktop-file-utils
   ];
 
+  imports = [ inputs.helium-flake.nixosModules.default ];
+  programs.helium = {
+    enable = true;
+    policies = {
+      BrowserSignin = 0;
+      SyncDisabled = true;
+      PasswordManagerEnabled = false;
+      MetricsReportingEnabled = false;
+    };
+    flags = [
+      "--ozone-platform-hint=auto"
+    ];
+  };
+
   # Make apps run natively on Wayland
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
-    BROWSER = "/run/current-system/sw/bin/zen";
   };
 
   # State version

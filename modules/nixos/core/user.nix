@@ -32,10 +32,10 @@ in
           hashedPasswordFile = "/persist/passwords/${cfg.name}";
           extraGroups = [
             "wheel"
-            "video"
             "podman"
             "libvirtd"
             "networkmanager"
+            "uinput"
           ];
         };
         root.hashedPasswordFile = "/persist/passwords/root";

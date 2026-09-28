@@ -14,6 +14,16 @@
 
   hardware = {
     keyboard.qmk.enable = true;
+    logitech = {
+      wireless.enable = true;
+    };
+  };
+
+  programs = {
+    solaar = {
+      enable = true;
+      userService.enable = true;
+    };
   };
 
   boot = {
