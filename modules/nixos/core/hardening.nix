@@ -39,6 +39,7 @@
         zero-alloc = true;
         bdev-write-mount = true; # Disabling this breaks hibernation on swapfile
         binfmt-misc = true;
+        iommu-passthrough = false; # performance preset's docs say it gives benefit on arm but even if it works for x86_64 i'd rather have the security (opsec level tuff)
       };
       # debug.debugfs = true;
     };

@@ -52,18 +52,6 @@
       ACTION=="add|change", KERNEL=="sd[a-z]*|xvd[a-z]*", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
       DEVPATH=="/devices/virtual/misc/cpu_dma_latency", OWNER="root", GROUP="audio", MODE="0660"
     '';
-    # earlyoom = {
-    #   enable = true;
-    #   freeMemThreshold = 5;
-    #   freeSwapThreshold = 100; # see below
-    #   enableNotifications = true;
-    #   extraArgs = [
-    #     "--avoid"
-    #     "^(niri|Xwayland|pipewire|wireplumber|dbus-broker)$"
-    #     "--prefer"
-    #     "^(zen|steamwebhelper|cc1plus|rustc|ld\\.lld)$"
-    #   ];
-    # };
   };
   systemd = {
     tmpfiles.rules = [

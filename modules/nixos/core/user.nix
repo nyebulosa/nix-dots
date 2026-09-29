@@ -32,8 +32,6 @@ in
           hashedPasswordFile = "/persist/passwords/${cfg.name}";
           extraGroups = [
             "wheel"
-            "podman"
-            "libvirtd"
             "networkmanager"
             "uinput"
           ];

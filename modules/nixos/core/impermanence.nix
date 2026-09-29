@@ -54,6 +54,7 @@ _:
       "/var/lib/bluetooth"
       "/var/lib/nixos"
       "/etc/NetworkManager/system-connections"
+      "/var/lib/NetworkManager/"
       "/etc/ssh" # host keys, in case sshd is ever enabled again
       "/var/lib/sbctl"
       "/var/lib/tailscale"
