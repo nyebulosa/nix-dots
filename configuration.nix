@@ -63,6 +63,7 @@
   };
 
   services = {
+    playerctld.enable = true;
     tlp.enable = lib.mkForce false;
     tailscale = {
       enable = true;
