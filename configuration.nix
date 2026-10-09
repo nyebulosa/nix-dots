@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  config,
   ...
 }:
 
@@ -163,6 +164,7 @@
     waypipe
     xdg-utils
     desktop-file-utils
+    (pkgs.writeShellScriptBin "systemd-pcrlock" ''exec ${config.systemd.package}/lib/systemd/systemd-pcrlock "$@"'')
   ];
 
   imports = [ inputs.helium-flake.nixosModules.default ];
