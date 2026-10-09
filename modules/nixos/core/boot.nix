@@ -27,25 +27,41 @@
 
 let
   pcrlock = "${config.systemd.package}/lib/systemd/systemd-pcrlock";
-
   fixScript =
     pkgs.writers.writePython3Bin "pcrlock-fix"
       {
         libraries = [ pkgs.python3Packages.pyyaml ];
+        flakeIgnore = [ "E501" ];
       }
       ''
-        import json, os, pathlib, subprocess, sys, yaml
+        import json
+        import os
+        import pathlib
+        import subprocess
+        import sys
+        import yaml
 
         LOG = "/sys/kernel/security/tpm0/binary_bios_measurements"
         D = pathlib.Path("/var/lib/pcrlock.d")
         EARLY = D / "280-secureboot-authority.pcrlock.d" / "generated.pcrlock"
         LATE = D / "620-secureboot-authority.pcrlock.d" / "generated.pcrlock"
+        EVENTLOG = "${pkgs.tpm2-tools}/bin/tpm2_eventlog"
+        PCRLOCK = "${pcrlock}"
+
+
+        def write(path, recs):
+            if not recs:
+                path.unlink(missing_ok=True)
+                return
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({"records": recs}, indent=2) + "\n")
+
 
         if not os.path.exists(LOG) or not os.path.exists("/dev/tpmrm0"):
             print("pcrlock-fix: no TPM event log yet, skipping")
             sys.exit(0)
 
-        out = subprocess.check_output(["${pkgs.tpm2-tools}/bin/tpm2_eventlog", LOG])
+        out = subprocess.check_output([EVENTLOG, LOG])
         events = yaml.safe_load(out)["events"]
 
         early, late, seen_sep = [], [], False
@@ -61,18 +77,11 @@ let
                        for d in ev["Digests"] if d["AlgorithmId"] == "sha256"]
             (late if seen_sep else early).append({"pcr": 7, "digests": digests})
 
-        def write(path, recs):
-            if not recs:
-                path.unlink(missing_ok=True)
-                return
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps({"records": recs}, indent=2) + "\n")
-
         write(EARLY, early)
         write(LATE, late)
         print(f"pcrlock-fix: {len(early)} early / {len(late)} late authority records")
 
-        subprocess.run(["${pcrlock}", "make-policy"], check=True)
+        subprocess.run([PCRLOCK, "make-policy"], check=True)
       '';
 in
 {
