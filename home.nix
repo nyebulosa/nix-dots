@@ -92,6 +92,9 @@
   };
 
   services = {
+    # TODO: My desktop Thousandsunny has no hibernation so suspend-then-hibernate fails, maybe make it conditional
+    # or something, maybe could be a good idea to make hibernation something toggleable per desktop and have
+    # this read that option
     swayidle =
       let
         # pgrep guard so idle + suspend don't stack two lockers
