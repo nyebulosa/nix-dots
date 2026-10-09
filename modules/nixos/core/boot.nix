@@ -21,6 +21,9 @@
 # TODO:
 # [] MAKE YOUR OWN FIX WRITTEN BY YOURSELF
 #
+# oh also, WARNING!!! RECOMMENDED TO ENROLL TPM WITH PIN!!!!!!!!
+# ITS JUST A PIN DON'T BE LAZYYYYYYYY
+#
 
 let
   pcrlock = "${config.systemd.package}/lib/systemd/systemd-pcrlock";
