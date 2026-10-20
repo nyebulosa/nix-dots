@@ -29,12 +29,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel/release";
-    };
-
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.2.0";
+      url = "github:nix-community/lanzaboote";
     };
 
     nix-index-database = {
@@ -63,7 +59,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
   outputs =
@@ -86,7 +82,7 @@
         inputs.nix-index-database.nixosModules.default
         inputs.impermanence.nixosModules.impermanence
         inputs.lanzaboote.nixosModules.lanzaboote
-        # inputs.chaotic.nixosModules.default
+        inputs.chaotic.nixosModules.default
 
         { home-manager.extraSpecialArgs = { inherit inputs; }; }
         home-manager.nixosModules.home-manager

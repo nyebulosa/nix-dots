@@ -10,6 +10,7 @@ let
     temurin-jre-bin-8
     temurin-jre-bin-25
     temurin-jre-bin
+    graalvmPackages.graalvm-ce
     zulu25
   ];
 in

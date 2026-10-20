@@ -38,8 +38,8 @@
       librewolf
       waypaper
       kdePackages.filelight
-      (discord-ptb.override {
-        withOpenASAR = true;
+      (discord.override {
+        # withOpenASAR = true;
         withEquicord = true;
       })
       equibop
@@ -64,6 +64,7 @@
       claude-code
       pi-coding-agent
       opencode
+      lmstudio-bionic
 
       # Misc
       grim

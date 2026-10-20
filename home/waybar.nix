@@ -7,7 +7,7 @@ _:
       mainBar = {
         layer = "top";
         position = "bottom";
-        height = 25;
+        height = 33;
 
         # Modules
         modules-left = [

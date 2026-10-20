@@ -26,7 +26,12 @@
 #
 
 let
-  pcrlock = "${config.systemd.package}/lib/systemd/systemd-pcrlock";
+  # Regenerates the PCR 7 authority measurements split around the separator
+  # (systemd #40381). Replaces the ExecStart of
+  # systemd-pcrlock-secureboot-authority.service, so it runs at every boot
+  # right before systemd-pcrlock-make-policy.service. It must NOT run
+  # make-policy itself: at boot the make-policy service does that, and at
+  # install time lzbt does.
   fixScript =
     pkgs.writers.writePython3Bin "pcrlock-fix"
       {
@@ -46,7 +51,6 @@ let
         EARLY = D / "280-secureboot-authority.pcrlock.d" / "generated.pcrlock"
         LATE = D / "620-secureboot-authority.pcrlock.d" / "generated.pcrlock"
         EVENTLOG = "${pkgs.tpm2-tools}/bin/tpm2_eventlog"
-        PCRLOCK = "${pcrlock}"
 
 
         def write(path, recs):
@@ -80,8 +84,6 @@ let
         write(EARLY, early)
         write(LATE, late)
         print(f"pcrlock-fix: {len(early)} early / {len(late)} late authority records")
-
-        subprocess.run([PCRLOCK, "make-policy"], check=True)
       '';
 in
 {
@@ -137,9 +139,16 @@ in
     ];
   };
 
-  system.activationScripts.pcrlock-fix = {
-    deps = [ "var" ];
-    text = "${fixScript}/bin/pcrlock-fix || echo 'pcrlock-fix failed' >&2";
+  # Upstream `systemd-pcrlock lock-secureboot-authority` writes ALL authority
+  # events into 620-secureboot-authority at every boot, which double-counts the
+  # pre-separator event once 280-secureboot-authority exists and makes
+  # make-policy seal a wrong PCR 7. Run the splitting script in its place.
+  systemd.services.systemd-pcrlock-secureboot-authority = {
+    unitConfig.RequiresMountsFor = [ "/var/lib/pcrlock.d" ];
+    serviceConfig.ExecStart = [
+      "" # unset upstream value
+      "${fixScript}/bin/pcrlock-fix"
+    ];
   };
 
   environment.systemPackages = with pkgs; [

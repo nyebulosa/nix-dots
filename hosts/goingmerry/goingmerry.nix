@@ -33,7 +33,7 @@
   };
 
   boot = {
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-zen4;
+    kernelPackages = pkgs.linuxPackages_cachyos-lto-znver4;
     resumeDevice = "/dev/disk/by-uuid/6347b813-8e2a-47de-8a75-b5d86483bb99";
     kernelParams = lib.mkAfter [
       "resume_offset=533760"
