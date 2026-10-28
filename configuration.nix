@@ -22,7 +22,7 @@
     # git.enable = true;
     obs-studio = {
       enable = true;
-      enableVirtualCamera = true;
+      # enableVirtualCamera = true;
       plugins = with pkgs.obs-studio-plugins; [
         obs-pipewire-audio-capture
         obs-vkcapture

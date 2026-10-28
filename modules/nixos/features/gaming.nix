@@ -22,7 +22,10 @@ in
     openFirewall = lib.mkEnableOption "Gaming-related ports" // {
       default = false;
     };
-    vrInterface = lib.mkOption {
+    vr.enable = lib.mkEnableOption "gaming" // {
+      default = false;
+    };
+    vr.interface = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
       example = "eno1";
@@ -53,7 +56,7 @@ in
           allowedTCPPorts = [ 25565 ]; # Minecraft
           allowedUDPPorts = [ 24454 ]; # Simple Voice Chat
         }
-        (if cfg.vrInterface == null then vrPorts else { interfaces.${cfg.vrInterface} = vrPorts; })
+        (if cfg.vr.interface == null then vrPorts else { interfaces.${cfg.vr.interface} = vrPorts; })
       ]
     );
 
@@ -75,6 +78,18 @@ in
         # package = pkgs.gamescope.overrideAttrs (_: {
         #   NIX_CFLAGS_COMPILE = [ "-fno-fast-math" ];
         # });
+      };
+      alvr = lib.mkIf cfg.vr.enable {
+        enable = true;
+        openFirewall = cfg.openFirewall;
+      };
+    };
+
+    services = {
+      wivrn = lib.mkIf cfg.vr.enable {
+        enable = true;
+        highPriority = true;
+        openFirewall = cfg.openFirewall;
       };
     };
 
