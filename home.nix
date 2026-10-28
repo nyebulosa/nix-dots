@@ -39,7 +39,7 @@
       waypaper
       kdePackages.filelight
       (discord.override {
-        # withOpenASAR = true;
+        withOpenASAR = true;
         withEquicord = true;
       })
       equibop

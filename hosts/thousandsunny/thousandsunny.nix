@@ -8,7 +8,10 @@
 
   my = {
     gpu.type = "amd";
-    gaming.openFirewall = true;
+    gaming = {
+      openFirewall = true;
+      vr.enable = false;
+    };
     bluetooth.enable = true;
   };
 
