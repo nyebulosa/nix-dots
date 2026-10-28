@@ -1,0 +1,37 @@
+--- a/crates/command/src/unix/linux/bwrap.rs
++++ b/crates/command/src/unix/linux/bwrap.rs
+@@ -30,6 +30,14 @@
+ ];
+ 
+ const SYSTEM_FILES_RO: &[&str] = &[
++    // NixOS: everything (java, its libraries, GL/Vulkan drivers, the symlink
++    // farm behind /run/current-system/sw) lives in the store rather than in
++    // the FHS directories below.
++    "/nix/store",
++    "/run/opengl-driver",
++    "/run/opengl-driver-32",
++    "/run/current-system",
++    "/etc/static",
+     "/bin",
+     "/sbin",
+     "/usr",
+@@ -83,7 +91,18 @@
+         "DISPLAY",
+         "XAUTHORITY",
+         "WAYLAND_DISPLAY",
+-        "PULSE_SERVER"
++        "PULSE_SERVER",
++        // NixOS: the wrapper hands the game its native libraries (glfw, openal,
++        // pulse, ...) through LD_LIBRARY_PATH, and GL/Vulkan drivers are found
++        // through these rather than through FHS paths.
++        "LD_LIBRARY_PATH",
++        "LIBGL_DRIVERS_PATH",
++        "LIBVA_DRIVERS_PATH",
++        "VK_ICD_FILENAMES",
++        "VK_DRIVER_FILES",
++        "VK_LAYER_PATH",
++        "__EGL_VENDOR_LIBRARY_FILENAMES",
++        "__EGL_VENDOR_LIBRARY_DIRS",
+     ].iter().map(OsStr::new).collect()
+ });
+ 

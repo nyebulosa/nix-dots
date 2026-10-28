@@ -16,7 +16,7 @@
     network.wifi.enable = true;
     gaming.enable = true;
     power.laptop = true;
-    wluma.enable = true;
+    # wluma.enable = true;
   };
 
   hardware = {
@@ -33,7 +33,7 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_cachyos-lto-znver4;
+    kernelPackages = pkgs.linuxPackages_zen;
     resumeDevice = "/dev/disk/by-uuid/6347b813-8e2a-47de-8a75-b5d86483bb99";
     kernelParams = lib.mkAfter [
       "resume_offset=533760"

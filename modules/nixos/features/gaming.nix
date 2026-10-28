@@ -80,11 +80,40 @@ in
 
     users.users.${config.my.user.name}.extraGroups = [ "gamemode" ];
 
-    # nixpkgs.overlays = [
-    #   (final: prev: {
-    #     lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
-    #   })
-    # ];
+    nixpkgs.overlays = [
+      (final: prev: {
+        # lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
+
+        # Temporary: upstream master + NixOS sandbox fix, see pkgs/pandora-launcher-git.nix.
+        # The pandora-launcher wrapper picks this up automatically through final.
+        pandora-launcher-unwrapped = import ../../../pkgs/pandora-launcher-git.nix {
+          inherit (final) fetchFromGitHub;
+          inherit (prev) pandora-launcher-unwrapped;
+        };
+
+        # Temporary, Minecraft 26.3+ (SDL3 instead of GLFW). nixpkgs copied this
+        # wrapper from prismlauncher's but dropped the three libraries SDL3
+        # dlopens for its Wayland driver. Without them SDL silently falls back to
+        # XWayland while LWJGL has already picked EGL (WAYLAND_DISPLAY is set), and
+        # the game dies with "OpenGL is not supported: Could not retrieve OpenGL
+        # functions". SDL3 makes the same fallback on compositors without fifo-v1
+        # (niri), so also force Wayland whenever there is a Wayland display.
+        pandora-launcher = prev.pandora-launcher.overrideAttrs (old: {
+          makeWrapperArgs = old.makeWrapperArgs ++ [
+            "--prefix"
+            "LD_LIBRARY_PATH"
+            ":"
+            (lib.makeLibraryPath [
+              final.wayland
+              final.libdecor
+              final.libxkbcommon
+            ])
+            "--run"
+            ''if [ -n "$WAYLAND_DISPLAY" ]; then export SDL_VIDEO_DRIVER="''${SDL_VIDEO_DRIVER:-wayland}"; fi''
+          ];
+        });
+      })
+    ];
 
     environment.systemPackages = with pkgs; [
       parsec-bin

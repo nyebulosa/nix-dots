@@ -31,9 +31,12 @@ in
           description = "Nebula";
           hashedPasswordFile = "/persist/passwords/${cfg.name}";
           extraGroups = [
+            "${cfg.name}"
             "wheel"
             "networkmanager"
             "uinput"
+	    "dialout" 
+	    "uucp"
           ];
         };
         root.hashedPasswordFile = "/persist/passwords/root";
