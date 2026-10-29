@@ -99,6 +99,12 @@ in
       (final: prev: {
         # lsfg-vk-experimental = final.callPackage ../../../pkgs/lsfg-vk-experimental.nix { };
 
+        #
+        # AI WARNING
+        # This, and all of the pandora launcher stuff, was made with the use of LLMs.
+        # It's just for testing and will probably get deleted later.
+        #
+
         # Temporary: upstream master + NixOS sandbox fix, see pkgs/pandora-launcher-git.nix.
         # The pandora-launcher wrapper picks this up automatically through final.
         pandora-launcher-unwrapped = import ../../../pkgs/pandora-launcher-git.nix {

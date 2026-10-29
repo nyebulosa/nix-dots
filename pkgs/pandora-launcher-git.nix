@@ -3,6 +3,12 @@
   pandora-launcher-unwrapped,
 }:
 
+#
+# AI WARNING
+# This, and all of the pandora launcher stuff, was made with the use of LLMs.
+# It's just for testing and will probably get deleted later.
+#
+
 # Temporary: nixpkgs' pandora-launcher-unwrapped built from upstream master
 # plus a patch that makes the bubblewrap sandbox usable on NixOS.
 #
@@ -37,16 +43,6 @@ pandora-launcher-unwrapped.overrideAttrs (old: {
   env = (old.env or { }) // {
     PANDORA_DISTRIBUTION = "nixpkgs";
   };
-
-  # Backport of https://github.com/NixOS/nixpkgs/pull/574577: without
-  # `-background none` imagemagick rasterises the svg on a white square.
-  postInstall =
-    builtins.replaceStrings
-      [ "magick package/windows.svg" ]
-      [
-        "magick -background none package/windows.svg"
-      ]
-      old.postInstall;
 
   meta = old.meta // {
     changelog = "https://github.com/Moulberry/PandoraLauncher/commits/master";

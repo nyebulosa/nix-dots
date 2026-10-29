@@ -1,3 +1,7 @@
+AI WARNING
+This, and all of the pandora launcher stuff, was made with the use of LLMs.
+It's just for testing and will probably get deleted later.
+
 --- a/crates/command/src/unix/linux/bwrap.rs
 +++ b/crates/command/src/unix/linux/bwrap.rs
 @@ -30,6 +30,14 @@
@@ -15,7 +19,7 @@
      "/bin",
      "/sbin",
      "/usr",
-@@ -83,7 +91,18 @@
+@@ -83,7 +91,22 @@
          "DISPLAY",
          "XAUTHORITY",
          "WAYLAND_DISPLAY",
@@ -32,6 +36,10 @@
 +        "VK_LAYER_PATH",
 +        "__EGL_VENDOR_LIBRARY_FILENAMES",
 +        "__EGL_VENDOR_LIBRARY_DIRS",
++        // NixOS: set by the pandora-launcher wrapper to make SDL3 (Minecraft
++        // 26.3+) pick its Wayland driver; dropping it here undoes that inside
++        // the sandbox.
++        "SDL_VIDEO_DRIVER",
      ].iter().map(OsStr::new).collect()
  });
  

@@ -117,7 +117,6 @@ in
     };
     initrd = {
       systemd = {
-        enable = lib.mkDefault true;
         tpm2.enable = true;
       };
       availableKernelModules = [
@@ -125,7 +124,6 @@ in
         "tpm_tis"
       ];
       kernelModules = [ "amdgpu" ];
-      verbose = false;
     };
 
     consoleLogLevel = 3;

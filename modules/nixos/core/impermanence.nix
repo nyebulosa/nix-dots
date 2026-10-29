@@ -5,7 +5,6 @@ _:
     loader.efi.canTouchEfiVariables = true;
     initrd = {
       systemd = {
-        enable = true;
         services.rollback = {
           description = "Rollback BTRFS for impermanence";
           wantedBy = [ "initrd.target" ];
