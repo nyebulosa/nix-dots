@@ -42,6 +42,7 @@
         withOpenASAR = true;
         withEquicord = true;
       })
+      legcord
       equibop
       orca-slicer
       easyeffects
